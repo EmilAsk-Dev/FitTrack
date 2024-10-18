@@ -8,16 +8,15 @@ namespace FitTrack.User
 {
     abstract class Person
     {
-        public string UserName { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
 
-        public Person(string Username, string Password)
+        public Person(string username, string password)
         {
-            this.UserName = Username;
-            this.Password = Password;
+            this.Username = username;
+            this.Password = password;
         }
 
-        public abstract void SignIn(string username, string password);
-
+        public abstract bool SignIn(string username, string password);
     }
 }

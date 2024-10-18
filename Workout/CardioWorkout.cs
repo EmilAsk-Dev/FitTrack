@@ -17,7 +17,7 @@ namespace FitTrack.Workout
 
         public override int CalcCalBurned()
         {
-            Console.WriteLine("CalcCalBurned");
+            Console.WriteLine("CalcCalBurned()");
             return Distance;
         }
     }
