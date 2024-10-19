@@ -18,18 +18,39 @@ namespace FitTrack.Windows
         {
             string username = UsernameTextBox.Text;
             string password = PasswordBox.Password;
-            
-            
-            Person person = new User.User(username, password);
-
-            person.RegisterUser(username, password);
+            string Confirm = ConfirmPassword.Password;
 
 
+            try
+            {
+                if (password == Confirm)
+                {                   
+                    Person person = new User.User(username, password);
+                    
+                    person.RegisterUser(username, password);
+                    
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    this.Close();
+                }
+                else
+                {                    
+                    MessageBox.Show("Passwords do not match. Please try again.");
+                }
+            }
+            catch (Exception ex) // Catching general exceptions
+            {
+               
+                Console.WriteLine(ex.Message);                
+                MessageBox.Show("An error occurred while registering the user. Please try again.");
+            }
 
 
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-            this.Close(); 
+
+
+
+
+
         }
 
         private void UsernameTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -50,12 +71,11 @@ namespace FitTrack.Windows
             }
         }
 
-        
-
-        
-
-        
-
-        
+        private void GotoLogin(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
+        }
     }
 }

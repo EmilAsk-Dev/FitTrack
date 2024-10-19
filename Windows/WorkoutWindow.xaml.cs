@@ -5,24 +5,26 @@ namespace FitTrack.Windows
 {
     public partial class WorkoutWindow : Window
     {
-        
 
-        public WorkoutWindow(User.User User) 
+
+        public WorkoutWindow(User.User user)  
         {
             InitializeComponent();
-            
 
             
-            ContentFrame.Navigate(new HomePage()); 
+            WelcomeUser.Text = "Välkommen " + user.Username;  
+
+            
+            ContentFrame.Navigate(new HomePage());
         }
 
-       
+
         private void Home_Click(object sender, RoutedEventArgs e)
         {
             ContentFrame.Navigate(new HomePage());
         }
 
-        // Handle log out
+        
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();

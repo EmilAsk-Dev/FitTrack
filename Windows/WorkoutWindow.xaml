@@ -31,9 +31,9 @@
                 <Button Content="Logout" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Click="Logout_Click" />
             </StackPanel>
         </Grid>
-
-        <TextBlock Text="FitTrack" Foreground="#DC143C" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" />
-
+        
+        <TextBlock x:Name="WelcomeUser" Foreground="#DC143C" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" />
+        
         
         <Frame x:Name="ContentFrame" Grid.Column="1" Margin="20,50,20,20" NavigationUIVisibility="Hidden" />
 

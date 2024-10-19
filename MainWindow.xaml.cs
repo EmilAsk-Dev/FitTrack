@@ -13,6 +13,7 @@ namespace FitTrack
         public MainWindow()
         {
             InitializeComponent();
+            
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)
@@ -20,15 +21,13 @@ namespace FitTrack
             string username = UsernameTextBox.Text;
             string password = PasswordBox.Password;
 
-            // Check if username and password match using the User.SignIn method
-            Person User = new User.User(username, password); // Create temp user for login
             
-            
+            User.User user = new User.User(username, password); 
 
-            if (User.SignIn(username, password))
+            
+            if (user.SignIn(username, password))
             {
-                // Pass the logged-in user object to WorkoutWindow
-                WorkoutWindow workoutWindow = new WorkoutWindow(User);
+                WorkoutWindow workoutWindow = new WorkoutWindow(user); 
                 workoutWindow.Show();
                 this.Close();
             }
@@ -41,8 +40,8 @@ namespace FitTrack
         private void SignUp_Click(object sender, RoutedEventArgs e)
         {
             RegisterWindow registerWindow = new RegisterWindow();
-            registerWindow.Show(); // Show the registration window
-            this.Close(); // Close the current window
+            registerWindow.Show(); 
+            this.Close(); 
         }
 
         private void UsernameTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -65,7 +64,10 @@ namespace FitTrack
 
         private void ForgotPassword_Click(object sender, RoutedEventArgs e)
         {
-            // Implement forgot password logic here
+
+            ForgotPassword forgotPassword = new ForgotPassword();
+            forgotPassword.Show();
+            this.Close();
         }
     }
 }

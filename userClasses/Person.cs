@@ -15,5 +15,6 @@ namespace FitTrack.User
 
         public abstract bool SignIn(string username, string password);
         public abstract void RegisterUser(string username, string password);
+        
     }
 }

@@ -57,6 +57,38 @@ namespace FitTrack.User
             userList.Add(user);
         }
 
-        
+        public static void ResetPassword(string username, string newPassword)
+        {
+            foreach (var user in userList)
+            {
+                if (user.Username == username)
+                {
+                    
+                    user.Password = newPassword;
+                    MessageBox.Show($"Password reset successfully for {username}.");
+                    Console.WriteLine($"Password reset successfully for {username}.");
+                    return; 
+                }
+            }
+
+            
+            MessageBox.Show($"User with username {username} not found.");
+        }
+
+        public static bool IfUserExist(string username)
+        {
+            foreach (var user in userList)
+            {
+                if (user.Username == username)
+                {
+                    Console.WriteLine($"User: {username}");
+                    return true;
+                    
+                }
+            }
+            return false;
+        }
+
+
     }
 }
