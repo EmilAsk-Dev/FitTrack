@@ -6,16 +6,33 @@
       xmlns:local="clr-namespace:FitTrack.Windows"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Workouts">
+      Title="Workouts"
+      Background="#2E2E2E">
+      
 
     <Grid>
-        
+        <ItemsControl x:Name="workoutsControl" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20,50,20,20">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="#DC143C" Margin="5" Width="100" MinHeight="100" CornerRadius="10">
+                        <TextBlock Text="{Binding}" Foreground="White" FontSize="16" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" 
+                                   TextWrapping="Wrap" />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
-                  
-
-        
-        
-            
-        
+        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,0,20" HorizontalAlignment="Center">
+            <Button Content="Start New Workout" Height="40" Background="#DC143C" Foreground="White" Margin="0,0,10,0" />
+            <Button Content="View Workout History" Height="40" Background="#DC143C" Foreground="White" Margin="0,0,10,0" />
+            <Button Content="Track Progress" Height="40" Background="#DC143C" Foreground="White" Width="119" />
+        </StackPanel>
     </Grid>
 </Page>

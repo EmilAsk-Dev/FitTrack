@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FitTrack.User
 {
-    abstract class Person
+    public abstract class Person 
     {
         public string Username { get; set; }
         public string Password { get; set; }
@@ -18,5 +14,6 @@ namespace FitTrack.User
         }
 
         public abstract bool SignIn(string username, string password);
+        public abstract void RegisterUser(string username, string password);
     }
 }

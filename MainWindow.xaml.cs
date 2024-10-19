@@ -1,49 +1,34 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using FitTrack.User;
 using FitTrack.Windows;
 
-
 namespace FitTrack
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
 
-        private FitTrack.User.User _user;
-        private FitTrack.User.AdminUser _admin;
-
+        
 
         public MainWindow()
         {
             InitializeComponent();
-            _user = new FitTrack.User.User("User", "1234", "Sweden");
-            _admin = new FitTrack.User.AdminUser("Admin", "1234");
         }
-
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-           
             string username = UsernameTextBox.Text;
             string password = PasswordBox.Password;
 
+            // Check if username and password match using the User.SignIn method
+            Person User = new User.User(username, password); // Create temp user for login
             
-            bool IsLoggedIn = _user.SignIn(username, password);
+            
 
-            if (IsLoggedIn)
-            {                
-                WorkoutWindow workoutWindow = new WorkoutWindow();
+            if (User.SignIn(username, password))
+            {
+                // Pass the logged-in user object to WorkoutWindow
+                WorkoutWindow workoutWindow = new WorkoutWindow(User);
                 workoutWindow.Show();
                 this.Close();
             }
@@ -51,24 +36,13 @@ namespace FitTrack
             {
                 MessageBox.Show("Invalid Credentials");
             }
-                
-
-
-
-
-
-        }
-
-        private void ForgotPassword_Click(object sender, RoutedEventArgs e)
-        {
-            
         }
 
         private void SignUp_Click(object sender, RoutedEventArgs e)
         {
             RegisterWindow registerWindow = new RegisterWindow();
-            this.Close();
-            registerWindow.Show();
+            registerWindow.Show(); // Show the registration window
+            this.Close(); // Close the current window
         }
 
         private void UsernameTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -76,7 +50,7 @@ namespace FitTrack
             if (UsernameTextBox.Text == "Username")
             {
                 UsernameTextBox.Text = "";
-                UsernameTextBox.Foreground = new SolidColorBrush(System.Windows.Media.Colors.White);
+                UsernameTextBox.Foreground = new SolidColorBrush(Colors.White);
             }
         }
 
@@ -85,10 +59,13 @@ namespace FitTrack
             if (string.IsNullOrWhiteSpace(UsernameTextBox.Text))
             {
                 UsernameTextBox.Text = "Username";
-                UsernameTextBox.Foreground = new SolidColorBrush(System.Windows.Media.Colors.Gray);
+                UsernameTextBox.Foreground = new SolidColorBrush(Colors.Gray);
             }
         }
 
-       
+        private void ForgotPassword_Click(object sender, RoutedEventArgs e)
+        {
+            // Implement forgot password logic here
+        }
     }
 }

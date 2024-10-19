@@ -15,7 +15,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Navigation Panel in the Center of the Left Column -->
+        
         <Grid Background="#444">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -24,8 +24,8 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Content="Home" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" />
-                <Button Content="Workouts" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" />
+                <Button Content="Home" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Click="Home_Click" />
+                <Button Content="Workouts" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Click="WorkoutsButton_Click" />
                 <Button Content="Profile" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" />
                 <Button Content="Settings" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Width="88" />
                 <Button Content="Logout" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Click="Logout_Click" />
@@ -34,30 +34,9 @@
 
         <TextBlock Text="FitTrack" Foreground="#DC143C" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" />
 
-        <!-- Section for displaying workouts with WrapPanel -->
-        <ItemsControl x:Name="workoutsControl" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20,50,20,20">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                    <!-- Changed to WrapPanel for horizontal stacking -->
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Background="#DC143C" Margin="5" Width="100" MinHeight="100" CornerRadius="10">
-                        <TextBlock Text="{Binding}" Foreground="White" FontSize="16" 
-                                   HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center" 
-                                   TextWrapping="Wrap" />
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        
+        <Frame x:Name="ContentFrame" Grid.Column="1" Margin="20,50,20,20" NavigationUIVisibility="Hidden" />
 
-        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,0,20" HorizontalAlignment="Center">
-            <Button Content="Start New Workout" Height="40" Background="#DC143C" Foreground="White" Margin="0,0,10,0" />
-            <Button Content="View Workout History" Height="40" Background="#DC143C" Foreground="White" Margin="0,0,10,0" />
-            <Button Content="Track Progress" Height="40" Background="#DC143C" Foreground="White" Width="119" />
-        </StackPanel>
+        
     </Grid>
 </Window>
