@@ -12,6 +12,7 @@ namespace FitTrack.Windows
         public RegisterWindow()
         {
             InitializeComponent();
+            Console.WriteLine("RegisterWindow");
         }
 
         private void Register_Click(object sender, RoutedEventArgs e)
@@ -25,7 +26,7 @@ namespace FitTrack.Windows
             {
                 if (password == Confirm)
                 {                   
-                    Person person = new User.User(username, password);
+                    Person person = new Users.User(username, password);
                     
                     person.RegisterUser(username, password);
                     

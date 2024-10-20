@@ -7,13 +7,13 @@ namespace FitTrack.Windows
     {
         
 
-        // Constructor that accepts the User object
+        
         public HomePage()
         {
             InitializeComponent();
-            
+            Console.WriteLine("Im in HomePage");
 
-            
+
         }
     }
 }

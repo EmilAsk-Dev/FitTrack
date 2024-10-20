@@ -7,11 +7,12 @@ namespace FitTrack.Windows
     {
 
 
-        public WorkoutWindow(User.User user)  
+        public WorkoutWindow(Users.User user)  
         {
             InitializeComponent();
+            Console.WriteLine("Im in WorkoutWIndow");
 
-            
+
             WelcomeUser.Text = "Välkommen " + user.Username;  
 
             

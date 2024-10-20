@@ -13,8 +13,9 @@ namespace FitTrack.Windows
         public Workouts()
         {
             InitializeComponent();
+            Console.WriteLine("Im in Workout");
 
-            
+
             WorkoutList = new List<string>
             {
                 "Yoga",
@@ -32,6 +33,13 @@ namespace FitTrack.Windows
             workoutsControl.ItemsSource = WorkoutList;
 
             
+        }
+
+        private void NewWorkout(object sender, System.Windows.RoutedEventArgs e)
+        {
+            // Ensure you use the correct method to show the window
+            AddWorkoutWindow addWorkoutWindow = new AddWorkoutWindow();
+            addWorkoutWindow.Show();  // Correct method to open the window
         }
     }
 }

@@ -30,7 +30,7 @@
         </ItemsControl>
 
         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,0,0,20" HorizontalAlignment="Center">
-            <Button Content="Start New Workout" Height="40" Background="#DC143C" Foreground="White" Margin="0,0,10,0" />
+            <Button Content="Start New Workout" Height="40" Background="#DC143C" Foreground="White" Margin="0,0,10,0" Click="NewWorkout" />
             <Button Content="View Workout History" Height="40" Background="#DC143C" Foreground="White" Margin="0,0,10,0" />
             <Button Content="Track Progress" Height="40" Background="#DC143C" Foreground="White" Width="119" />
         </StackPanel>
