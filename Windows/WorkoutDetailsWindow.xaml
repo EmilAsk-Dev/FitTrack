@@ -1,0 +1,71 @@
+﻿<Window x:Class="FitTrack.Windows.WorkoutDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FitTrack.Windows"
+        mc:Ignorable="d"        
+        Title="WorkoutDetailsWindow" Height="450" Width="800"
+        Background="#2E2E2E">
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.ColumnSpan="2" Text="Edit Workout" Foreground="#DC143C" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20" />
+
+        <!-- Workout Type -->
+        <Label Content="Workout Type" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <ComboBox x:Name="WorkoutTypeComboBox" Grid.Row="1" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="black" BorderBrush="Transparent">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" Background="#444" Foreground="White" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="Background" Value="#444" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="Height" Value="40" />
+                    <Setter Property="Padding" Value="10" />
+                    <Setter Property="Focusable" Value="True" />
+                </Style>
+            </ComboBox.ItemContainerStyle>
+            <ComboBoxItem Content="Cardio" />
+            <ComboBoxItem Content="Strength" />
+        </ComboBox>
+
+        <!-- Date -->
+        <Label Content="Date" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <DatePicker x:Name="DatePicker" Grid.Row="2" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent" RenderTransformOrigin="0.497,0.836"/>
+
+        <!-- Duration -->
+        <Label Content="Duration (hh:mm)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <TextBox x:Name="DurationTextBox" Grid.Row="3" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent"/>
+
+        <!-- Calories Burned -->
+        <Label Content="Calories Burned" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <TextBox x:Name="CalBurnedTextBox" Grid.Row="4" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent"/>
+
+        <!-- Notes -->
+        <Label Content="Notes" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <TextBox x:Name="NotesTextBox" Grid.Row="5" Grid.Column="1" Height="60" Margin="10,0,10,40" Background="#444" Foreground="White" BorderBrush="Transparent" AcceptsReturn="True" TextWrapping="Wrap" Grid.RowSpan="2" />
+
+        <!-- Save Button -->
+        <Button x:Name="SaveWorkoutButton" Content="Save Workout" Grid.Row="7" Grid.ColumnSpan="2" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" Cursor="Hand" Click="SaveWorkout_Click" Margin="-10,77,10,-117" />
+    </Grid>
+</Window>

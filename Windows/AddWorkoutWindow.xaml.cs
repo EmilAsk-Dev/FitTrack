@@ -11,6 +11,7 @@ namespace FitTrack.Windows
         {
             InitializeComponent();
             WorkoutTypeComboBox.SelectionChanged += WorkoutTypeComboBox_SelectionChanged;
+            
         }
 
         private void WorkoutTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -63,7 +64,7 @@ namespace FitTrack.Windows
             }
             else if (workoutType == "Strength")
             {
-                workout = new Workout.StrenghtWorkout(DateTime.Now, workoutType, TimeSpan.FromMinutes(duration), calBurned, notes);
+                workout = new StrenghtWorkout(DateTime.Now, workoutType, TimeSpan.FromMinutes(duration), calBurned, notes);
             }
             else
             {
@@ -71,8 +72,8 @@ namespace FitTrack.Windows
                 return;
             }
 
-            
-            User.User.CurrentUser.Workouts.Add($"{workoutType} - {duration} mins");
+           
+            User.User.CurrentUser.Workouts.Add(workout);
 
             MessageBox.Show("Workout saved successfully!");
         }

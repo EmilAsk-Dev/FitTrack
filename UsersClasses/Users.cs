@@ -12,8 +12,9 @@ namespace FitTrack.User
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
 
-        
-        public List<string> Workouts { get; set; }
+
+        public List<Workout.Workout> Workouts { get; set; }
+
 
         private static List<User> userList = new List<User>();
 
@@ -23,13 +24,13 @@ namespace FitTrack.User
             Country = country;
             SecurityQuestion = securityQuestion;
             SecurityAnswer = securityAnswer;
-            Workouts = new List<string>(); 
+            Workouts = new List<Workout.Workout>(); 
         }
 
         public User(string username, string password)
             : base(username, password)
         {
-            Workouts = new List<string>(); 
+            Workouts = new List<Workout.Workout>(); 
         }
 
         public override bool SignIn(string username, string password)
