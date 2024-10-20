@@ -5,7 +5,6 @@ namespace FitTrack.Windows
 {
     public partial class Workouts : Page
     {
-        
 
         public List<string> WorkoutList { get; set; }
 
@@ -13,33 +12,20 @@ namespace FitTrack.Windows
         public Workouts()
         {
             InitializeComponent();
-            Console.WriteLine("Im in Workout");
-
-
-            WorkoutList = new List<string>
-            {
-                "Yoga",
-                "Cardio",
-                "Strength Training",
-                "Pilates",
-                "HIIT",
-                "Bollar",
-                "Maskar"
-            };
+            Console.WriteLine("I'm in Workout");
 
             
+            WorkoutList = User.User.CurrentUser?.Workouts ?? new List<string>(); 
 
             
             workoutsControl.ItemsSource = WorkoutList;
-
-            
         }
 
         private void NewWorkout(object sender, System.Windows.RoutedEventArgs e)
         {
-            // Ensure you use the correct method to show the window
+            
             AddWorkoutWindow addWorkoutWindow = new AddWorkoutWindow();
-            addWorkoutWindow.Show();  // Correct method to open the window
+            addWorkoutWindow.Show();  
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using FitTrack.User;
+﻿using System.Collections.Generic;
 using System.Windows;
 
-namespace FitTrack.Users
+namespace FitTrack.User
 {
     public class User : Person
     {
@@ -12,26 +12,24 @@ namespace FitTrack.Users
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
 
+        
+        public List<string> Workouts { get; set; }
+
         private static List<User> userList = new List<User>();
 
-        
-        public List<Workout.Workout> Workouts { get; set; } = new List<Workout.Workout>();
-
-        
         public User(string username, string password, string country, string securityQuestion, string securityAnswer)
             : base(username, password)
         {
             Country = country;
             SecurityQuestion = securityQuestion;
             SecurityAnswer = securityAnswer;
+            Workouts = new List<string>(); 
         }
 
-        public User(string username, string password) : base(username, password) { }
-
-        
-        public void AddWorkout(Workout.Workout workout)
+        public User(string username, string password)
+            : base(username, password)
         {
-            Workouts.Add(workout);
+            Workouts = new List<string>(); 
         }
 
         public override bool SignIn(string username, string password)
@@ -40,7 +38,7 @@ namespace FitTrack.Users
             {
                 if (user.Username == username && user.Password == password)
                 {
-                    CurrentUser = user;  
+                    User.CurrentUser = user;
                     MessageBox.Show($"User {username} signed in.");
                     return true;
                 }
@@ -56,19 +54,10 @@ namespace FitTrack.Users
             MessageBox.Show("User registered successfully.");
         }
 
-        public static bool IfUserExist(string username)
+        public static void AddUser(User user)
         {
-            foreach (var user in userList)
-            {
-                if (user.Username == username)
-                {
-                    Console.WriteLine($"User: {username}");
-                    return true;
-                }
-            }
-            return false;
+            userList.Add(user);
         }
-
 
         public static void ResetPassword(string username, string newPassword)
         {
@@ -86,6 +75,17 @@ namespace FitTrack.Users
             MessageBox.Show($"User with username {username} not found.");
         }
 
-
+        public static bool IfUserExist(string username)
+        {
+            foreach (var user in userList)
+            {
+                if (user.Username == username)
+                {
+                    Console.WriteLine($"User: {username}");
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

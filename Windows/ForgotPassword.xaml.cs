@@ -31,7 +31,7 @@ namespace FitTrack.Windows
         {           
             string username = UsernameTextBox.Text;
             string password = PasswordBox.Password;
-            bool UserExist = Users.User.IfUserExist(username);
+            bool UserExist = User.User.IfUserExist(username);
             bool StartingState = true;
 
 
@@ -50,7 +50,7 @@ namespace FitTrack.Windows
             {
                 if("Change Password" == RegFindButton.Content)
                 {
-                    Users.User.ResetPassword(username, password);
+                    User.User.ResetPassword(username, password);
                     MainWindow MainWindow = new MainWindow();
                     MainWindow.Show();
                     this.Close();

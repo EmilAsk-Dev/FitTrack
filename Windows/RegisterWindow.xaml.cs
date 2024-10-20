@@ -26,7 +26,7 @@ namespace FitTrack.Windows
             {
                 if (password == Confirm)
                 {                   
-                    Person person = new Users.User(username, password);
+                    Person person = new User.User(username, password);
                     
                     person.RegisterUser(username, password);
                     
@@ -39,7 +39,7 @@ namespace FitTrack.Windows
                     MessageBox.Show("Passwords do not match. Please try again.");
                 }
             }
-            catch (Exception ex) // Catching general exceptions
+            catch (Exception ex) 
             {
                
                 Console.WriteLine(ex.Message);                

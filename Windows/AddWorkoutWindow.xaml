@@ -10,13 +10,13 @@
         Background="#2E2E2E">
 
     <Grid Margin="20">
-        <!-- Define columns -->
+       
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Define rows -->
+       
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
