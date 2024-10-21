@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FitTrack.Workout
+namespace FitTrack.Workouts
 {
     public class CardioWorkout : Workout
     {
@@ -13,8 +13,7 @@ namespace FitTrack.Workout
         }
 
         public override int CalcCalBurned()
-        {
-           
+        {           
             return Distance * (int)Duration.TotalMinutes;
         }
     }

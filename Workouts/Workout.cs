@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-namespace FitTrack.Workout
+namespace FitTrack.Workouts
 {
     public abstract class Workout
     {

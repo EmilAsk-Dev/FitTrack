@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
-using FitTrack.User;
+using FitTrack.Users;
 using FitTrack.Windows;
 
 namespace FitTrack
@@ -13,10 +13,9 @@ namespace FitTrack
         public MainWindow()
         {
             InitializeComponent();
-            Console.WriteLine("Im in Main");
+            Console.WriteLine("I'm in Main");
+            AddUsersAndWorkouts.AddUsersAndWorkoutsToDatabase();
 
-            Person User = new User.User("emil", "1234");
-            User.RegisterUser("Emil", "1234");
 
         }
 
@@ -26,7 +25,7 @@ namespace FitTrack
             string password = PasswordBox.Password;
 
             
-            User.User user = new User.User(username, password); 
+            User user = new User(username, password); 
 
             
             if (user.SignIn(username, password))

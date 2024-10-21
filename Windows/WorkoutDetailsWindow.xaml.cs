@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FitTrack.Workouts;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace FitTrack.Windows
 {
@@ -19,21 +9,20 @@ namespace FitTrack.Windows
     /// </summary>
     public partial class WorkoutDetailsWindow : Window
     {
+        public Workout CurrentWorkout { get; set; }
 
-        public Workout.Workout CurrentWorkout { get; set; }
-
-        public WorkoutDetailsWindow(Workout.Workout clickedItem)
+        public WorkoutDetailsWindow(Workout clickedItem)
         {
             InitializeComponent();
 
             CurrentWorkout = clickedItem;
             PopulateWorkoutDetails();
-
         }
 
         private void PopulateWorkoutDetails()
         {
             
+            WorkoutTypeComboBox.ItemsSource = new string[] { "Cardio", "Strength" };
             WorkoutTypeComboBox.SelectedItem = CurrentWorkout.Type;
 
             
@@ -45,7 +34,6 @@ namespace FitTrack.Windows
 
         private void SaveWorkout_Click(object sender, RoutedEventArgs e)
         {
-            
             if (WorkoutTypeComboBox.SelectedItem == null || DatePicker.SelectedDate == null)
             {
                 MessageBox.Show("Please fill in all required fields.");
@@ -53,13 +41,11 @@ namespace FitTrack.Windows
             }
 
             
-            CurrentWorkout.Type = WorkoutTypeComboBox.SelectedItem.ToString();  
-            CurrentWorkout.Date = DatePicker.SelectedDate ?? DateTime.Now;       
-            CurrentWorkout.Duration = TimeSpan.Parse(DurationTextBox.Text);       
-            CurrentWorkout.CalBurned = int.Parse(CalBurnedTextBox.Text);          
-            CurrentWorkout.Notes = NotesTextBox.Text;                            
-
-            
+            CurrentWorkout.Type = WorkoutTypeComboBox.SelectedItem.ToString();
+            CurrentWorkout.Date = DatePicker.SelectedDate ?? DateTime.Now;
+            CurrentWorkout.Duration = TimeSpan.Parse(DurationTextBox.Text);
+            CurrentWorkout.CalBurned = int.Parse(CalBurnedTextBox.Text);
+            CurrentWorkout.Notes = NotesTextBox.Text;
 
             
             this.Close();

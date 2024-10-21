@@ -35,7 +35,7 @@
 
             <TextBlock Text="| " Foreground="White" Height="15" />
 
-            <Button Content="Sign Up" Foreground="#DC143C" Cursor="Hand" Margin="10,0" Height="18" 
+            <Button Content="Sign Up" Foreground="#DC143C" Cursor="Hand" Margin="10,0" Height="18"
             Background="Transparent" BorderBrush="Transparent" Click="SignUp_Click"/>
         </StackPanel>
     </Grid>

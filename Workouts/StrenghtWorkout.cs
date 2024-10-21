@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace FitTrack.Workout
+namespace FitTrack.Workouts
 {
     public class StrenghtWorkout : Workout
     {

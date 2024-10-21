@@ -36,7 +36,7 @@ namespace FitTrack.Users
                 bool isAdmin = user.GetType() == typeof(AdminUser);
                 if (user.Username == username && user.Password == password)
                 {
-                    // Set Person.CurrentUser for all user types
+                    
                     Person.CurrentUser = user;
                     return true;
                 }
