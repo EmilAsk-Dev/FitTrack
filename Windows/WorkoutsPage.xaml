@@ -17,14 +17,20 @@
 
         <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
             <ItemsControl x:Name="workoutsControl" ItemsSource="{Binding WorkoutList}" 
-              MouseLeftButtonUp="WorkoutsControl_ItemClick">
+                  MouseLeftButtonUp="WorkoutsControl_ItemClick">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Background="#DC143C" Margin="10" Padding="10" Width="120" Height="120" CornerRadius="15"
-                    MouseLeftButtonUp="WorkoutsControl_ItemClick">
+                        MouseLeftButtonUp="WorkoutsControl_ItemClick">
                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <TextBlock Text="{Binding Type}" Foreground="White" FontSize="16" FontWeight="Bold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" />
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
