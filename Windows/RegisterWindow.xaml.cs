@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
-using FitTrack.User;
+using FitTrack.Users;
 
 namespace FitTrack.Windows
 {
@@ -25,11 +25,17 @@ namespace FitTrack.Windows
             try
             {
                 if (password == Confirm)
-                {                   
-                    Person person = new User.User(username, password);
-                    
-                    person.RegisterUser(username, password);
-                    
+                {
+                    try
+                    { 
+                        Person person = new User(username, password);                                        
+                        person.RegisterUser(username, password);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                                        
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
                     this.Close();
