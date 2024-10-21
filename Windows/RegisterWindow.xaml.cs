@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
+using System.Windows.Navigation;
 using FitTrack.Users;
 
 namespace FitTrack.Windows
@@ -28,11 +29,21 @@ namespace FitTrack.Windows
                 {
                     try
                     { 
-                        Person person = new User(username, password);                                       
+                        Person person = new User(username, password, null, null, null);                                       
                         person.RegisterUser(username, password);
-                        MainWindow mainWindow = new MainWindow();
-                        mainWindow.Show();
-                        this.Close();
+
+                        MessageBoxResult result = MessageBox.Show("Do you wish to add 2FA", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            MainFrame.Navigate(new TwoFASetupPage(username));
+                        }
+                        else
+                        {
+                            MainWindow mainWindow = new MainWindow();
+                            mainWindow.Show();
+                            this.Close();
+                        }                        
                     }
                     catch (Exception ex)
                     {

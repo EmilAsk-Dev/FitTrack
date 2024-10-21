@@ -8,15 +8,17 @@ namespace FitTrack
     public partial class MainWindow : Window
     {
 
-        
+        static bool firstOpen = true;
 
         public MainWindow()
         {
             InitializeComponent();
             Console.WriteLine("I'm in Main");
-            AddUsersAndWorkouts.AddUsersAndWorkoutsToDatabase();
-
-
+            if (firstOpen)
+            {
+                AddUsersAndWorkouts.AddUsersAndWorkoutsToDatabase();
+                firstOpen = false;
+            }            
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)
@@ -30,13 +32,11 @@ namespace FitTrack
                 return;
             }
 
-
             User user = new User(username, password); 
-
             
             if (user.SignIn(username, password))
             {
-                WorkoutWindow workoutWindow = new WorkoutWindow(user); 
+                WorkoutWindow workoutWindow = new WorkoutWindow(user);
                 workoutWindow.Show();
                 this.Close();
             }

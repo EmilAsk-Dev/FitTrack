@@ -10,20 +10,20 @@ namespace FitTrack
         public static void AddUsersAndWorkoutsToDatabase()
         {
            
-            Person user = new User("User", "12345678!");
-            Person admin = new AdminUser("Admin", "12345678!");
+            Person user = new User("User", "12345678!", "Sweden", "Where where you born", "malmo");
+            //Person admin = new AdminUser("Admin", "12345678!","Sweden", "Where where you born", "malmo");
 
             AddRandomWorkoutsForPerson(user);
-            AddRandomWorkoutsForPerson(admin);
+            //AddRandomWorkoutsForPerson(admin);
 
             User.RegisterUser(user);
-            AdminUser.RegisterUser(admin);
-            
+            //AdminUser.RegisterUser(admin);
 
-            
-            
 
-            
+
+
+
+
         }
 
         private static void AddRandomWorkoutsForPerson(Person person)

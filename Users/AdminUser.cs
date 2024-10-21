@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace FitTrack.Users
 {
-    public class AdminUser : Person
+    public class AdminUser : User
     {
         public List<Workout> Workouts { get; set; }
         
@@ -43,5 +43,11 @@ namespace FitTrack.Users
             MessageBox.Show("Invalid credentials.");
             return false;
         }
+
+        public override void AddSecAuth(string Question, string Answer)
+        {
+            throw new NotImplementedException();
+        }
     }
+    
 }

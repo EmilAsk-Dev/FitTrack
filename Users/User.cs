@@ -31,12 +31,11 @@ namespace FitTrack.Users
 
         public override bool SignIn(string username, string password)
         {
-            foreach (var user in Person.userList) 
+            foreach (var user in Person.userList)
             {
                 bool isAdmin = user.GetType() == typeof(AdminUser);
-                if (user.Username == username && user.Password == password)
-                {
-                    
+                if (user.Username.ToLower() == username.ToLower() && user.Password == password)
+                {                    
                     Person.CurrentUser = user;
                     return true;
                 }
@@ -51,6 +50,12 @@ namespace FitTrack.Users
         }
 
         public override void RegisterUser(string username, string password)
+        { 
+            Person newUser = new User(username, password);
+            userList.Add(newUser);
+        }
+
+        public void RegisterUser(string username, string password, string country, string securityQuestion, string securityAnswer)
         {
             Person newUser = new User(username, password);
             userList.Add(newUser);
@@ -86,6 +91,22 @@ namespace FitTrack.Users
                 }
             }
             return false;
+        }
+
+        public bool IfSecurityAnswer(string securityAnswer)
+        {
+            if(securityAnswer.ToLower() == SecurityAnswer.ToLower())
+            {
+                return true;
+            }
+            return false;
+                        
+        }
+
+        public override void AddSecAuth(string question, string answer)
+        {
+            this.SecurityQuestion = question;
+            this.SecurityAnswer = answer;
         }
     }
 }

@@ -7,11 +7,29 @@ namespace FitTrack.Users
     {
         protected static List<Person> userList = new List<Person>();
 
-        public string Username { get; set; }
+        private string username; 
+        public string Username {
+            get
+            {
+                return username;
+            }
+            set 
+            {
+                foreach (Person person in userList)
+                {
+                    if(person.Username.ToLower() == value.ToLower())
+                    {
+                        throw new Exception("User does already exist");
+                    }                    
+                }
+                username = value;
+            }
+        }
+
         private string password;
 
         public string Password
-        {   
+        {
             get
             {
                 return password;
@@ -32,7 +50,7 @@ namespace FitTrack.Users
 
         public bool IsAdmin { get; set; } = false;
 
-        
+
         public static Person CurrentUser { get; set; }
 
         public Person(string username, string password)
@@ -102,7 +120,24 @@ namespace FitTrack.Users
             return string.Empty;
         }
 
+        public static Person FindUser(string username)
+        {
+            foreach (Person person in userList)
+            {
+                if (person.Username.ToLower() == username.ToLower())
+                {
+                    return person;
+                }
+            }
+            return null;
+        }
+
+
+        
+
+
         public abstract bool SignIn(string username, string password);
         public abstract void RegisterUser(string username, string password);
+        public abstract void AddSecAuth(string Question, string Answer);
     }
 }

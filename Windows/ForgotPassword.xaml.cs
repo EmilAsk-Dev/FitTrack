@@ -1,83 +1,129 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using FitTrack.Users;
 
 namespace FitTrack.Windows
 {
-    /// <summary>
-    /// Interaction logic for ForgotPassword.xaml
-    /// </summary>
     public partial class ForgotPassword : Window
     {
+        private int step = 1;
+        private User user = null;
+
         public ForgotPassword()
         {
             InitializeComponent();
+
+            // Hide elements on startup
             PasswordBox.Visibility = Visibility.Hidden;
             PasswordLabel.Visibility = Visibility.Hidden;
-            Console.WriteLine("Im in ForgotPerson");
+            SecurityAnswerBox.Visibility = Visibility.Hidden;
+            SecurityQuestionLabel.Visibility = Visibility.Hidden;
+
         }
 
         private void ResetPassword_Click(object sender, RoutedEventArgs e)
-        {           
-            string username = UsernameTextBox.Text;
-            string password = PasswordBox.Password;
-            bool UserExist = User.IfUserExist(username);
-            bool StartingState = true;
-
-
-            if (UserExist)
+        {
+            switch (step)
             {
-                PasswordBox.Visibility = Visibility.Visible;
-                PasswordLabel.Visibility = Visibility.Visible;
-                StartingState = false;
-            }
-            else
-            {
-                MessageBox.Show("Username dosent exist");
-            }
-            
-            if(!StartingState)
-            {
-                if("Change Password" == RegFindButton.Content)
-                {
-                    User.ResetPassword(username, password);
-                    MainWindow MainWindow = new MainWindow();
-                    MainWindow.Show();
-                    this.Close();
-                }
-                else
-                {
-                    RegFindButton.Content = "Change Password";
-                }
-                
-            }
+                case 1:
                     
+
+                    string username = UsernameTextBox.Text;
+
+                    if (string.IsNullOrEmpty(username))
+                    {
+                        MessageBox.Show("Please enter your username.");
+                        return;
+                    }
+                    
+                    
+                    user = Person.FindUser(username) as User;
+                    SecurityQuestionLabel.Content = user.SecurityQuestion;
+                    if (user != null)
+                    {
+                        
+                        UsernameTextBox.Visibility = Visibility.Collapsed;
+                        Usernamelabel.Visibility = Visibility.Collapsed;
+
+                        
+                        SecurityAnswerBox.Visibility = Visibility.Visible;
+                        SecurityQuestionLabel.Visibility = Visibility.Visible;
+
+                        
+                        RegFindButton.Content = "Submit Security Answer";
+
+                        
+                        step = 2;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Username doesn't exist.");
+                    }
+                    break;
+
+                case 2:
+                    
+                    SecurityQuestionLabel.Content = user.SecurityQuestion;
+                    string securityAnswer = SecurityAnswerBox.Text;
+                    
+                    if (string.IsNullOrEmpty(securityAnswer))
+                    {
+                        MessageBox.Show("Please enter your security answer.");
+                        return;
+                    }
+
+                    bool securityCheck = user.IfSecurityAnswer(securityAnswer);
+                    if (securityCheck)
+                    {
+                        
+                        SecurityAnswerBox.Visibility = Visibility.Collapsed;
+                        SecurityQuestionLabel.Visibility = Visibility.Collapsed;
+
+                        
+                        PasswordBox.Visibility = Visibility.Visible;
+                        PasswordLabel.Visibility = Visibility.Visible;
+
+                        
+                        RegFindButton.Content = "Reset Password";
+
+                        
+                        step = 3;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wrong security answer.");
+                    }
+                    break;
+
+                case 3:
+                    
+                    string newPassword = PasswordBox.Password;
+
+                    if (string.IsNullOrEmpty(newPassword))
+                    {
+                        MessageBox.Show("Please enter a new password.");
+                        return;
+                    }
+
+                    
+                    User.ResetPassword(user.Username, newPassword);
+
+                    
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    this.Close();
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow MainWindow = new MainWindow();
-            MainWindow.Show();
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
             this.Close();
         }
     }
-
-
-
-    
-
-        
-
-        
 }
