@@ -1,0 +1,115 @@
+Implementera "glömt lösenord"-funktion där användaren kan återställa sitt
+lösenord via sitt användarnamn. Användaren kommer behöva svara på en 
+säkerhetsfråga för att validera att det är rätt användare.
+
+
+Lägga till, ta bort och överblicka träningspass. Ska ha följande 
+funktionaliteter:
+
+•När denna sida öppnas ska föregående sida stängas.
+•Den inloggade användarens användarnamn ska synas någonstans.
+•"User"-knapp som öppnar UserDetailsWindow.
+•"Add Workout"-knapp som öppnar WPF-fönstret AddWorkoutWindow.
+•En lista där man kan överblicka alla träningspass som är tillagda med endast lite 
+information (datum och typ av träning).
+•"Details"-knapp som öppnar WPF-fönstret WorkoutDetailsWindow som visar 
+detaljer för ett specifikt träningspass som är markerat i listan
+
+•"Remove"-knapp som tar bort ett specifikt träningspass som är markerat i 
+listan.
+•Om inget träningspass är markerat och användaren trycker på någon av 
+knapparna "Details" eller "Remove" ska en varningsruta dyka upp där 
+användaren meddelas att den först måste markera ett träningspass i listan.
+•En Admin-User ska kunna se/ta bort alla träningspass tillagda av alla användare.
+•Liten "info"-knapp som poppar upp en liten ruta där man kan läsa om hur man 
+använder appen och FitTrack som företag.
+•"Sign Out"-knapp för att logga ut, stänga WorkoutsWindow och återgå till 
+MainWindow
+
+För väl godkänt
+Implementera en filterfunktion för träningspass där användaren kan sortera och 
+söka efter pass baserat på datum, typ av träning eller varaktighet.
+
+
+Workout Details Window
+Se en detaljerad beskrivning av ett träningspass. Möjligheten att kunna ändra ett 
+träningspass. Ska ha följande funktionaliteter:
+• Detaljerna kring ett träningspass står utskrivna i låsta inputs (datum, typ 
+av träning, varaktighet, kalorier brända, anteckningar).
+• Möjligheten att kunna "låsa upp" alla inputrutor genom att klicka på en 
+knapp "Edit". Sedan ska man kunna fylla i nya uppgifter för 
+träningspasset och spara dem genom att klicka på "Save". Om alla nya 
+uppgifter är korrekt ifyllda ska träningspasset skrivas över och 
+"WorkoutDetailsWindow" stängas, samt WorkoutsWindow öppnas.
+För väl godkänt
+Lägg till en funktion för att kunna kopiera ett träningspass som mall för nya pass
+
+
+Add Workout Window
+
+
+Möjligheten att skapa ett nytt träningspass. Ska ha följande funktionaliteter:
+Inputrutor för att fylla i alla detaljer för det nya träningspasset (datum, typ av 
+träning, varaktighet, kalorier brända, anteckningar).
+Alla inputrutor måste vara ifyllda för att träningspasset ska kunna sparas, annars 
+ska ett varningsmeddelande dyka upp
+
+
+User Details Window
+Möjligheten att ändra användarnamn, lösenord och land, samt se nuvarande 
+användarnamn samt land. Ska ha följande funktionaliteter:
+• Inputruta för att välja nytt användarnamn.
+• Om ett användarnamn är upptaget ska ett varningsmeddelande visas 
+när användaren försöker spara.
+• Om användaren försöker skapa ett användarnamn som är kortare än 3 
+tecken ska ett varningsmeddelande dyka upp när användaren försöker 
+spara.
+• Inputrutor för att välja nytt lösenord.
+• Input i de två rutorna "New password" och "Confirm password" måste 
+överensstämma för att ett lösenord ska kunna ändras, annars dyker ett 
+varningsmeddelande upp när användaren försöker spara.
+• Om användaren försöker skapa ett lösenord som är kortare än 5 tecken 
+ska ett varningsmeddelande dyka upp när användaren försöker spara.
+• ComboBox för att välja ett nytt land.
+• "Save"-knapp för att spara nya användaruppgifter och stänga 
+UserDetailsWindow.
+• Cancel"-knapp för att stänga UserDetailsWindow och återgå till 
+WorkoutsWindow.
+
+
+För väl godkänt
+Implementera tvåfaktorsautentisering (2FA) vid inloggning för extra säkerhet. 
+Tvåfaktorsautentisering i en WPF-applikation implementeras genom att simulera 
+att en verifieringskod skickas via e-post. Användaren matar in denna kod för att 
+slutföra inloggningen. Detta kan vara att man får upp ett pop-up fönster med en 
+6-siffrig kod som man sedan behöver mata in för att logga in.
+
+
+
+
+
+Godkänt:
+• Uppnått samtliga följande mål: 
+• Presenterat en välstrukturerad och buggfri kod. 
+• Fullföljt alla krav presentarade i avsnittet “Förutsättningar” ovan. 
+• Implementerat alla WPF-sidor och funktioner presenterade i avsnittet 
+"Struktur" ovan.
+• Regelbunda commits har gjorts till ditt GitHub-repo. 
+• När programmet startar ska en Admin-User med användarnamn “admin” 
+(små bokstäver!) och lösenord “password” (små bokstäver!) finnas. 
+• När programmet startar ska en vanlig User med användarnamn “user” (små 
+bokstäver!) med lösenord “password” (små bokstäver!) finnas, denna 
+användare ska ha ett par (2) olika träningar tillagda
+
+
+Väl-godkänt
+• Uppnått kraven för betyget Godkänt ovan.
+• Använt sig av MVVM mönstret.
+• Skickat in en kort sammanfattning och analys av projektets struktur och 
+uppbyggnad, fördelar och nackdelar med olika approacher o.s.v. i flytande 
+text, cirka en (1) sida. 
+• Visat fördjupad förståelse genom att implementera följande mål: 
+• Implementerat all funktionalitet med väl-godkänt text i avsnittet “Struktur” 
+ovan. 
+• När programmet startar ska träningarna som användaren “user” har på sitt 
+konto (se betyget Godkänt ovan) ha några träningspass i sin lista.

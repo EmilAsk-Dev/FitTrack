@@ -24,7 +24,13 @@ namespace FitTrack
             string username = UsernameTextBox.Text;
             string password = PasswordBox.Password;
 
-            
+            if(Person.CheckPassword(password) != string.Empty)
+            {
+                MessageBox.Show("Invalid Credentials");
+                return;
+            }
+
+
             User user = new User(username, password); 
 
             

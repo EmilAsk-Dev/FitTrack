@@ -52,7 +52,7 @@ namespace FitTrack.Users
 
         public override void RegisterUser(string username, string password)
         {
-            var newUser = new User(username, password);
+            Person newUser = new User(username, password);
             userList.Add(newUser);
         }
 

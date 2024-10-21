@@ -18,62 +18,15 @@ namespace FitTrack.Users
             } 
             set
             {
-                bool isEight = false;
-                bool containsSpecial = false;
-                bool numberExist = false;
-                string specialCharacters = "!#¤%&/()=?";
-
-                if (value.Length >= 8)
+                string error = CheckPassword(value);
+                if (error == string.Empty)
                 {
-                    isEight = true;
+                    password = value;
                 }
-
-                foreach (char item in specialCharacters.ToCharArray())
+                else
                 {
-                    containsSpecial = value.Contains(item);
-                    if (containsSpecial == true)
-                    {
-                        break;
-                    }
-                };
-
-                
-                foreach (char item in value.ToCharArray())
-                {
-                    int num = 0;
-                    numberExist = int.TryParse(item.ToString(), out num);
-                    if (numberExist == true)
-                    {
-                        break;
-                    }
-                };
-
-                if (numberExist == false || containsSpecial == false || isEight == false)
-                {
-                    string stringError = "";
-                    if(numberExist  == false)
-                    {
-                        stringError = "Your password must contain a number, ";
-                    }
-
-                    if(containsSpecial == false)
-                    {
-                        stringError += "your Password must contain a special character, ";
-                    }
-
-                    if (isEight == false)
-                    {
-                        stringError += "your Password must contain eight Characters, ";
-                    }
-                    
-                    throw new Exception(stringError);
-
+                    throw new Exception(error);
                 }
-
-
-
-
-                
             }
         }
 
@@ -91,6 +44,62 @@ namespace FitTrack.Users
         public static void RegisterUser(Person user)
         {
             userList.Add(user);
+        }
+
+        public static string CheckPassword(string value)
+        {
+            bool isEight = false;
+            bool containsSpecial = false;
+            bool numberExist = false;
+            string specialCharacters = "!#¤%&/()=?";
+
+            if (value.Length >= 8)
+            {
+                isEight = true;
+            }
+
+            foreach (char item in specialCharacters.ToCharArray())
+            {
+                containsSpecial = value.Contains(item);
+                if (containsSpecial == true)
+                {
+                    break;
+                }
+            };
+
+
+            foreach (char item in value.ToCharArray())
+            {
+                int num = 0;
+                numberExist = int.TryParse(item.ToString(), out num);
+                if (numberExist == true)
+                {
+                    break;
+                }
+            };
+
+            if (numberExist == false || containsSpecial == false || isEight == false)
+            {
+                string stringError = "";
+                if (numberExist == false)
+                {
+                    stringError = "Your password must contain a number, ";
+                }
+
+                if (containsSpecial == false)
+                {
+                    stringError += "your Password must contain a special character, ";
+                }
+
+                if (isEight == false)
+                {
+                    stringError += "your Password must contain eight Characters, ";
+                }
+
+                return stringError;
+
+            }
+            return string.Empty;
         }
 
         public abstract bool SignIn(string username, string password);

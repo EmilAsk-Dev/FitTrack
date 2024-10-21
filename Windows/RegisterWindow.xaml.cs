@@ -28,17 +28,16 @@ namespace FitTrack.Windows
                 {
                     try
                     { 
-                        Person person = new User(username, password);                                        
+                        Person person = new User(username, password);                                       
                         person.RegisterUser(username, password);
+                        MainWindow mainWindow = new MainWindow();
+                        mainWindow.Show();
+                        this.Close();
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show(ex.Message);
-                    }
-                                        
-                    MainWindow mainWindow = new MainWindow();
-                    mainWindow.Show();
-                    this.Close();
+                    }                                                            
                 }
                 else
                 {                    
