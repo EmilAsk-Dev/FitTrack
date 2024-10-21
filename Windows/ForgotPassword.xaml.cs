@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using FitTrack.Users;
 
 namespace FitTrack.Windows
 {
@@ -31,7 +32,7 @@ namespace FitTrack.Windows
         {           
             string username = UsernameTextBox.Text;
             string password = PasswordBox.Password;
-            bool UserExist = User.User.IfUserExist(username);
+            bool UserExist = User.IfUserExist(username);
             bool StartingState = true;
 
 
@@ -50,7 +51,7 @@ namespace FitTrack.Windows
             {
                 if("Change Password" == RegFindButton.Content)
                 {
-                    User.User.ResetPassword(username, password);
+                    User.ResetPassword(username, password);
                     MainWindow MainWindow = new MainWindow();
                     MainWindow.Show();
                     this.Close();

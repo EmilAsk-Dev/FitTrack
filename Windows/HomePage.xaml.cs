@@ -1,4 +1,4 @@
-﻿using FitTrack.User;
+﻿using FitTrack.Users;
 using System.Windows.Controls;
 
 namespace FitTrack.Windows
