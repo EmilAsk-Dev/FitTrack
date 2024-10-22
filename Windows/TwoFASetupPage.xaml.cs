@@ -20,14 +20,14 @@ namespace FitTrack.Windows
     /// <summary>
     /// Interaction logic for TwoFASetupPage.xaml
     /// </summary>
-    public partial class TwoFASetupPage : Page
+    public partial class TwoFASetupPage : Page 
     {
         string username;
         
         public TwoFASetupPage(string username)
         {
             InitializeComponent();
-
+            
             this.username = username;
 
             SecurityQuestionComboBox.ItemsSource = new string[]
@@ -44,9 +44,7 @@ namespace FitTrack.Windows
         {
             string selectedQuestion = SecurityQuestionComboBox.SelectedItem as string;
             if (!string.IsNullOrEmpty(selectedQuestion))
-            {
-                // Do something with the selected question if needed
-                // You could clear the AnswerTextBox for a new answer, for example
+            {               
                 AnswerTextBox.Clear();
             }
         }

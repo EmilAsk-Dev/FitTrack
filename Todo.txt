@@ -1,7 +1,3 @@
-Implementera "glömt lösenord"-funktion där användaren kan återställa sitt
-lösenord via sitt användarnamn. Användaren kommer behöva svara på en 
-säkerhetsfråga för att validera att det är rätt användare.
-
 
 Lägga till, ta bort och överblicka träningspass. Ska ha följande 
 funktionaliteter:

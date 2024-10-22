@@ -17,31 +17,29 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBlock Grid.ColumnSpan="2" Text="Edit Workout" Foreground="#DC143C" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20" />
 
-        <!-- Workout Type -->
         <Label Content="Workout Type" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
         <ComboBox x:Name="WorkoutTypeComboBox" Grid.Row="1" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="Black" BorderBrush="Transparent" />
 
-        <!-- Date -->
         <Label Content="Date" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
         <DatePicker x:Name="DatePicker" Grid.Row="2" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="Black" BorderBrush="Black" />
 
-        <!-- Duration -->
         <Label Content="Duration (hh:mm)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
         <TextBox x:Name="DurationTextBox" Grid.Row="3" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent"/>
 
-        <!-- Calories Burned -->
         <Label Content="Calories Burned" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
         <TextBox x:Name="CalBurnedTextBox" Grid.Row="4" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent"/>
 
-        <!-- Notes -->
         <Label Content="Notes" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
         <TextBox x:Name="NotesTextBox" Grid.Row="5" Grid.Column="1" Height="60" Margin="10,0,10,40" Background="#444" Foreground="White" BorderBrush="Transparent" AcceptsReturn="True" TextWrapping="Wrap" Grid.RowSpan="2" />
 
-        <!-- Save Button -->
-        <Button x:Name="SaveWorkoutButton" Content="Save Workout" Grid.Row="7" Grid.ColumnSpan="2" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" Cursor="Hand" Click="SaveWorkout_Click" Margin="10,20" />
+        <StackPanel Grid.Row="8" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,20">
+            <Button x:Name="SaveWorkoutButton" Content="Save Workout" Width="150" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" Cursor="Hand" Click="SaveWorkout_Click" Margin="10,0" />
+            <Button x:Name="RemoveWorkoutButton" Content="Remove Workout" Width="150" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" Cursor="Hand" Click="RemoveButton_Click" Margin="10,0" />
+        </StackPanel>
     </Grid>
 </Window>

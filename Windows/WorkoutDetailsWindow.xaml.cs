@@ -50,5 +50,10 @@ namespace FitTrack.Windows
             
             this.Close();
         }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

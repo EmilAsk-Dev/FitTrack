@@ -7,7 +7,7 @@ namespace FitTrack.Windows
     {
 
 
-        public WorkoutWindow(User user)  
+        public WorkoutWindow(Person user)  
         {
             InitializeComponent();
             Console.WriteLine("Im in WorkoutWIndow");

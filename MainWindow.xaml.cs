@@ -32,18 +32,19 @@ namespace FitTrack
                 return;
             }
 
-            User user = new User(username, password); 
+            Person user = Person.FindUser(username);
             
-            if (user.SignIn(username, password))
+            if(user != null)
             {
+                bool SignedIn = user.SignIn(username, password);
                 WorkoutWindow workoutWindow = new WorkoutWindow(user);
                 workoutWindow.Show();
                 this.Close();
             }
-            else
-            {
-                MessageBox.Show("Invalid Credentials");
-            }
+            
+                        
+
+            
         }
 
         private void SignUp_Click(object sender, RoutedEventArgs e)
@@ -80,3 +81,6 @@ namespace FitTrack
         }
     }
 }
+
+
+
