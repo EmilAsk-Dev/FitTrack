@@ -4,10 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FitTrack.Windows"
-        mc:Ignorable="d"
+        xmlns:viewModels="clr-namespace:FitTrack.ViewModels"  
+         mc:Ignorable="d"
         Background="#2E2E2E"
         Title="WorkoutWindow" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
+
+    
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -15,28 +18,24 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        
         <Grid Background="#444">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
+
             <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Content="User" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Click="Home_Click" />
-                <Button Content="Workouts" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Click="WorkoutsButton_Click" />
+                <Button Content="User" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding NavigateHomeCommand}" />
+                <Button Content="Workouts" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding NavigateWorkoutsCommand}" />
                 <Button Content="Profile" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" />
                 <Button Content="Settings" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Width="88" />
-                <Button Content="Logout" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Click="Logout_Click" />
+                <Button Content="Logout" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding LogoutCommand}" />
             </StackPanel>
         </Grid>
-        
-        <TextBlock x:Name="WelcomeUser" Foreground="#DC143C" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" />
-        
-        
-        <Frame x:Name="ContentFrame" Grid.Column="1" Margin="20,50,20,20" NavigationUIVisibility="Hidden" />
 
-        
+        <TextBlock Text="{Binding WelcomeMessage}" Foreground="#DC143C" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" />
+
+        <Frame x:Name="ContentFrame" Grid.Column="1" Margin="20,50,20,20" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

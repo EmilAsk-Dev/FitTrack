@@ -9,13 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="Converters.cs">
+    <Compile Update="Converters\Converters.cs">
       <Generator>MSBuild:Compile</Generator>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\" />
   </ItemGroup>
 
 </Project>
