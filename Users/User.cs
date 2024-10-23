@@ -6,6 +6,8 @@ namespace FitTrack.Users
 {
     public class User : Person
     {
+        
+
         public string Country { get; set; }
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
@@ -13,7 +15,6 @@ namespace FitTrack.Users
         public List<Workout> Workouts { get; set; }
 
         
-
         public User(string username, string password, string country, string securityQuestion, string securityAnswer)
             : base(username, password)
         {

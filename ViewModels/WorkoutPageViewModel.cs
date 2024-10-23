@@ -62,7 +62,7 @@ namespace FitTrack.Windows
             AddWorkoutWindow addWorkoutWindow = new AddWorkoutWindow();
             addWorkoutWindow.ShowDialog();
 
-           //refresh
+           
             LoadWorkouts();
         }
 

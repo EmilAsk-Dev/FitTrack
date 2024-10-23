@@ -1,6 +1,9 @@
-﻿using FitTrack.Commands;
+﻿using System.Windows;
+using System.Windows.Controls;
+using FitTrack.Commands;
 using FitTrack.Users;
 using System.Windows.Input;
+using FitTrack.Windows; // Reference to the WorkoutPage
 
 namespace FitTrack.ViewModels
 {
@@ -33,12 +36,21 @@ namespace FitTrack.ViewModels
         private void NavigateHome()
         {
             // Logic to navigate to HomePage
-            // For example, you might raise an event or use a navigation service
         }
 
         private void NavigateWorkouts()
         {
-            // Logic to navigate to Workouts
+            
+            Window window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.IsActive);
+            if (window != null)
+            {
+                // Assuming WorkoutWindow.xaml has a Frame named ContentFrame
+                var frame = window.FindName("ContentFrame") as Frame;
+                if (frame != null)
+                {
+                    frame.Content = new WorkoutPage(); // Navigate to WorkoutPage
+                }
+            }
         }
 
         private void Logout()

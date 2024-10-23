@@ -15,16 +15,16 @@
                          Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Label Content="Password"/>
-                <PasswordBox Name="PasswordBox" Height="40" Margin="0,0,0,10" Background="#444" Foreground="White" BorderBrush="Transparent" Padding="10" 
-                             Password="{Binding Password}" />
+                <PasswordBox Name="PasswordBox" Height="40" Margin="0,0,0,10" Background="#444" Foreground="White" BorderBrush="Transparent" Padding="10"
+                             PasswordChanged="PasswordBox_PasswordChanged"/>
 
-                <Label Content="Confirm password"/>
-                <PasswordBox x:Name="ConfirmPasswordBox" Height="40" Background="#444" Foreground="White" BorderBrush="Transparent" Padding="10" 
-                             Password="{Binding ConfirmPassword}" />
+                <Label Content="Confirm Password"/>
+                <PasswordBox Name="ConfirmPasswordBox" Height="40" Background="#444" Foreground="White" BorderBrush="Transparent" Padding="10"
+                             PasswordChanged="ConfirmPasswordBox_PasswordChanged"/>
 
-                <Button Content="Register" Margin="20" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" Cursor="Hand" 
-                        Command="{Binding RegisterCommand}" />
-                <Button Content="Back to login" Foreground="#DC143C" Cursor="Hand" Margin="10,0" Height="18" Background="Transparent" Width="73" BorderThickness="0" 
+                <Button Content="Register" Margin="20" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" Cursor="Hand"
+                         Click="RegisterButton_Click" />
+                <Button Content="Back to login" Foreground="#DC143C" Cursor="Hand" Margin="10,0" Height="18" Background="Transparent" Width="73" BorderThickness="0"
                         Command="{Binding NavigateToLoginCommand}" />
             </StackPanel>
         </Border>

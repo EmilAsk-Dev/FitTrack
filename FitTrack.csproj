@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="Converters\Converters.cs">
+    <Compile Update="Converters\ConvertersClasses.cs">
       <Generator>MSBuild:Compile</Generator>
     </Compile>
   </ItemGroup>

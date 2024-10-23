@@ -7,8 +7,9 @@ namespace FitTrack.Users
     {
         protected static List<Person> userList = new List<Person>();
 
-        private string username; 
-        public string Username {
+        private string username;
+        public string Username 
+        {
             get
             {
                 return username;
@@ -58,11 +59,7 @@ namespace FitTrack.Users
             Username = username;
             Password = password;
         }
-
-        public static void RegisterUser(Person user)
-        {
-            userList.Add(user);
-        }
+        
 
         public static string CheckPassword(string value)
         {

@@ -21,7 +21,7 @@ namespace FitTrack.Windows
             set
             {
                 _duration = value;
-                OnPropertyChanged();
+                //OnPropertyChanged();
             }
         }
 
@@ -32,7 +32,7 @@ namespace FitTrack.Windows
             set
             {
                 _calBurned = value;
-                OnPropertyChanged();
+                //OnPropertyChanged();
             }
         }
 
@@ -60,17 +60,18 @@ namespace FitTrack.Windows
                 return;
             }
 
-            //save workout to current workout
+            
             CurrentWorkout.Duration = TimeSpan.Parse(Duration);
             CurrentWorkout.CalBurned = int.Parse(CalBurned);
 
-            // Close window logic
+            
             Application.Current.Windows[0]?.Close();
         }
 
         private void RemoveWorkout(object obj)
         {
-            // Logic for removing workout
+            
+
         }
     }
 }

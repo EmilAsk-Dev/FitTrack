@@ -16,31 +16,19 @@ namespace FitTrack.ViewModels
         public string Username
         {
             get { return _username; }
-            set
-            {
-                _username = value;
-                OnPropertyChanged(nameof(Username));
-            }
+            set { _username = value; OnPropertyChanged(nameof(Username)); }
         }
 
         public string Password
         {
             get { return _password; }
-            set
-            {
-                _password = value;
-                OnPropertyChanged(nameof(Password));
-            }
+            set { _password = value; OnPropertyChanged(nameof(Password)); }
         }
 
         public string ConfirmPassword
         {
             get { return _confirmPassword; }
-            set
-            {
-                _confirmPassword = value;
-                OnPropertyChanged(nameof(ConfirmPassword));
-            }
+            set { _confirmPassword = value; OnPropertyChanged(nameof(ConfirmPassword)); }
         }
 
         public ICommand RegisterCommand { get; }
@@ -56,41 +44,49 @@ namespace FitTrack.ViewModels
         {
             try
             {
+                // Kontrollera om lösenorden matchar
                 if (Password == ConfirmPassword)
                 {
+                    // Skapa ny användare och registrera
                     Person person = new User(Username, Password, null, null, null);
                     person.RegisterUser(Username, Password);
 
-                    MessageBoxResult result = MessageBox.Show("Do you wish to add 2FA", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    // Fråga användaren om de vill lägga till 2FA (tvåfaktorsautentisering)
+                    MessageBoxResult result = MessageBox.Show("Do you wish to add 2FA?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
+                    // Om användaren väljer "Ja", navigera till 2FA (lägg till logik här)
                     if (result == MessageBoxResult.Yes)
                     {
-                        // Navigate to 2FA
-                        
+                        // Logik för att navigera till 2FA kan läggas här
                     }
                     else
                     {
-                        
+                        // Om användaren väljer "Nej", öppna huvudfönstret
                         MainWindow mainWindow = new MainWindow();
                         mainWindow.Show();
+
+                        // Stäng det nuvarande registreringsfönstret
                         Application.Current.MainWindow.Close();
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Passwords do not match. Please try again.");
+                    // Om lösenorden inte matchar, visa ett felmeddelande
+                    MessageBox.Show("Password does not match");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error occurred while registering the user. Please try again.");
+                // Fånga eventuella fel och visa ett felmeddelande
+                MessageBox.Show("A problem occurred when creating a user: " + ex.Message);
             }
         }
 
         private void NavigateToLogin(object parameter)
         {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
+            // Navigera till inloggningssidan
+            MainWindow loginWindow = new MainWindow();
+            loginWindow.Show();
             Application.Current.MainWindow.Close();
         }
     }

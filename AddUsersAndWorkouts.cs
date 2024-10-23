@@ -16,7 +16,7 @@ namespace FitTrack
             AddRandomWorkoutsForPerson(user);
             //AddRandomWorkoutsForPerson(admin);
 
-            User.RegisterUser(user);
+            //User.RegisterUser(user);
             //AdminUser.RegisterUser(admin);
 
 
