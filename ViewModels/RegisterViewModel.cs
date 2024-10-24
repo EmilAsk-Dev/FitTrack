@@ -1,6 +1,7 @@
 ﻿using FitTrack.Commands;
 using FitTrack.Users;
 using FitTrack.Views;
+using FitTrack.Windows;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -12,6 +13,19 @@ namespace FitTrack.ViewModels
         private string _username;
         private string _password;
         private string _confirmPassword;
+
+        private readonly RegisterWindow _registerWindow; // Store a reference to RegisterWindow
+
+        private object _currentView;
+        public object CurrentView
+        {
+            get => _currentView;
+            set
+            {
+                _currentView = value;
+                OnPropertyChanged(nameof(CurrentView));
+            }
+        }
 
         public string Username
         {
@@ -34,8 +48,10 @@ namespace FitTrack.ViewModels
         public ICommand RegisterCommand { get; }
         public ICommand NavigateToLoginCommand { get; }
 
-        public RegisterViewModel()
+        // Modify constructor to accept RegisterWindow
+        public RegisterViewModel(RegisterWindow registerWindow)
         {
+            _registerWindow = registerWindow; // Assign it to the private field
             RegisterCommand = new RelayCommand(RegisterUser);
             NavigateToLoginCommand = new RelayCommand(NavigateToLogin);
         }
@@ -44,50 +60,44 @@ namespace FitTrack.ViewModels
         {
             try
             {
-                // Kontrollera om lösenorden matchar
-                if (Password == ConfirmPassword)
+                // Check if the passwords match
+                if (Password != ConfirmPassword)
                 {
-                    // Skapa ny användare och registrera
-                    Person person = new User(Username, Password, null, null, null);
-                    person.RegisterUser(Username, Password);
+                    MessageBox.Show("Passwords do not match.");
+                    return;
+                }
 
-                    // Fråga användaren om de vill lägga till 2FA (tvåfaktorsautentisering)
-                    MessageBoxResult result = MessageBox.Show("Do you wish to add 2FA?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                // Create new user and register
+                User user = new User(Username, Password, null, null, null);
+                user.RegisterUser(Username, Password);
 
-                    // Om användaren väljer "Ja", navigera till 2FA (lägg till logik här)
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        // Logik för att navigera till 2FA kan läggas här
-                    }
-                    else
-                    {
-                        // Om användaren väljer "Nej", öppna huvudfönstret
-                        MainWindow mainWindow = new MainWindow();
-                        mainWindow.Show();
+                // Ask the user if they want to add 2FA
+                MessageBoxResult result = MessageBox.Show("Do you wish to add 2FA?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-                        // Stäng det nuvarande registreringsfönstret
-                        Application.Current.MainWindow.Close();
-                    }
+                if (result == MessageBoxResult.Yes)
+                {
+                    // Navigate to the TwoFASetupPage in the Frame of RegisterWindow
+                    _registerWindow.MainFrame.Navigate(new TwoFASetupPage(Username));
                 }
                 else
                 {
-                    // Om lösenorden inte matchar, visa ett felmeddelande
-                    MessageBox.Show("Password does not match");
+                    var mainWindow = new MainWindow();
+                    mainWindow.Show();
+                    Application.Current.Windows[0].Close();
                 }
             }
             catch (Exception ex)
             {
-                // Fånga eventuella fel och visa ett felmeddelande
-                MessageBox.Show("A problem occurred when creating a user: " + ex.Message);
+                MessageBox.Show("A problem occurred: " + ex.Message);
             }
         }
 
         private void NavigateToLogin(object parameter)
         {
-            // Navigera till inloggningssidan
+            // Navigate to the login page
             MainWindow loginWindow = new MainWindow();
             loginWindow.Show();
-            Application.Current.MainWindow.Close();
+            Application.Current.Windows[0].Close();
         }
     }
 }

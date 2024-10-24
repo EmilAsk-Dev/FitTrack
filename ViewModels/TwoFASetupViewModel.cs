@@ -66,15 +66,14 @@ namespace FitTrack.ViewModels
 
             try
             {
-                Person user = Person.FindUser(_username);
+                User user = ManageUser.FindUser(_username);
                 if (user != null)
                 {
                     user.AddSecAuth(SelectedQuestion, Answer);
                     MessageBox.Show($"2FA Security Question:\nQuestion: {SelectedQuestion}\nAnswer: {Answer}", "2FA Setup", MessageBoxButton.OK, MessageBoxImage.Information);
-
                     MainWindow mainWindow = new MainWindow();
                     mainWindow.Show();
-                    Application.Current.MainWindow.Close();
+                    Application.Current.Windows[0].Close();
                 }
             }
             catch (Exception ex)
@@ -82,13 +81,14 @@ namespace FitTrack.ViewModels
                 MessageBox.Show("Something went wrong while setting up 2FA.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 Console.WriteLine($"Error: {ex.Message}");
             }
+            
         }
 
         private void CreateWithout2FA(object parameter)
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
-            Application.Current.MainWindow.Close();
+            Application.Current.Windows[0].Close();
         }
     }
 }

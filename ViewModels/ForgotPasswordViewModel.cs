@@ -66,7 +66,7 @@ namespace FitTrack.ViewModels
                         return;
                     }
 
-                    _user = Person.FindUser(Username) as User;
+                    _user = ManageUser.FindUser(Username) as User;
 
                     if (_user != null)
                     {

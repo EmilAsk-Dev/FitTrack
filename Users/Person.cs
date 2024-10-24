@@ -17,13 +17,7 @@ namespace FitTrack.Users
             set 
             { 
                 
-                foreach (User person in ManageUser.userList)
-                {
-                    if(person.Username.ToLower() == value.ToLower())
-                    {
-                        throw new Exception("User does already exist");
-                    }                    
-                }
+                
                 username = value;
             }
         }
@@ -118,22 +112,12 @@ namespace FitTrack.Users
             return string.Empty;
         }
 
-        public static Person FindUser(string username)
-        {
-            foreach (User person in ManageUser.userList)
-            {
-                if (person.Username.ToLower() == username.ToLower())
-                {
-                    return person;
-                }
-            }
-            return null;
-        }
-
-
         
 
 
+
+
+        
         public abstract bool SignIn(string username, string password);
         public abstract void RegisterUser(string username, string password);
         public abstract void AddSecAuth(string Question, string Answer);

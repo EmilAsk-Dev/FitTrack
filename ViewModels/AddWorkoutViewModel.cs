@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
+using FitTrack;
 
 public class AddWorkoutViewModel : INotifyPropertyChanged
 {
@@ -179,14 +180,12 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
             return;
         }
 
-        if (Person.CurrentUser is User user)
+        User user = ManageUser.currentUser;
+
+        if (user != null)
         {
             user.Workouts.Add(workout); // Lägg till träning för användare
-        }
-        else if (Person.CurrentUser is AdminUser adminUser)
-        {
-            adminUser.Workouts.Add(workout); // Lägg till träning för administratör
-        }
+        }        
         else
         {
             MessageBox.Show("User not found or invalid."); // Felmeddelande för ogiltig användare
@@ -194,6 +193,7 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
         }
 
         MessageBox.Show("Workout saved successfully!"); // Meddelande för framgång
+        Application.Current.Windows[0].Close();
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

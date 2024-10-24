@@ -10,7 +10,7 @@ namespace FitTrack
         public static void AddUsersAndWorkoutsToDatabase()
         {
            
-            User user = new User("User", "12345678!", "Sweden", "Where where you born", "malmo");
+            User user = new User("User", "12345678!", "Sweden", "malmo", "where u bron");
             //Person admin = new AdminUser("Admin", "12345678!","Sweden", "Where where you born", "malmo");
 
             AddRandomWorkoutsForPerson(user);

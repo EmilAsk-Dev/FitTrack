@@ -11,9 +11,21 @@ namespace FitTrack
     {
         public static List<User> userList = new List<User>();
 
-        string currentUser;
+        public static User currentUser {  get; set; }
 
         
+        
+        public static User FindUser(string username)
+        {
+            foreach (User person in ManageUser.userList)
+            {
+                if (person.Username.ToLower() == username.ToLower())
+                {
+                    return person;
+                }
+            }
+            return null;
+        }
 
     }
 }

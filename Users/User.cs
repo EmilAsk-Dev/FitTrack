@@ -9,8 +9,8 @@ namespace FitTrack.Users
         
 
         public string Country { get; set; }
-        public string SecurityQuestion { get; set; }
-        public string SecurityAnswer { get; set; }
+        private string SecurityQuestion { get; set; }
+        private string SecurityAnswer { get; set; }
 
         public List<Workout> Workouts { get; set; }
 
@@ -37,7 +37,7 @@ namespace FitTrack.Users
                 bool isAdmin = user.GetType() == typeof(AdminUser);
                 if (user.Username.ToLower() == username.ToLower() && user.Password == password)
                 {                    
-                    Person.CurrentUser = user;
+                    ManageUser.currentUser = user;
                     return true;
                 }
             }
@@ -52,7 +52,7 @@ namespace FitTrack.Users
 
         public static void RegisterUser(User user)
         {
-            User newUser = new User(user.Username, user.Password);
+            User newUser = new User(user.Username, user.Password, user.Country, user.SecurityAnswer, user.SecurityQuestion);
             ManageUser.userList.Add(newUser);
         }
 
@@ -110,10 +110,25 @@ namespace FitTrack.Users
                         
         }
 
+        public bool HaveAuth(User user)
+        {
+            if(user.SecurityAnswer == null && user.SecurityQuestion == null) 
+            {
+                return false;
+            }
+            return true;
+        }
+
         public override void AddSecAuth(string question, string answer)
         {
             this.SecurityQuestion = question;
             this.SecurityAnswer = answer;
+        }
+
+        public void GetSecurityQA(out string answer, out string question)
+        {
+            answer = this.SecurityAnswer;
+            question = this.SecurityQuestion;
         }
     }
 }

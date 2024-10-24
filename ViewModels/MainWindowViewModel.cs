@@ -37,20 +37,47 @@ namespace FitTrack.ViewModels
 
         private void Login(object parameter)
         {
-            if (Person.CheckPassword(Password) != string.Empty)
+            if (User.CheckPassword(Password) != string.Empty)
             {
                 MessageBox.Show("Invalid Credentials");
                 return;
             }
 
-            Person user = Person.FindUser(Username);
+            User user = ManageUser.FindUser(Username);
 
             if (user != null)
             {
+                bool User_2fa_on = user.HaveAuth(user);
+
+                if (User_2fa_on)                                   
+                    {
+                    
+                    user.GetSecurityQA(out string answer, out string question);
+                    InputDialog InputDialog = new InputDialog(answer, question,);
+                    InputDialog.ShowDialog();
+
+                    
+                    if (twofaCorrect = true)
+                    {
+                        Console.WriteLine($"{user.Username}: is now logged in");
+                        WorkoutWindow workoutWindow = new WorkoutWindow(user);
+                        workoutWindow.Show();
+                        Application.Current.Windows[0].Close();
+                        return;
+                    }
+                        
+                        
+                        
+                    }
+
                 bool signedIn = user.SignIn(Username, Password);
-                WorkoutWindow workoutWindow = new WorkoutWindow(user);
-                workoutWindow.Show();
-                Application.Current.Windows[0].Close();
+                if(signedIn) 
+                { 
+                    Console.WriteLine($"{user.Username}: is now logged in");
+                    WorkoutWindow workoutWindow = new WorkoutWindow(user);
+                    workoutWindow.Show();
+                    Application.Current.Windows[0].Close();
+                }
             }
         }
 

@@ -10,7 +10,7 @@ namespace FitTrack.Windows
         public RegisterWindow()
         {
             InitializeComponent();
-            _viewModel = new RegisterViewModel();
+            _viewModel = new RegisterViewModel(this);
             this.DataContext = _viewModel;
         }
 

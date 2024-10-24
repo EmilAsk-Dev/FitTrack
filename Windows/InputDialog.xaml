@@ -1,0 +1,42 @@
+﻿<Window x:Class="FitTrack.Windows.InputDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Security Check" Height="300" Width="300"
+        WindowStartupLocation="CenterScreen" Background="#2E2E2E" FontFamily="Arial">
+
+    <Grid>
+        <TextBlock Text="Security Check" Foreground="#DC143C" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0"/>
+
+        <Border Background="#D3D3D3" CornerRadius="10" Padding="20" Margin="0,60,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <StackPanel Width="250">
+                <Label Content="{Binding QuestionLabel, UpdateSourceTrigger=PropertyChanged}" Foreground="Black" FontWeight="Bold"/>
+                <TextBox Text="{Binding UserInput, UpdateSourceTrigger=PropertyChanged}" 
+                         Height="40" 
+                         Margin="0,0,0,10" 
+                         Background="#444" 
+                         Foreground="White" 
+                         BorderBrush="Transparent" 
+                         Padding="10"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="OK" 
+                            Width="75" 
+                            Command="{Binding ConfirmCommand}" 
+                            Margin="0,0,10,0" 
+                            Background="#DC143C" 
+                            Foreground="White" 
+                            FontWeight="Bold" 
+                            BorderBrush="Transparent"/>
+
+                    <Button Content="Cancel" 
+                            Width="75" 
+                            Command="{Binding CancelCommand}" 
+                            Background="#DC143C" 
+                            Foreground="White" 
+                            FontWeight="Bold" 
+                            BorderBrush="Transparent"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

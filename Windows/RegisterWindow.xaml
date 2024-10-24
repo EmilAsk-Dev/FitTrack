@@ -28,5 +28,6 @@
                         Command="{Binding NavigateToLoginCommand}" />
             </StackPanel>
         </Border>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>
