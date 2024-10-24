@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FitTrack.Windows"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:Converters="clr-namespace:"
+        xmlns:Converters="clr-namespace:FitTrack.Converters"
         mc:Ignorable="d"
         Height="450" Width="800"
         Title="Add Workout Window"
         Background="#2E2E2E">
 
-    
-    
-    
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -34,7 +35,7 @@
         <TextBlock Grid.ColumnSpan="2" Text="Add Workout" Foreground="#DC143C" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
         <Label Content="Workout Type" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
-        <ComboBox x:Name="WorkoutTypeComboBox" Grid.Row="1" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="black" BorderBrush="Transparent" 
+        <ComboBox x:Name="WorkoutTypeComboBox" Grid.Row="1" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="Black" BorderBrush="Transparent" 
                   SelectedItem="{Binding SelectedWorkoutType, Mode=TwoWay}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
@@ -59,23 +60,23 @@
         <TextBox x:Name="DurationTextBox" Grid.Row="2" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent" 
                   Text="{Binding Duration, Mode=TwoWay}" />
 
-        <Label Content="Distance (km)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" x:Name="DistanceLabel" />
+        <Label Content="Distance (km)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" Visibility="{Binding IsDistanceVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
         <TextBox x:Name="DistanceTextBox" Grid.Row="3" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent" 
                   Text="{Binding Distance, Mode=TwoWay}" Visibility="{Binding IsDistanceVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-        <Label Content="Repetitions" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" x:Name="RepetitionsLabel" Visibility="{Binding IsRepetitionsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
-        <TextBox x:Name="RepetitionsTextBox" Grid.Row="3" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent" 
+        <Label Content="Repetitions" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="White" Visibility="{Binding IsRepetitionsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <TextBox x:Name="RepetitionsTextBox" Grid.Row="4" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent" 
                   Text="{Binding Repetitions, Mode=TwoWay}" Visibility="{Binding IsRepetitionsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-        <Label Content="Workout Date" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
-        <DatePicker x:Name="WorkoutDatePicker" Grid.Row="4" Grid.Column="1" Height="40" Margin="10,0" 
-                    SelectedDate="{Binding WorkoutDate, Mode=TwoWay}" Background="#444" Foreground="White" BorderBrush="Transparent" />
+        <Label Content="Workout Date" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <DatePicker x:Name="WorkoutDatePicker" Grid.Row="5" Grid.Column="1" Height="40" Margin="10,0" 
+                    SelectedDate="{Binding WorkoutDate, Mode=TwoWay}" Background="#444" Foreground="Black" BorderBrush="Black" />
 
-        <Label Content="Notes" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
-        <TextBox x:Name="NotesTextBox" Grid.Row="5" Grid.Column="1" Height="60" Margin="10,0,10,40" Background="#444" Foreground="White" BorderBrush="Transparent" 
-                  AcceptsReturn="True" TextWrapping="Wrap" Grid.RowSpan="2" Text="{Binding Notes, Mode=TwoWay}" />
+        <Label Content="Notes" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <TextBox x:Name="NotesTextBox" Grid.Row="6" Grid.Column="1" Height="60" Margin="10,0,10,20" Background="#444" Foreground="White" BorderBrush="Transparent" 
+                  AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding Notes, Mode=TwoWay}" />
 
-        <Button x:Name="SaveWorkoutButton" Content="Save Workout" Grid.Row="7" Grid.ColumnSpan="2" Height="40" Background="#DC143C" Foreground="White" 
-                FontWeight="Bold" BorderBrush="Transparent" Cursor="Hand" Command="{Binding SaveWorkoutCommand}" />
+        <Button x:Name="SaveWorkoutButton" Content="Save Workout" Grid.Row="7" Grid.ColumnSpan="2" Height="40" Margin="0,0,0,20" 
+                Command="{Binding SaveWorkoutCommand}" Background="#DC143C" Foreground="White" FontWeight="Bold" />
     </Grid>
 </Window>

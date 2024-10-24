@@ -1,142 +1,205 @@
 ﻿using FitTrack.Commands;
 using FitTrack.Users;
 using FitTrack.Workouts;
-using System;
 using System.ComponentModel;
-using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows;
 
-namespace FitTrack.ViewModels
+public class AddWorkoutViewModel : INotifyPropertyChanged
 {
-    public class AddWorkoutViewModel : INotifyPropertyChanged
-    {
-        private string _selectedWorkoutType;
-        private int _duration;
-        private int _distance;
-        private string _notes;
-        private DateTime _workoutDate = DateTime.Now;
-        private int _repetitions;
+    private ComboBoxItem _selectedWorkoutType; // Ändra till ComboBoxItem
+    private int _duration; // Varaktighet av träning
+    private int _distance; // Avstånd för träning
+    private string _notes; // Anteckningar för träning
+    private DateTime _workoutDate = DateTime.Now; // Datum för träning
+    private int _repetitions; // Antal repetitioner
 
-        public string SelectedWorkoutType
+    // Synlighetsegenskaper
+    private bool _isDistanceVisible; // Visar avståndsfältet
+    private bool _isRepetitionsVisible; // Visar repetitionsfältet
+
+    public ComboBoxItem SelectedWorkoutType
+    {
+        get => _selectedWorkoutType;
+        set
         {
-            get => _selectedWorkoutType;
-            set
+            if (_selectedWorkoutType != value)
             {
                 _selectedWorkoutType = value;
                 OnPropertyChanged(nameof(SelectedWorkoutType));
-                OnPropertyChanged(nameof(IsDistanceVisible));
-                OnPropertyChanged(nameof(IsRepetitionsVisible));
+
+                // Uppdatera synlighet baserat på vald träningstyp
+                UpdateVisibility();
             }
         }
+    }
 
-        public int Duration
+    public int Duration
+    {
+        get => _duration;
+        set
         {
-            get => _duration;
-            set
+            if (_duration != value)
             {
                 _duration = value;
                 OnPropertyChanged(nameof(Duration));
             }
         }
+    }
 
-        public int Distance
+    public int Distance
+    {
+        get => _distance;
+        set
         {
-            get => _distance;
-            set
+            if (_distance != value)
             {
                 _distance = value;
                 OnPropertyChanged(nameof(Distance));
             }
         }
+    }
 
-        public string Notes
+    public string Notes
+    {
+        get => _notes;
+        set
         {
-            get => _notes;
-            set
+            if (_notes != value)
             {
                 _notes = value;
                 OnPropertyChanged(nameof(Notes));
             }
         }
+    }
 
-        public DateTime WorkoutDate
+    public DateTime WorkoutDate
+    {
+        get => _workoutDate;
+        set
         {
-            get => _workoutDate;
-            set
+            if (_workoutDate != value)
             {
                 _workoutDate = value;
                 OnPropertyChanged(nameof(WorkoutDate));
             }
         }
+    }
 
-        public int Repetitions
+    public int Repetitions
+    {
+        get => _repetitions;
+        set
         {
-            get => _repetitions;
-            set
+            if (_repetitions != value)
             {
                 _repetitions = value;
                 OnPropertyChanged(nameof(Repetitions));
             }
         }
+    }
 
-        public bool IsDistanceVisible => SelectedWorkoutType == "Cardio";
-        public bool IsRepetitionsVisible => SelectedWorkoutType == "Strength";
-
-        public ICommand SaveWorkoutCommand { get; }
-
-        public AddWorkoutViewModel()
+    public bool IsDistanceVisible
+    {
+        get => _isDistanceVisible;
+        private set
         {
-            
-            SaveWorkoutCommand = new RelayCommand(_ => SaveWorkout());
+            if (_isDistanceVisible != value)
+            {
+                _isDistanceVisible = value;
+                OnPropertyChanged(nameof(IsDistanceVisible));
+            }
+        }
+    }
+
+    public bool IsRepetitionsVisible
+    {
+        get => _isRepetitionsVisible;
+        private set
+        {
+            if (_isRepetitionsVisible != value)
+            {
+                _isRepetitionsVisible = value;
+                OnPropertyChanged(nameof(IsRepetitionsVisible));
+            }
+        }
+    }
+
+    public ICommand SaveWorkoutCommand { get; }
+
+    public AddWorkoutViewModel()
+    {
+        SaveWorkoutCommand = new RelayCommand(_ => SaveWorkout());
+        UpdateVisibility(); // Initial synlighetsinställning
+    }
+
+    private void UpdateVisibility()
+    {
+        // Kontrollera vald träningstyp
+        if (SelectedWorkoutType?.Content.ToString() == "Cardio")
+        {
+            IsDistanceVisible = true; // Visa avstånd
+            IsRepetitionsVisible = false; // Dölja repetitioner
+        }
+        else if (SelectedWorkoutType?.Content.ToString() == "Strength")
+        {
+            IsDistanceVisible = false; // Dölja avstånd
+            IsRepetitionsVisible = true; // Visa repetitioner
+        }
+        else
+        {
+            IsDistanceVisible = false; // Dölja avstånd
+            IsRepetitionsVisible = false; // Dölja repetitioner
+        }
+    }
+
+    private void SaveWorkout()
+    {
+        if (SelectedWorkoutType == null || Duration <= 0)
+        {
+            MessageBox.Show("Please provide valid workout details."); // Felmeddelande för ogiltiga uppgifter
+            return;
         }
 
-        private void SaveWorkout()
+        Workout workout;
+
+        // Kontrollera vald träningstyp
+        if (SelectedWorkoutType.Content.ToString() == "Cardio")
         {
-            if (string.IsNullOrEmpty(SelectedWorkoutType) || Duration <= 0)
-            {
-                MessageBox.Show("Please provide valid workout details.");
-                return;
-            }
-
-            Workout workout;
-
-            if (SelectedWorkoutType == "Cardio")
-            {
-                workout = new CardioWorkout(WorkoutDate, SelectedWorkoutType, TimeSpan.FromMinutes(Duration), 0, Notes, Distance);
-            }
-            else if (SelectedWorkoutType == "Strength")
-            {
-                workout = new StrenghtWorkout(WorkoutDate, SelectedWorkoutType, TimeSpan.FromMinutes(Duration), 0, Notes);
-            }
-            else
-            {
-                MessageBox.Show("Invalid workout type.");
-                return;
-            }
-
-          
-            if (Person.CurrentUser is User user)
-            {
-                user.Workouts.Add(workout);
-            }
-            else if (Person.CurrentUser is AdminUser adminUser)
-            {
-                adminUser.Workouts.Add(workout);
-            }
-            else
-            {
-                MessageBox.Show("User not found or invalid.");
-                return;
-            }
-
-            MessageBox.Show("Workout saved successfully!");
+            workout = new CardioWorkout(WorkoutDate, SelectedWorkoutType.Content.ToString(), TimeSpan.FromMinutes(Duration), 0, Notes, Distance);
+        }
+        else if (SelectedWorkoutType.Content.ToString() == "Strength")
+        {
+            workout = new StrenghtWorkout(WorkoutDate, SelectedWorkoutType.Content.ToString(), TimeSpan.FromMinutes(Duration), 0, Notes, Repetitions);
+        }
+        else
+        {
+            MessageBox.Show("Invalid workout type."); // Felmeddelande för ogiltig träningstyp
+            return;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
+        if (Person.CurrentUser is User user)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            user.Workouts.Add(workout); // Lägg till träning för användare
         }
+        else if (Person.CurrentUser is AdminUser adminUser)
+        {
+            adminUser.Workouts.Add(workout); // Lägg till träning för administratör
+        }
+        else
+        {
+            MessageBox.Show("User not found or invalid."); // Felmeddelande för ogiltig användare
+            return;
+        }
+
+        MessageBox.Show("Workout saved successfully!"); // Meddelande för framgång
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); // Uträtta egenskapändringar
     }
 }
