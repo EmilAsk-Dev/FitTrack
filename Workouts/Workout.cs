@@ -6,19 +6,20 @@ namespace FitTrack.Workouts
 {
     public abstract class Workout
     {
-        public DateTime Date { get; set; }
-        public string Type { get; set; }
-        public TimeSpan Duration { get; set; }
-        public int CalBurned { get; set; } 
-        public string Notes { get; set; }
+        public DateTime WorkoutDate { get; }
+        public string WorkoutType { get; }
+        public TimeSpan Duration { get; }
+        public int CaloriesBurned { get; }
+        public string Notes { get; }
 
-        public Workout(DateTime Date, string Type, TimeSpan Duration, int CalBurned, string Notes)
+
+        protected Workout(DateTime workoutDate, string workoutType, TimeSpan duration, int caloriesBurned, string notes)
         {
-            this.Date = Date;
-            this.Type = Type;
-            this.Duration = Duration;
-            this.CalBurned = CalBurned;
-            this.Notes = Notes;
+            WorkoutDate = workoutDate;
+            WorkoutType = workoutType;
+            Duration = duration;
+            CaloriesBurned = caloriesBurned;
+            Notes = notes;
         }
 
         public abstract int CalcCalBurned(); 

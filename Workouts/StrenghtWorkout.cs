@@ -9,10 +9,12 @@ namespace FitTrack.Workouts
 {
     public class StrenghtWorkout : Workout
     {
-        public StrenghtWorkout(DateTime Date, string Type, TimeSpan Duration, int CalBurned, string Notes)
-            : base(Date, Type, Duration, CalBurned, Notes)
-        {
+        public int Repetitions { get; }
 
+        public StrenghtWorkout(DateTime workoutDate, string workoutType, TimeSpan duration, int caloriesBurned, string notes, int repetitions)
+            : base(workoutDate, workoutType, duration, caloriesBurned, notes)
+        {
+            Repetitions = repetitions;
         }
 
         public override int CalcCalBurned()

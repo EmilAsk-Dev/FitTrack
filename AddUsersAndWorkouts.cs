@@ -10,13 +10,13 @@ namespace FitTrack
         public static void AddUsersAndWorkoutsToDatabase()
         {
            
-            Person user = new User("User", "12345678!", "Sweden", "Where where you born", "malmo");
+            User user = new User("User", "12345678!", "Sweden", "Where where you born", "malmo");
             //Person admin = new AdminUser("Admin", "12345678!","Sweden", "Where where you born", "malmo");
 
             AddRandomWorkoutsForPerson(user);
             //AddRandomWorkoutsForPerson(admin);
 
-            //User.RegisterUser(user);
+            User.RegisterUser(user);
             //AdminUser.RegisterUser(admin);
 
 
@@ -54,7 +54,8 @@ namespace FitTrack
                 "Strength",
                 TimeSpan.FromMinutes(45),
                 400,
-                "Weight lifting at gym"
+                "Weight lifting at gym",
+                20
             ));
 
             userBase.Workouts.Add(new CardioWorkout(
@@ -83,7 +84,8 @@ namespace FitTrack
                 "Strength",
                 TimeSpan.FromMinutes(45),
                 400,
-                "Weight lifting at gym"
+                "Weight lifting at gym",
+                20
             ));
 
             adminBase.Workouts.Add(new CardioWorkout(

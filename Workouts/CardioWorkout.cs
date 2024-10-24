@@ -4,12 +4,12 @@ namespace FitTrack.Workouts
 {
     public class CardioWorkout : Workout
     {
-        public int Distance { get; set; }
+        public int Distance { get; }
 
-        public CardioWorkout(DateTime Date, string Type, TimeSpan Duration, int CalBurned, string Notes, int Distance)
-        : base(Date, Type, Duration, CalBurned, Notes)
+        public CardioWorkout(DateTime workoutDate, string workoutType, TimeSpan duration, int caloriesBurned, string notes, int distance)
+            : base(workoutDate, workoutType, duration, caloriesBurned, notes)
         {
-            this.Distance = Distance;
+            Distance = distance;
         }
 
         public override int CalcCalBurned()
