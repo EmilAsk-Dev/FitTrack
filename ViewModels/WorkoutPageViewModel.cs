@@ -70,9 +70,9 @@ namespace FitTrack.Windows
         {
             if (workout != null)
             {
-                Console.WriteLine($"Workout clicked: {workout.Type}");
-                WorkoutDetailsWindow detailsWindow = new WorkoutDetailsWindow(workout);
-                detailsWindow.Show();
+                //Console.WriteLine($"Workout clicked: {workout.Type}");
+                //WorkoutDetailsWindow detailsWindow = new WorkoutDetailsWindow(workout);
+                //detailsWindow.Show();
             }
             else
             {
