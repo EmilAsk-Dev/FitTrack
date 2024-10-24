@@ -50,6 +50,12 @@ namespace FitTrack.Users
             userList.Add(user);
         }
 
+        public static void RegisterUser(User user)
+        {
+            Person newUser = new User(user.Username, user.Password);
+            userList.Add(newUser);
+        }
+
         public override void RegisterUser(string username, string password)
         { 
             Person newUser = new User(username, password);
