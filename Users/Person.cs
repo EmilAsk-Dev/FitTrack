@@ -5,7 +5,7 @@ namespace FitTrack.Users
 {
     public abstract class Person
     {
-        protected static List<Person> userList = new List<Person>();
+        
 
         private string username;
         public string Username 
@@ -15,8 +15,9 @@ namespace FitTrack.Users
                 return username;
             }
             set 
-            {
-                foreach (Person person in userList)
+            { 
+                
+                foreach (User person in ManageUser.userList)
                 {
                     if(person.Username.ToLower() == value.ToLower())
                     {
@@ -119,7 +120,7 @@ namespace FitTrack.Users
 
         public static Person FindUser(string username)
         {
-            foreach (Person person in userList)
+            foreach (User person in ManageUser.userList)
             {
                 if (person.Username.ToLower() == username.ToLower())
                 {

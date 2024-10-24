@@ -25,12 +25,12 @@ namespace FitTrack.Users
         public override void RegisterUser(string username, string password)
         {
             var newUser = new AdminUser(username, password);
-            userList.Add(newUser);
+            ManageUser.userList.Add(newUser); 
         }
 
         public override bool SignIn(string username, string password)
         {
-            foreach (var user in userList)
+            foreach (var user in ManageUser.userList)
             {
                 if (user.Username == username && user.Password == password)
                 {

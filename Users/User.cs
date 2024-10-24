@@ -32,7 +32,7 @@ namespace FitTrack.Users
 
         public override bool SignIn(string username, string password)
         {
-            foreach (var user in Person.userList)
+            foreach (var user in ManageUser.userList)
             {
                 bool isAdmin = user.GetType() == typeof(AdminUser);
                 if (user.Username.ToLower() == username.ToLower() && user.Password == password)
@@ -47,35 +47,35 @@ namespace FitTrack.Users
 
         public void RegisterExisting(User user)
         {
-            userList.Add(user);
+            ManageUser.userList.Add(user);
         }
 
         public static void RegisterUser(User user)
         {
-            Person newUser = new User(user.Username, user.Password);
-            userList.Add(newUser);
+            User newUser = new User(user.Username, user.Password);
+            ManageUser.userList.Add(newUser);
         }
 
         public override void RegisterUser(string username, string password)
         { 
-            Person newUser = new User(username, password);
-            userList.Add(newUser);
+            User newUser = new User(username, password);
+            ManageUser.userList.Add(newUser);
         }
 
         public void RegisterUser(string username, string password, string country, string securityQuestion, string securityAnswer)
         {
-            Person newUser = new User(username, password);
-            userList.Add(newUser);
+            User newUser = new User(username, password);
+            ManageUser.userList.Add(newUser);
         }
 
         public static void AddUser(User user)
         {
-            userList.Add(user);
+            ManageUser.userList.Add(user);
         }
 
         public static void ResetPassword(string username, string newPassword)
         {
-            foreach (var user in Person.userList)
+            foreach (var user in ManageUser.userList)
             {
                 if (user.Username == username)
                 {
@@ -90,7 +90,7 @@ namespace FitTrack.Users
 
         public static bool IfUserExist(string username)
         {
-            foreach (var user in userList)
+            foreach (var user in ManageUser.userList)
             {
                 if (user.Username == username)
                 {
