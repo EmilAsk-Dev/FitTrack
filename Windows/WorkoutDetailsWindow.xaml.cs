@@ -8,7 +8,7 @@ namespace FitTrack.Windows
         public WorkoutDetailsWindow(Workout workout)
         {
             InitializeComponent();            
-            DataContext = new WorkoutDetailsViewModel(workout);
+            DataContext = new WorkoutDetailsViewModel();
         }
     }
 }
