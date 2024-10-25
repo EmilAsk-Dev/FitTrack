@@ -8,6 +8,7 @@ namespace FitTrack.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
+        
         private string username;
         private string password;
 
@@ -35,44 +36,56 @@ namespace FitTrack.ViewModels
             AddUsersAndWorkouts.AddUsersAndWorkoutsToDatabase();
         }
 
-        private void Login(object parameter)
+        private void Login(object parameter) // login funktion
         {
-            if (User.CheckPassword(Password) != string.Empty)
+            //kollar om lösenordet användaren har matat in passar modelen
+            if (User.CheckPassword(Password) != string.Empty) 
             {
+                //skriver ut Fel meddelande sen avbryter
                 MessageBox.Show("Invalid Credentials");
                 return;
             }
-
+            
+            //försöker Hittar användaren och sätter det i user
             User user = ManageUser.FindUser(Username);
 
+            //om användaren hittades
             if (user != null)
             {
-                bool User_2fa_on = user.HaveAuth(user);
+                //kollar så att kontot har 2fa 
+                bool is2FAEnabled = user.HaveAuth(user);
 
-                if (User_2fa_on)                                   
-                    {
-                    
-                    user.GetSecurityQA(out string answer, out string question);
-                    InputDialog InputDialog = new InputDialog(answer, question,);
-                    InputDialog.ShowDialog();
+                
+                if (is2FAEnabled)
+                {
+                    //hämtar användarens frågor och svar för att sedan skicka vidare det till input dialog
+                    user.GetSecurityQA(out string expectedAnswer, out string question);
+                    //skapar ett nytt window för secuirty answer
+                    InputDialog inputDialog = new InputDialog(expectedAnswer, question);
+                    inputDialog.ShowDialog();
 
                     
-                    if (twofaCorrect = true)
+                    if (inputDialog.DialogResult == true)
                     {
+                        //om lösenordet är korrect logga in
                         Console.WriteLine($"{user.Username}: is now logged in");
                         WorkoutWindow workoutWindow = new WorkoutWindow(user);
                         workoutWindow.Show();
                         Application.Current.Windows[0].Close();
                         return;
                     }
-                        
-                        
-                        
+                    else
+                    {
+                        //inte korrekt
+                        MessageBox.Show("The answer to the security question was incorrect.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
                     }
+                }
 
+                //om användaren inte har 2fa logga bara in
                 bool signedIn = user.SignIn(Username, Password);
-                if(signedIn) 
-                { 
+                if (signedIn)
+                {
                     Console.WriteLine($"{user.Username}: is now logged in");
                     WorkoutWindow workoutWindow = new WorkoutWindow(user);
                     workoutWindow.Show();
@@ -81,13 +94,16 @@ namespace FitTrack.ViewModels
             }
         }
 
+        //navigerar till registerwindow
         private void SignUp(object parameter)
         {
+            
             RegisterWindow registerWindow = new RegisterWindow();
             registerWindow.Show();
             Application.Current.Windows[0].Close();
         }
 
+        //navigerar till forgotpassword
         private void ForgotPassword(object parameter)
         {
             ForgotPassword forgotPassword = new ForgotPassword();

@@ -8,10 +8,10 @@ namespace FitTrack.Windows
     /// </summary>
     public partial class InputDialog : Window
     {
-        public InputDialog(string answer, string question, bool twofaCorrect)
+        public InputDialog(string answer, string question)
         {
             InitializeComponent();
-            DataContext = new InputDialogViewModel(answer, question, twofaCorrect);
+            DataContext = new InputDialogViewModel(answer, question);
         }
     }
 }

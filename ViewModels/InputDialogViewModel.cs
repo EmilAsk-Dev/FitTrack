@@ -37,11 +37,10 @@ namespace FitTrack.ViewModels
         public ICommand ConfirmCommand { get; }
         public ICommand CancelCommand { get; }
 
-        public InputDialogViewModel(string answer, string question, bool twofaCorrect) // Constructor to set the expected answer
+        public InputDialogViewModel(string answer, string question) // Constructor to set the expected answer
         {
             expectedAnswer = answer; // Set expected answer
-            QuestionLabel = question; // Set the question label
-            twofaCorrect = false;
+            QuestionLabel = question; // Set the question             
             ConfirmCommand = new RelayCommand(Confirm);
             CancelCommand = new RelayCommand(Cancel);
         }
@@ -55,7 +54,7 @@ namespace FitTrack.ViewModels
                 var dialog = Application.Current.Windows.OfType<InputDialog>().FirstOrDefault();
                 if (dialog != null)
                 {
-                    bool twofaCorrect = true;
+                    
                     dialog.DialogResult = true; // Set DialogResult to true
                     dialog.Close(); // Close the dialog
                 }
