@@ -10,12 +10,16 @@ namespace FitTrack.ViewModels
 {
     public class ForgotPasswordViewModel : INotifyPropertyChanged
     {
+        // Steg i återställningsprocessen
         private int _step = 1;
-        private User _user;
-        private string _username;
-        private string _securityAnswer;
-        private string _newPassword;
+        private User _user; // Användarobjekt för den aktuella användaren
+        private string _username; // Användarnamn
+        private string _securityAnswer; // Säkerhetssvar från användaren
+        private string _securityQuestion; // Säkerhetsfråga till användaren
+        private string _newPassword; // Nytt lösenord som ska sparas
+        private string _buttonContent; // Text för knappen baserat på steg
 
+        // Egenskap för användarnamnet, uppdaterar UI vid förändring
         public string Username
         {
             get => _username;
@@ -26,6 +30,18 @@ namespace FitTrack.ViewModels
             }
         }
 
+        // Egenskap för säkerhetsfrågan, uppdaterar UI vid förändring
+        public string SecurityQuestion
+        {
+            get => _securityQuestion;
+            set
+            {
+                _securityQuestion = value;
+                OnPropertyChanged(nameof(SecurityQuestion));
+            }
+        }
+
+        // Egenskap för säkerhetssvaret
         public string SecurityAnswer
         {
             get => _securityAnswer;
@@ -36,6 +52,7 @@ namespace FitTrack.ViewModels
             }
         }
 
+        // Egenskap för nytt lösenord
         public string NewPassword
         {
             get => _newPassword;
@@ -46,50 +63,73 @@ namespace FitTrack.ViewModels
             }
         }
 
+        // Egenskap för knappens text
+        public string ButtonContent
+        {
+            get => _buttonContent;
+            private set
+            {
+                _buttonContent = value;
+                OnPropertyChanged(nameof(ButtonContent));
+            }
+        }
+
+        // Kommandon för återställning och inloggning
         public ICommand ResetPasswordCommand { get; }
         public ICommand LoginCommand { get; }
 
+        // Konstruktor för att initiera kommandon och uppdatera knapptext
         public ForgotPasswordViewModel()
         {
             ResetPasswordCommand = new RelayCommand(param => ResetPassword());
             LoginCommand = new RelayCommand(param => OpenLoginWindow());
+            UpdateButtonContent();
         }
 
+        // Metod för att hantera återställningsprocessen
         private void ResetPassword()
         {
+            // Använder switch-sats för att hantera olika steg
             switch (_step)
             {
                 case 1:
+                    // Kontrollera att användarnamn är ifyllt
                     if (string.IsNullOrEmpty(Username))
                     {
                         MessageBox.Show("Please enter your username.");
                         return;
                     }
 
-                    _user = ManageUser.FindUser(Username) as User;
+                    // Hitta användaren baserat på användarnamn
+                    _user = ManageUser.FindUser(Username);
 
+                    // Kontrollera om användaren finns
                     if (_user != null)
                     {
-                        
+                        // Hämta säkerhetsfråga och visa den för användaren
+                        _user.GetSecurityQA(out string answer, out string question);
+                        SecurityQuestion = question;
                         Step = 2;
                     }
                     else
                     {
+                        // Meddelande om användarnamnet inte hittades
                         MessageBox.Show("Username doesn't exist.");
                     }
                     break;
 
                 case 2:
+                    // Kontrollera att säkerhetssvar är ifyllt
                     if (string.IsNullOrEmpty(SecurityAnswer))
                     {
                         MessageBox.Show("Please enter your security answer.");
                         return;
                     }
 
+                    // Kontrollera om säkerhetssvaret är korrekt
                     bool securityCheck = _user.IfSecurityAnswer(SecurityAnswer);
                     if (securityCheck)
                     {
-                        
                         Step = 3;
                     }
                     else
@@ -99,18 +139,25 @@ namespace FitTrack.ViewModels
                     break;
 
                 case 3:
+                    // Kontrollera att nytt lösenord är ifyllt
                     if (string.IsNullOrEmpty(NewPassword))
                     {
                         MessageBox.Show("Please enter a new password.");
                         return;
                     }
 
-                    User.ResetPassword(_user.Username, NewPassword);
+                    try
+                    {
+                        // Försök att återställa lösenordet
+                        User.ResetPassword(_user.Username, NewPassword);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
 
-                    
-                    MainWindow mainWindow = new MainWindow();
-                    mainWindow.Show();
-                    Application.Current.Shutdown();
+                    // Öppna inloggningsfönstret efter återställning
+                    OpenLoginWindow();
                     break;
 
                 default:
@@ -118,29 +165,44 @@ namespace FitTrack.ViewModels
             }
         }
 
+        // Metod för att öppna inloggningsfönstret
         private void OpenLoginWindow()
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
-            Application.Current.Shutdown();
+            Application.Current.Windows[0].Close();
         }
 
+        // Uppdatera knappens innehåll baserat på aktuellt steg
+        private void UpdateButtonContent()
+        {
+            ButtonContent = _step switch
+            {
+                1 => "Next",
+                2 => "Submit Answer",
+                3 => "Reset Password",
+                _ => "Next"
+            };
+        }
+
+        // Egenskap för att ändra steg i processen
+        public int Step
+        {
+            get => _step;
+            set
+            {
+                _step = value;
+                OnPropertyChanged(nameof(Step));
+                UpdateButtonContent();
+            }
+        }
+
+        // Implementering av INotifyPropertyChanged för att uppdatera UI
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private int step;
-        public int Step
-        {
-            get => step;
-            set
-            {
-                step = value;
-                OnPropertyChanged(nameof(Step));
-            }
         }
     }
 }

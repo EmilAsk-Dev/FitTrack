@@ -6,10 +6,14 @@
         FontFamily="Arial">
 
     <Grid>
-        <TextBlock Text="Register" Foreground="#DC143C" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0"/>
+        <TextBlock Text="Register" Foreground="#DC143C" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0"/>
 
-        <Border Background="#D3D3D3" CornerRadius="10" Padding="20" Margin="0,60,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <Border Background="#D3D3D3" CornerRadius="10" Padding="20" Margin="0,33,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" Height="401">
             <StackPanel Width="300">
+                <Label Content="Country"/>
+                <ComboBox Name="CountryComboBox" Height="40" Margin="0,0,0,10" Background="#444" Foreground="Black" BorderBrush="Transparent"
+                          ItemsSource="{Binding CountryList}" SelectedItem="{Binding SelectedCountry}" />
+
                 <Label Content="Username"/>
                 <TextBox Name="UsernameTextBox" Height="40" Margin="0,0,0,10" Background="#444" Foreground="White" BorderBrush="Transparent" Padding="10" 
                          Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
@@ -21,10 +25,9 @@
                 <Label Content="Confirm Password"/>
                 <PasswordBox Name="ConfirmPasswordBox" Height="40" Background="#444" Foreground="White" BorderBrush="Transparent" Padding="10"
                              PasswordChanged="ConfirmPasswordBox_PasswordChanged"/>
-
-                <Button Content="Register" Margin="20" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" Cursor="Hand"
-                         Click="RegisterButton_Click" />
-                <Button Content="Back to login" Foreground="#DC143C" Cursor="Hand" Margin="10,0" Height="18" Background="Transparent" Width="73" BorderThickness="0"
+                <Button Content="Register" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" Cursor="Hand"
+                         Click="RegisterButton_Click"  Margin="5"/>
+                <Button Content="Back to login" Foreground="#DC143C" Cursor="Hand" Height="18" Background="Transparent" Width="72" BorderThickness="0"
                         Command="{Binding NavigateToLoginCommand}" />
             </StackPanel>
         </Border>

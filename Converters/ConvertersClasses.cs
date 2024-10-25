@@ -27,17 +27,14 @@ namespace FitTrack.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is int step)
+            int step = (int)value;
+            return step switch
             {
-                return step switch
-                {
-                    1 => "Next",
-                    2 => "Submit",
-                    3 => "Reset",
-                    _ => "Next"
-                };
-            }
-            return "Next";
+                1 => "Next",
+                2 => "Submit Answer",
+                3 => "Reset Password",
+                _ => "Next"
+            };
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

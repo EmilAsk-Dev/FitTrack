@@ -37,6 +37,7 @@ namespace FitTrack.Users
                 {
                     password = value;
                 }
+
                 else
                 {
                     throw new Exception(error);
