@@ -6,14 +6,11 @@ namespace FitTrack.Users
 {
     public class User : Person
     {
-        
-
         public string Country { get; set; }
         private string SecurityQuestion { get; set; }
-        private string SecurityAnswer { get; set; } 
+        private string SecurityAnswer { get; set; }
         public List<Workout> Workouts { get; set; }
 
-        
         public User(string username, string password, string country, string securityQuestion, string securityAnswer)
             : base(username, password)
         {
@@ -29,18 +26,27 @@ namespace FitTrack.Users
             Workouts = new List<Workout>();
         }
 
-        public override bool SignIn(string username, string password)
+        public static bool ValidateUserAndPass(string username, string password, out User matchedUser)
         {
+            matchedUser = null;
             foreach (var user in ManageUser.userList)
             {
-                bool isAdmin = user.GetType() == typeof(AdminUser);
-                if (user.Username.ToLower() == username.ToLower() && user.Password == password)
-                {                    
-                    ManageUser.currentUser = user;
+                if (user.Username.Equals(username, StringComparison.OrdinalIgnoreCase) && user.Password == password)
+                {
+                    matchedUser = user;
                     return true;
                 }
             }
-            MessageBox.Show("Invalid credentials.");
+            return false;
+        }
+
+        public override bool SignIn(string username, string password)
+        {
+            if (ValidateUserAndPass(username, password, out User user))
+            {
+                ManageUser.currentUser = user;
+                return true;
+            }
             return false;
         }
 
@@ -48,9 +54,9 @@ namespace FitTrack.Users
         {
             ManageUser.userList.Add(user);
         }
-        
+
         public override void RegisterUser(string username, string password)
-        { 
+        {
             User newUser = new User(username, password);
             ManageUser.userList.Add(newUser);
         }
@@ -95,48 +101,73 @@ namespace FitTrack.Users
 
         public bool IfSecurityAnswer(string securityAnswer)
         {
-            if(securityAnswer.ToLower() == SecurityAnswer.ToLower())
-            {
-                return true;
-            }
-            return false;
-                        
+            return securityAnswer.Equals(SecurityAnswer, StringComparison.OrdinalIgnoreCase);
         }
 
         public bool HaveAuth(User user)
         {
-            if(user.SecurityAnswer == null && user.SecurityQuestion == null) 
-            {
-                return false;
-            }
-            return true;
+            return !(user.SecurityAnswer == null && user.SecurityQuestion == null);
         }
 
         public override void AddSecAuth(string question, string answer)
         {
-            this.SecurityQuestion = question;
-            this.SecurityAnswer = answer;
+            SecurityQuestion = question;
+            SecurityAnswer = answer;
         }
 
         public void GetSecurityQA(out string answer, out string question)
         {
-            answer = this.SecurityAnswer;
-            question = this.SecurityQuestion;
+            answer = SecurityAnswer;
+            question = SecurityQuestion;
         }
 
-        public static bool ValidateUserAndPass(User user, string username, string password)
+        public static string GetUserDetails(User user)
         {
-            // Loop through the user list to find the matching user
-            foreach (var currentUser in ManageUser.userList)
+            if (user == null)
             {
-                // Check if the usernames match
-                if (currentUser.Username == username && currentUser.Password == password)
-                {
-                    return true;
-                }
+                return "User not found.";
             }
 
-            return false; 
+            return $"Username: {user.Username}\n" +
+                   $"Country: {user.Country}\n" +
+                   $"Security Question: {user.SecurityQuestion}\n" +
+                   $"Security Answer: {user.SecurityAnswer}\n" +
+                   $"Workouts Count: {user.Workouts.Count}";
+        }
+
+        
+        public void SaveUserDetails(User user, string newUsername = null, string newPassword = null, string newCountry = null, string newSecurityQuestion = null, string newSecurityAnswer = null)
+        {
+            
+            if (!string.IsNullOrEmpty(newUsername) && newUsername != Username)
+            {
+                user.Username = newUsername;
+            }
+
+            
+            if (!string.IsNullOrEmpty(newPassword) && newPassword != Password)
+            {
+                user.Password = newPassword; 
+            }
+
+            
+            if (!string.IsNullOrEmpty(newCountry) && newCountry != Country)
+            {
+                user.Country = newCountry;
+            }
+
+            
+            if (!string.IsNullOrEmpty(newSecurityQuestion) && newSecurityQuestion != SecurityQuestion)
+            {
+                user.SecurityQuestion = newSecurityQuestion;
+            }
+
+            
+            if (!string.IsNullOrEmpty(newSecurityAnswer) && newSecurityAnswer != SecurityAnswer)
+            {
+                user.SecurityAnswer = newSecurityAnswer;
+            }            
+            MessageBox.Show("User details updated successfully!");
         }
     }
 }

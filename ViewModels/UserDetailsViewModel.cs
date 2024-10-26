@@ -1,73 +1,180 @@
 ﻿using FitTrack.Commands;
+using FitTrack.Users;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 
-public class UserDetailsViewModel : INotifyPropertyChanged
+namespace FitTrack.ViewModels
 {
-    private bool _isUsernameVisible;
-    private bool _isPasswordVisible;
-    private bool _isCountryVisible;
-    private bool _isSecurityQuestionVisible;
-    private bool _isSecurityAnswerVisible;
-
-    public bool IsUsernameVisible
+    public class UserDetailsViewModel : INotifyPropertyChanged
     {
-        get => _isUsernameVisible;
-        set { _isUsernameVisible = value; OnPropertyChanged(); }
-    }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-    public bool IsPasswordVisible
-    {
-        get => _isPasswordVisible;
-        set { _isPasswordVisible = value; OnPropertyChanged(); }
-    }
+        private bool isPasswordChangeVisible;
+        public bool IsPasswordChangeVisible
+        {
+            get => isPasswordChangeVisible;
+            set
+            {
+                isPasswordChangeVisible = value;
+                OnPropertyChanged(nameof(IsPasswordChangeVisible));
+            }
+        }
 
-    public bool IsCountryVisible
-    {
-        get => _isCountryVisible;
-        set { _isCountryVisible = value; OnPropertyChanged(); }
-    }
+        private string username = "DefaultUsername"; 
+        public string Username
+        {
+            get => username;
+            set
+            {
+                username = value;
+                OnPropertyChanged(nameof(Username));
+            }
+        }
 
-    public bool IsSecurityQuestionVisible
-    {
-        get => _isSecurityQuestionVisible;
-        set { _isSecurityQuestionVisible = value; OnPropertyChanged(); }
-    }
+        private string country = "Sweden"; 
+        public string Country
+        {
+            get => country;
+            set
+            {
+                country = value; 
+                OnPropertyChanged(nameof(Country));
+            }
+        }
 
-    public bool IsSecurityAnswerVisible
-    {
-        get => _isSecurityAnswerVisible;
-        set { _isSecurityAnswerVisible = value; OnPropertyChanged(); }
-    }
+        private string newPassword = ""; 
+        public string NewPassword
+        {
+            get => newPassword;
+            set
+            {
+                newPassword = value;
+                OnPropertyChanged(nameof(NewPassword));
+            }
+        }
 
-    // Command Properties
-    public ICommand ResetPasswordCommand => new RelayCommand(ResetPassword);
-    public ICommand ChangeUsernameCommand => new RelayCommand(ChangeUsername);
+        private string confirmPassword = ""; 
+        public string ConfirmPassword
+        {
+            get => confirmPassword;
+            set
+            {
+                confirmPassword = value;
+                OnPropertyChanged(nameof(ConfirmPassword));
+            }
+        }
 
-    // Command Methods
-    private void ResetPassword(object parameter) // Accept an object parameter
-    {
-        IsPasswordVisible = true; 
-        IsUsernameVisible = false; 
-        IsCountryVisible = false;
-        IsSecurityQuestionVisible = false;
-        IsSecurityAnswerVisible = false;
-    }
+        
+        private string securityQuestion = "What is your favorite color?"; 
+        public string SecurityQuestion
+        {
+            get => securityQuestion;
+            set
+            {
+                securityQuestion = value;
+                OnPropertyChanged(nameof(SecurityQuestion));
+                OnPropertyChanged(nameof(IsSecurityQuestionVisible));
+            }
+        }
 
-    private void ChangeUsername(object parameter) 
-    {
-        IsUsernameVisible = true; 
-        IsPasswordVisible = false; 
-        IsCountryVisible = false;
-        IsSecurityQuestionVisible = false;
-        IsSecurityAnswerVisible = false;
-    }
+        private string securityAnswer = ""; 
+        public string SecurityAnswer
+        {
+            get => securityAnswer;
+            set
+            {
+                securityAnswer = value;
+                OnPropertyChanged(nameof(SecurityAnswer));
+                OnPropertyChanged(nameof(IsSecurityAnswerVisible));
+            }
+        }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+        
+        public bool IsSecurityQuestionVisible => !string.IsNullOrWhiteSpace(SecurityQuestion);
+        public bool IsSecurityAnswerVisible => !string.IsNullOrWhiteSpace(SecurityAnswer);
 
-    protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public ICommand ChangePasswordCommand { get; }
+        public ICommand SubmitPasswordChangeCommand { get; }
+        public ICommand SaveChangesCommand { get; }
+
+        public UserDetailsViewModel()
+        {
+            ChangePasswordCommand = new RelayCommand(_ => ChangePassword());
+            SubmitPasswordChangeCommand = new RelayCommand(_ => SubmitPasswordChange());
+            SaveChangesCommand = new RelayCommand(_ => SaveChanges());
+            LoadUserDetails();
+            IsPasswordChangeVisible = false;
+        }
+
+        private void LoadUserDetails()
+        {
+            if (ManageUser.currentUser != null)
+            {
+                User user = ManageUser.currentUser;
+                Username = user.Username;
+
+                Country = user.Country;
+
+                user.GetSecurityQA(out string SecurityQuestionTemp, out string SecurityAnswerTemp);
+                SecurityQuestion = SecurityQuestionTemp;
+                SecurityAnswer = SecurityAnswerTemp;
+
+                OnPropertyChanged(nameof(Username));
+                OnPropertyChanged(nameof(Country));
+            }
+        }
+
+        private void ChangePassword()
+        {
+            IsPasswordChangeVisible = true;
+        }
+
+        private void SubmitPasswordChange()
+        {
+            if (NewPassword == ConfirmPassword)
+            {
+                try
+                {
+                    User.ResetPassword(ManageUser.currentUser.Username, NewPassword);
+                    IsPasswordChangeVisible = false;
+                    LoadUserDetails();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Passwords do not match.");
+            }
+        }
+
+        private void SaveChanges()
+        {
+            try
+            {
+                User user = ManageUser.currentUser;
+
+                string newUsername = Username;
+                string newPassword = NewPassword;
+                string newCountry = Country;
+                string newSecurityQuestion = SecurityQuestion;
+                string newSecurityAnswer = SecurityAnswer;
+
+                user.SaveUserDetails(user,newUsername, newPassword, newCountry, newSecurityQuestion, newSecurityAnswer);
+                MessageBox.Show("User details updated successfully!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating user details: {ex.Message}");
+            }
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

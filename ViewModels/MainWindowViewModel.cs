@@ -26,6 +26,8 @@ namespace FitTrack.ViewModels
             set => SetProperty(ref password, value);
         }
 
+        bool firstTimeOpen = true;
+
         public ICommand LoginCommand { get; }
         public ICommand SignUpCommand { get; }
         public ICommand ForgotPasswordCommand { get; }
@@ -35,22 +37,27 @@ namespace FitTrack.ViewModels
             LoginCommand = new RelayCommand(Login);
             SignUpCommand = new RelayCommand(SignUp);
             ForgotPasswordCommand = new RelayCommand(ForgotPassword);
-            AddUsersAndWorkouts.AddUsersAndWorkoutsToDatabase();
+            if (firstTimeOpen)
+            {
+                AddUsersAndWorkouts.AddUsersAndWorkoutsToDatabase();
+                firstTimeOpen = false;
+            }
+            
         }
 
-        private void Login(object parameter) // login function
+        private void Login(object parameter) 
         {
-            // Check if the user exists
+            
             User user = ManageUser.FindUser(Username);
 
-            // If the user is not found, show an error message
+            
             if (user == null)
             {
                 MessageBox.Show("User not found", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            // Validate the password
-            bool correctCredentials = User.ValidateUserAndPass(user, username, password);
+            
+            bool correctCredentials = user.SignIn( username, password);
             if (!correctCredentials)
             {
                 MessageBox.Show("Invalid Credentials", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -58,23 +65,22 @@ namespace FitTrack.ViewModels
             }                
                         
 
-            // Proceed to check if 2FA is enabled
+            
             bool is2FAEnabled = user.HaveAuth(user);
 
             if (is2FAEnabled)
             {
-                // 2FA Process
-                // Get the expected answer and question
+                
                 user.GetSecurityQA(out string expectedAnswer, out string question);
 
-                // Create and show the InputDialog with required parameters
+                
                 InputDialog inputDialog = new InputDialog(expectedAnswer, question);
 
-                bool? result = inputDialog.ShowDialog(); // Show dialog and wait for result
+                bool? result = inputDialog.ShowDialog(); 
 
-                if (result == true) // If user confirmed the 2FA answer
+                if (result == true) 
                 {
-                    // Successful login process
+                    
                     Console.WriteLine($"{user.Username}: is now logged in");
                     ManageUser.currentUser = user;
                     WorkoutWindow workoutWindow = new WorkoutWindow(user);
@@ -83,14 +89,14 @@ namespace FitTrack.ViewModels
                 }
                 else
                 {
-                    // User denied or answered incorrectly
+                    
                     MessageBox.Show("The answer to the security question was incorrect.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
             }
             else
             {
-                // If 2FA is not enabled, directly log in
+               
                 Console.WriteLine($"{user.Username}: is now logged in");
                 WorkoutWindow workoutWindow = new WorkoutWindow(user);
                 workoutWindow.Show();
@@ -98,7 +104,7 @@ namespace FitTrack.ViewModels
             }
         }
 
-        // Navigates to the RegisterWindow
+       
         private void SignUp(object parameter)
         {
             RegisterWindow registerWindow = new RegisterWindow();
@@ -106,7 +112,7 @@ namespace FitTrack.ViewModels
             Application.Current.Windows[0].Close();
         }
 
-        // Navigates to the ForgotPassword window
+        
         private void ForgotPassword(object parameter)
         {
             ForgotPassword forgotPasswordWindow = new ForgotPassword();

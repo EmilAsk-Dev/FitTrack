@@ -26,7 +26,7 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Content="User" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding NavigateHomeCommand}" />
+                <Button Content="User" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding NavigateUserDetails}" />
                 <Button Content="Workouts" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding NavigateWorkoutsCommand}" />
                 <Button Content="Add Workout" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" />
                 <Button Content="Settings" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Width="88" />
@@ -36,6 +36,6 @@
 
         <TextBlock Text="{Binding WelcomeMessage}" Foreground="#DC143C" FontSize="36" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" />
 
-        <Frame x:Name="ContentFrame" Grid.Column="1" Margin="20,50,20,20" NavigationUIVisibility="Hidden" />
+        <Frame x:Name="ContentFrame" Grid.Column="1" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

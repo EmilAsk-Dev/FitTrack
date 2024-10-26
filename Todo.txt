@@ -5,16 +5,13 @@
 
 •"User"-knapp som öppnar UserDetailsWindow.
 •"Add Workout"-knapp som öppnar WPF-fönstret AddWorkoutWindow.
-•En lista där man kan överblicka alla träningspass som är tillagda med endast lite 
-information (datum och typ av träning).
-•"Details"-knapp som öppnar WPF-fönstret WorkoutDetailsWindow som visar 
+
 detaljer för ett specifikt träningspass som är markerat i listan
 
 •"Remove"-knapp som tar bort ett specifikt träningspass som är markerat i 
 listan.
-•Om inget träningspass är markerat och användaren trycker på någon av 
-knapparna "Details" eller "Remove" ska en varningsruta dyka upp där 
-användaren meddelas att den först måste markera ett träningspass i listan.
+
+
 •En Admin-User ska kunna se/ta bort alla träningspass tillagda av alla användare.
 •Liten "info"-knapp som poppar upp en liten ruta där man kan läsa om hur man 
 använder appen och FitTrack som företag.
