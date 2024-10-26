@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -21,7 +22,7 @@ namespace FitTrack.Windows
             {
                 _selectedWorkout = value;
                 OnPropertyChanged(nameof(SelectedWorkout));
-                
+
                 if (_selectedWorkout != null)
                 {
                     WorkoutClickCommand.Execute(_selectedWorkout);
@@ -34,26 +35,37 @@ namespace FitTrack.Windows
 
         public WorkoutPageViewModel()
         {
+            WorkoutList = new ObservableCollection<Workout>();
             LoadWorkouts();
 
-            //Definiera command
+            // Define commands
             NewWorkoutCommand = new RelayCommand(NewWorkout);
             WorkoutClickCommand = new RelayCommand<Workout>(WorkoutClicked);
         }
 
         private void LoadWorkouts()
         {
-            if (Person.CurrentUser is User user)
+            // Check the current user and load their workouts
+            if (ManageUser.currentUser is User user)
             {
-                WorkoutList = new ObservableCollection<Workout>(user.Workouts);
+                WorkoutList.Clear();  // Clear existing workouts to avoid duplicates
+                foreach (var workout in user.Workouts)
+                {
+                    Console.WriteLine($"Workout Type: {workout.WorkoutType}");
+                    WorkoutList.Add(workout);  // Add each workout to the ObservableCollection
+                }
             }
-            else if (Person.CurrentUser is AdminUser adminUser)
+            else if (ManageUser.currentUser is AdminUser adminUser)
             {
-                WorkoutList = new ObservableCollection<Workout>(adminUser.Workouts);
+                WorkoutList.Clear();  // Clear existing workouts to avoid duplicates
+                foreach (var workout in adminUser.Workouts)
+                {
+                    WorkoutList.Add(workout);  // Add each workout to the ObservableCollection
+                }
             }
             else
             {
-                WorkoutList = new ObservableCollection<Workout>();
+                WorkoutList.Clear();  // Clear if no valid user is found
             }
         }
 
@@ -62,17 +74,18 @@ namespace FitTrack.Windows
             AddWorkoutWindow addWorkoutWindow = new AddWorkoutWindow();
             addWorkoutWindow.ShowDialog();
 
-           
-            LoadWorkouts();
+            LoadWorkouts();  // Reload workouts after adding a new one
         }
 
         private void WorkoutClicked(Workout workout)
         {
             if (workout != null)
             {
-                //Console.WriteLine($"Workout clicked: {workout.Type}");
-                //WorkoutDetailsWindow detailsWindow = new WorkoutDetailsWindow(workout);
-                //detailsWindow.Show();
+                // Handle the click, e.g., show details or navigate to a workout detail page
+                MessageBox.Show($"You clicked on workout: {workout.WorkoutType}");
+                WorkoutDetailsWindow workoutDetailsWindow = new WorkoutDetailsWindow(workout);
+                workoutDetailsWindow.Show();
+
             }
             else
             {

@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Security.Cryptography.Xml;
+using System.Windows;
 using System.Windows.Input;
 using FitTrack.Commands;
 using FitTrack.Users;
@@ -8,7 +10,7 @@ namespace FitTrack.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        
+        private bool signedIn;
         private string username;
         private string password;
 
@@ -36,78 +38,79 @@ namespace FitTrack.ViewModels
             AddUsersAndWorkouts.AddUsersAndWorkoutsToDatabase();
         }
 
-        private void Login(object parameter) // login funktion
+        private void Login(object parameter) // login function
         {
-            //kollar om lösenordet användaren har matat in passar modelen
-            if (User.CheckPassword(Password) != string.Empty) 
-            {
-                //skriver ut Fel meddelande sen avbryter
-                MessageBox.Show("Invalid Credentials");
-                return;
-            }
-            
-            //försöker Hittar användaren och sätter det i user
+            // Check if the user exists
             User user = ManageUser.FindUser(Username);
 
-            //om användaren hittades
-            if (user != null)
+            // If the user is not found, show an error message
+            if (user == null)
             {
-                //kollar så att kontot har 2fa 
-                bool is2FAEnabled = user.HaveAuth(user);
+                MessageBox.Show("User not found", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            // Validate the password
+            bool correctCredentials = User.ValidateUserAndPass(user, username, password);
+            if (!correctCredentials)
+            {
+                MessageBox.Show("Invalid Credentials", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }                
+                        
 
-                
-                if (is2FAEnabled)
+            // Proceed to check if 2FA is enabled
+            bool is2FAEnabled = user.HaveAuth(user);
+
+            if (is2FAEnabled)
+            {
+                // 2FA Process
+                // Get the expected answer and question
+                user.GetSecurityQA(out string expectedAnswer, out string question);
+
+                // Create and show the InputDialog with required parameters
+                InputDialog inputDialog = new InputDialog(expectedAnswer, question);
+
+                bool? result = inputDialog.ShowDialog(); // Show dialog and wait for result
+
+                if (result == true) // If user confirmed the 2FA answer
                 {
-                    //hämtar användarens frågor och svar för att sedan skicka vidare det till input dialog
-                    user.GetSecurityQA(out string expectedAnswer, out string question);
-                    //skapar ett nytt window för secuirty answer
-                    InputDialog inputDialog = new InputDialog(expectedAnswer, question);
-                    inputDialog.ShowDialog();
-
-                    
-                    if (inputDialog.DialogResult == true)
-                    {
-                        //om lösenordet är korrect logga in
-                        Console.WriteLine($"{user.Username}: is now logged in");
-                        WorkoutWindow workoutWindow = new WorkoutWindow(user);
-                        workoutWindow.Show();
-                        Application.Current.Windows[0].Close();
-                        return;
-                    }
-                    else
-                    {
-                        //inte korrekt
-                        MessageBox.Show("The answer to the security question was incorrect.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
-                    }
-                }
-
-                //om användaren inte har 2fa logga bara in
-                bool signedIn = user.SignIn(Username, Password);
-                if (signedIn)
-                {
+                    // Successful login process
                     Console.WriteLine($"{user.Username}: is now logged in");
+                    ManageUser.currentUser = user;
                     WorkoutWindow workoutWindow = new WorkoutWindow(user);
                     workoutWindow.Show();
                     Application.Current.Windows[0].Close();
                 }
+                else
+                {
+                    // User denied or answered incorrectly
+                    MessageBox.Show("The answer to the security question was incorrect.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            }
+            else
+            {
+                // If 2FA is not enabled, directly log in
+                Console.WriteLine($"{user.Username}: is now logged in");
+                WorkoutWindow workoutWindow = new WorkoutWindow(user);
+                workoutWindow.Show();
+                Application.Current.Windows[0].Close();
             }
         }
 
-        //navigerar till registerwindow
+        // Navigates to the RegisterWindow
         private void SignUp(object parameter)
         {
-            
             RegisterWindow registerWindow = new RegisterWindow();
             registerWindow.Show();
             Application.Current.Windows[0].Close();
         }
 
-        //navigerar till forgotpassword
+        // Navigates to the ForgotPassword window
         private void ForgotPassword(object parameter)
         {
-            ForgotPassword forgotPassword = new ForgotPassword();
-            forgotPassword.Show();
+            ForgotPassword forgotPasswordWindow = new ForgotPassword();
+            forgotPasswordWindow.Show();
             Application.Current.Windows[0].Close();
         }
     }

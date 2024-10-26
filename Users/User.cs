@@ -10,8 +10,7 @@ namespace FitTrack.Users
 
         public string Country { get; set; }
         private string SecurityQuestion { get; set; }
-        private string SecurityAnswer { get; set; }
-
+        private string SecurityAnswer { get; set; } 
         public List<Workout> Workouts { get; set; }
 
         
@@ -49,13 +48,7 @@ namespace FitTrack.Users
         {
             ManageUser.userList.Add(user);
         }
-
-        public static void RegisterUser(User user)
-        {
-            User newUser = new User(user.Username, user.Password, user.Country, user.SecurityAnswer, user.SecurityQuestion);
-            ManageUser.userList.Add(newUser);
-        }
-
+        
         public override void RegisterUser(string username, string password)
         { 
             User newUser = new User(username, password);
@@ -129,6 +122,21 @@ namespace FitTrack.Users
         {
             answer = this.SecurityAnswer;
             question = this.SecurityQuestion;
+        }
+
+        public static bool ValidateUserAndPass(User user, string username, string password)
+        {
+            // Loop through the user list to find the matching user
+            foreach (var currentUser in ManageUser.userList)
+            {
+                // Check if the usernames match
+                if (currentUser.Username == username && currentUser.Password == password)
+                {
+                    return true;
+                }
+            }
+
+            return false; 
         }
     }
 }

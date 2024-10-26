@@ -10,14 +10,19 @@ namespace FitTrack
         public static void AddUsersAndWorkoutsToDatabase()
         {
            
-            User user = new User("User", "12345678!", "Sweden", "malmo", "where u bron");
+            User user = new User("User", "12345678!", "Sweden", "where u bron", "malmo");
             //Person admin = new AdminUser("Admin", "12345678!","Sweden", "Where where you born", "malmo");
 
             AddRandomWorkoutsForPerson(user);
             //AddRandomWorkoutsForPerson(admin);
 
-            User.RegisterUser(user);
+            
             //AdminUser.RegisterUser(admin);
+
+
+
+            user.Workouts.Add(new StrenghtWorkout(DateTime.Now.AddDays(-3), "strenght", TimeSpan.FromMinutes(30), 2, "hej", 10));
+            User.AddUser(user);
 
 
 
@@ -26,21 +31,21 @@ namespace FitTrack
 
         }
 
-        private static void AddRandomWorkoutsForPerson(Person person)
+        private static void AddRandomWorkoutsForPerson(User user)
         {
-            if (person is User userBase)
+            if (user is User userBase)
             {
                 AddWorkoutsToUser(userBase);
             }
-            else if (person is AdminUser adminBase)
+            else if (user is AdminUser adminBase)
             {
                 AddWorkoutsToAdmin(adminBase);
             }
         }
 
-        private static void AddWorkoutsToUser(User userBase)
+        private static void AddWorkoutsToUser(User user)
         {
-            userBase.Workouts.Add(new CardioWorkout(
+            user.Workouts.Add(new CardioWorkout(
                 DateTime.Now.AddDays(-3),
                 "Cardio",
                 TimeSpan.FromMinutes(30),
@@ -49,7 +54,7 @@ namespace FitTrack
                 5
             ));
 
-            userBase.Workouts.Add(new StrenghtWorkout(
+            user.Workouts.Add(new StrenghtWorkout(
                 DateTime.Now.AddDays(-2),
                 "Strength",
                 TimeSpan.FromMinutes(45),
@@ -58,7 +63,7 @@ namespace FitTrack
                 20
             ));
 
-            userBase.Workouts.Add(new CardioWorkout(
+            user.Workouts.Add(new CardioWorkout(
                 DateTime.Now.AddDays(-1),
                 "Cardio",
                 TimeSpan.FromMinutes(45),

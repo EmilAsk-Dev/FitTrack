@@ -193,7 +193,7 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
         }
 
         MessageBox.Show("Workout saved successfully!"); // Meddelande för framgång
-        Application.Current.Windows[0].Close();
+        
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

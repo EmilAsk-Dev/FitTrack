@@ -10,67 +10,79 @@ namespace FitTrack.Windows
 {
     public class WorkoutDetailsViewModel : BaseViewModel
     {
-    //    public Workout CurrentWorkout { get; set; }
+        public Workout CurrentWorkout { get; set; }
 
-    //    public ObservableCollection<string> WorkoutTypes { get; set; }
+        public ObservableCollection<string> WorkoutTypes { get; set; }
 
-    //    private string _duration;
-    //    public string Duration
-    //    {
-    //        get => _duration;
-    //        set
-    //        {
-    //            _duration = value;
-    //            //OnPropertyChanged();
-    //        }
-    //    }
+        private string _duration;
+        public string Duration
+        {
+            get => _duration;
+            set
+            {
+                _duration = value;
+                OnPropertyChanged();  
+            }
+        }
 
-    //    private string _calBurned;
-    //    public string CalBurned
-    //    {
-    //        get => _calBurned;
-    //        set
-    //        {
-    //            _calBurned = value;
-    //            //OnPropertyChanged();
-    //        }
-    //    }
+        private string _calBurned;
+        public string CalBurned
+        {
+            get => _calBurned;
+            set
+            {
+                _calBurned = value;
+                OnPropertyChanged();  
+            }
+        }
 
-    //    public ICommand SaveWorkoutCommand { get; set; }
-    //    public ICommand RemoveWorkoutCommand { get; set; }
+        private string _selectedWorkoutType;
+        public string SelectedWorkoutType
+        {
+            get => _selectedWorkoutType;
+            set
+            {
+                _selectedWorkoutType = value;
+                OnPropertyChanged(nameof(SelectedWorkoutType));
+            }
+        }
 
-    //    public WorkoutDetailsViewModel(Workout workout)
-    //    {
-    //        CurrentWorkout = workout;
+        public ICommand SaveWorkoutCommand { get; set; }
+        public ICommand RemoveWorkoutCommand { get; set; }
 
-            
-    //        WorkoutTypes = new ObservableCollection<string> { "Cardio", "Strength" };
-    //        Duration = CurrentWorkout.Duration.ToString(@"hh\:mm");
-    //        CalBurned = CurrentWorkout.CaloriesBurned.ToString();
+        public WorkoutDetailsViewModel(Workout workout)
+        {
+            CurrentWorkout = workout;
 
-    //        SaveWorkoutCommand = new RelayCommand(SaveWorkout);
-    //        RemoveWorkoutCommand = new RelayCommand(RemoveWorkout);
-    //    }
+            // Initialize WorkoutTypes collection
+            WorkoutTypes = new ObservableCollection<string> { "Cardio", "Strength" };
 
-    //    private void SaveWorkout(object obj)
-    //    //{
-    //        if (string.IsNullOrWhiteSpace(Duration) || string.IsNullOrWhiteSpace(CalBurned) || CurrentWorkout.Date == null || CurrentWorkout.Type == null)
-    //        {
-    //            MessageBox.Show("Please fill in all required fields.");
-    //            return;
-    //        }
+            // Set the selected workout type
+            SelectedWorkoutType = CurrentWorkout.WorkoutType;  // Ensure this is set to the workout type
 
-            
-            
+            Duration = CurrentWorkout.Duration.ToString(@"hh\:mm");
+            CalBurned = CurrentWorkout.CaloriesBurned.ToString();
 
-            
-    //        Application.Current.Windows[0]?.Close();
-    //    }
+            SaveWorkoutCommand = new RelayCommand(SaveWorkout);
+            RemoveWorkoutCommand = new RelayCommand(RemoveWorkout);
+        }
 
-    //    private void RemoveWorkout(object obj)
-    //    {
-            
+        private void SaveWorkout(object obj)
+        {
+            if (string.IsNullOrWhiteSpace(Duration) || string.IsNullOrWhiteSpace(CalBurned) || CurrentWorkout.WorkoutType == null || CurrentWorkout.WorkoutType == null)
+            {
+                MessageBox.Show("Please fill in all required fields.");
+                return;
+            }
 
-    //    }
+            // Save logic can be implemented here
+
+            Application.Current.Windows[0]?.Close();
+        }
+
+        private void RemoveWorkout(object obj)
+        {
+            // Logic for removing the workout can be implemented here
+        }
     }
 }
