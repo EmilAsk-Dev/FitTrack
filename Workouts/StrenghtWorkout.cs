@@ -11,8 +11,8 @@ namespace FitTrack.Workouts
     {
         public int Repetitions { get; }
 
-        public StrenghtWorkout(DateTime workoutDate, string workoutType, TimeSpan duration, int caloriesBurned, string notes, int repetitions)
-            : base(workoutDate, workoutType, duration, caloriesBurned, notes)
+        public StrenghtWorkout(string workoutName, DateTime workoutDate, string workoutType, TimeSpan duration, int caloriesBurned, string notes, int repetitions)
+            : base(workoutName ,workoutDate, workoutType, duration, caloriesBurned, notes)
         {
             Repetitions = repetitions;
         }

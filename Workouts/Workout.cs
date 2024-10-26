@@ -11,15 +11,18 @@ namespace FitTrack.Workouts
         public TimeSpan Duration { get; set; }
         public int CaloriesBurned { get; set; }
         public string Notes { get; set; }
+        public string WorkoutName { get; set; }
 
 
-        protected Workout(DateTime workoutDate, string workoutType, TimeSpan duration, int caloriesBurned, string notes)
+        protected Workout(string workoutName, DateTime workoutDate, string workoutType, TimeSpan duration, int caloriesBurned, string notes)
         {
+            WorkoutName = workoutName;
             WorkoutDate = workoutDate;
             WorkoutType = workoutType;
             Duration = duration;
             CaloriesBurned = caloriesBurned;
             Notes = notes;
+            
         }
 
         public abstract int CalcCalBurned(); 

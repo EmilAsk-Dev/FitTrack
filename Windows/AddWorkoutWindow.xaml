@@ -34,6 +34,10 @@
 
         <TextBlock Grid.ColumnSpan="2" Text="Add Workout" Foreground="#DC143C" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
+        <Label Content="Workout Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <TextBox x:Name="WorkoutNameTextBox" Grid.Row="0" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent" 
+                  Text="{Binding WorkoutName, Mode=TwoWay}" />
+
         <Label Content="Workout Type" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
         <ComboBox x:Name="WorkoutTypeComboBox" Grid.Row="1" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="Black" BorderBrush="Transparent" 
                   SelectedItem="{Binding SelectedWorkoutType, Mode=TwoWay}">
@@ -68,15 +72,13 @@
         <TextBox x:Name="RepetitionsTextBox" Grid.Row="4" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent" 
                   Text="{Binding Repetitions, Mode=TwoWay}" Visibility="{Binding IsRepetitionsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-        <Label Content="Workout Date" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
-        <DatePicker x:Name="WorkoutDatePicker" Grid.Row="5" Grid.Column="1" Height="40" Margin="10,0" 
-                    SelectedDate="{Binding WorkoutDate, Mode=TwoWay}" Background="#444" Foreground="Black" BorderBrush="Black" />
+        <Label Content="Notes" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <TextBox x:Name="NotesTextBox" Grid.Row="5" Grid.Column="1" Height="100" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent" 
+                  Text="{Binding Notes, Mode=TwoWay}" AcceptsReturn="True" />
 
-        <Label Content="Notes" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
-        <TextBox x:Name="NotesTextBox" Grid.Row="6" Grid.Column="1" Height="60" Margin="10,0,10,20" Background="#444" Foreground="White" BorderBrush="Transparent" 
-                  AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding Notes, Mode=TwoWay}" />
+        <Label Content="Workout Date" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <DatePicker Grid.Row="6" Grid.Column="1" Height="40" Margin="10,0" SelectedDate="{Binding WorkoutDate}" Background="#444" Foreground="White" BorderBrush="Transparent" />
 
-        <Button x:Name="SaveWorkoutButton" Content="Save Workout" Grid.Row="7" Grid.ColumnSpan="2" Height="40" Margin="0,0,0,20" 
-                Command="{Binding SaveWorkoutCommand}" Background="#DC143C" Foreground="White" FontWeight="Bold" />
+        <Button Content="Save Workout" Grid.Row="7" Grid.ColumnSpan="2" Height="40" Margin="10,0" Command="{Binding SaveWorkoutCommand}" Background="#DC143C" Foreground="White" />
     </Grid>
 </Window>

@@ -6,20 +6,26 @@ namespace FitTrack.Users
 {
     public class AdminUser : User
     {
-        public List<Workout> Workouts { get; set; }
-        
+
+
 
         public AdminUser(string username, string password, string country, string securityQuestion, string securityAnswer)
-            : base(username, password, country, securityQuestion,securityAnswer)
+        : base(username, password, country, securityQuestion, securityAnswer)
         {
-            IsAdmin = true;
-            Workouts = new List<Workout>();
+            IsAdmin = true;            
         }
 
-        public static void ManageAllWorkouts()
+        public static List<Workout> ManageAllWorkouts(List<User> users)
         {
-            Console.WriteLine("ManageAllWorkouts()");
-        }                        
+            List<Workout> allWorkouts = new List<Workout>();
+
+            foreach (var user in users)
+            {
+                allWorkouts.AddRange(user.Workouts);
+            }
+
+            return allWorkouts;
+        }
     }
     
 }

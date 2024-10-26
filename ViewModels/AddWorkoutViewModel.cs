@@ -20,6 +20,21 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
     private bool _isDistanceVisible; // Visar avståndsfältet
     private bool _isRepetitionsVisible; // Visar repetitionsfältet
 
+    private string _workoutName; // Workout name property
+
+    public string WorkoutName
+    {
+        get => _workoutName;
+        set
+        {
+            if (_workoutName != value)
+            {
+                _workoutName = value;
+                OnPropertyChanged(nameof(WorkoutName));
+            }
+        }
+    }
+
     public ComboBoxItem SelectedWorkoutType
     {
         get => _selectedWorkoutType;
@@ -168,11 +183,11 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
         // Kontrollera vald träningstyp
         if (SelectedWorkoutType.Content.ToString() == "Cardio")
         {
-            workout = new CardioWorkout(WorkoutDate, SelectedWorkoutType.Content.ToString(), TimeSpan.FromMinutes(Duration), 0, Notes, Distance);
+            workout = new CardioWorkout(WorkoutName, WorkoutDate, SelectedWorkoutType.Content.ToString(), TimeSpan.FromMinutes(Duration), 0, Notes, Distance);
         }
         else if (SelectedWorkoutType.Content.ToString() == "Strength")
         {
-            workout = new StrenghtWorkout(WorkoutDate, SelectedWorkoutType.Content.ToString(), TimeSpan.FromMinutes(Duration), 0, Notes, Repetitions);
+            workout = new StrenghtWorkout( WorkoutName ,WorkoutDate, SelectedWorkoutType.Content.ToString(), TimeSpan.FromMinutes(Duration), 0, Notes, Repetitions);
         }
         else
         {

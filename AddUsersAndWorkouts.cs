@@ -1,7 +1,6 @@
 ﻿using FitTrack.Users;
 using FitTrack.Workouts;
 using System;
-using System.Collections.Generic;
 
 namespace FitTrack
 {
@@ -9,96 +8,51 @@ namespace FitTrack
     {
         public static void AddUsersAndWorkoutsToDatabase()
         {
-           
-            User user = new User("User", "12345678!", "Sweden", "hej", "hej");
-            Person admin = new AdminUser("Admin", "12345678!","Sweden", "hej", "hej");
-
-            AddRandomWorkoutsForPerson(user);
-            //AddRandomWorkoutsForPerson(admin);
+            
+            User user1 = new User("User1", "Password1!", "Sweden", "hej", "hej");
+            User user2 = new User("User2", "Password1!", "Sweden", "hej", "hej");
+            User admin = new AdminUser("Admin", "Password1!", "Sweden", "hej", "hej");
 
             
-            //AdminUser.RegisterUser(admin);
+            AddWorkoutsToUser1(user1);
 
-            user.Workouts.Add(new StrenghtWorkout(DateTime.Now.AddDays(-3), "strenght", TimeSpan.FromMinutes(30), 2, "hej", 10));
-            User.AddUser(user);
+            
+            AddWorkoutsToUser2(user2);
 
+           
+            AddWorkoutsToAdmin(admin);
 
-
-
-
-
+            
+            User.AddUser(user1);
+            User.AddUser(user2);
+            User.AddUser(admin); 
         }
 
-        private static void AddRandomWorkoutsForPerson(User user)
+        private static void AddWorkoutsToUser1(User user)
         {
-            if (user is User userBase)
-            {
-                AddWorkoutsToUser(userBase);
-            }
-            else if (user is AdminUser adminBase)
-            {
-                AddWorkoutsToAdmin(adminBase);
-            }
+            user.Workouts.Add(new StrenghtWorkout("Bänkpress", DateTime.Now.AddDays(-3), "strength", TimeSpan.FromMinutes(30), 2, "Bra övning för bröst", 10));
+            user.Workouts.Add(new CardioWorkout("Jogging", DateTime.Now.AddDays(-2), "cardio", TimeSpan.FromMinutes(25), 200, "Jogging in the park", 3));
+            user.Workouts.Add(new StrenghtWorkout("Benpress", DateTime.Now.AddDays(-1), "strength", TimeSpan.FromMinutes(40), 250, "Focusing on legs", 15));
+            user.Workouts.Add(new CardioWorkout("Simning", DateTime.Now.AddDays(-4), "cardio", TimeSpan.FromMinutes(30), 300, "Swimming laps", 500));
+            user.Workouts.Add(new StrenghtWorkout("Axelpress", DateTime.Now.AddDays(-5), "strength", TimeSpan.FromMinutes(35), 200, "Shoulder workout", 12));
         }
 
-        private static void AddWorkoutsToUser(User user)
+        private static void AddWorkoutsToUser2(User user)
         {
-            user.Workouts.Add(new CardioWorkout(
-                DateTime.Now.AddDays(-3),
-                "Cardio",
-                TimeSpan.FromMinutes(30),
-                300,
-                "Morning run",
-                5
-            ));
-
-            user.Workouts.Add(new StrenghtWorkout(
-                DateTime.Now.AddDays(-2),
-                "Strength",
-                TimeSpan.FromMinutes(45),
-                400,
-                "Weight lifting at gym",
-                20
-            ));
-
-            user.Workouts.Add(new CardioWorkout(
-                DateTime.Now.AddDays(-1),
-                "Cardio",
-                TimeSpan.FromMinutes(45),
-                350,
-                "Cycling",
-                15
-            ));
+            user.Workouts.Add(new StrenghtWorkout("Marklyft", DateTime.Now.AddDays(-3), "strength", TimeSpan.FromMinutes(45), 300, "Full body strength", 20));
+            user.Workouts.Add(new CardioWorkout("Cykling", DateTime.Now.AddDays(-2), "cardio", TimeSpan.FromMinutes(35), 350, "Biking through trails", 10));
+            user.Workouts.Add(new StrenghtWorkout("Triceps Dips", DateTime.Now.AddDays(-1), "strength", TimeSpan.FromMinutes(30), 150, "Strengthening triceps", 15));
+            user.Workouts.Add(new CardioWorkout("Högintensiv intervallträning", DateTime.Now.AddDays(-4), "cardio", TimeSpan.FromMinutes(20), 400, "HIIT workout", 5));
+            user.Workouts.Add(new StrenghtWorkout("Squats", DateTime.Now.AddDays(-5), "strength", TimeSpan.FromMinutes(30), 220, "Leg strength", 18));
         }
 
-        private static void AddWorkoutsToAdmin(AdminUser adminBase)
+        private static void AddWorkoutsToAdmin(User admin)
         {
-            adminBase.Workouts.Add(new CardioWorkout(
-                DateTime.Now.AddDays(-3),
-                "Cardio",
-                TimeSpan.FromMinutes(30),
-                300,
-                "Morning run",
-                5
-            ));
-
-            adminBase.Workouts.Add(new StrenghtWorkout(
-                DateTime.Now.AddDays(-2),
-                "Strength",
-                TimeSpan.FromMinutes(45),
-                400,
-                "Weight lifting at gym",
-                20
-            ));
-
-            adminBase.Workouts.Add(new CardioWorkout(
-                DateTime.Now.AddDays(-1),
-                "Cardio",
-                TimeSpan.FromMinutes(45),
-                350,
-                "Cycling",
-                15
-            ));
+            admin.Workouts.Add(new StrenghtWorkout("Styrketräning", DateTime.Now.AddDays(-3), "strength", TimeSpan.FromMinutes(30), 2, "En bra övning", 10));
+            admin.Workouts.Add(new CardioWorkout("Löpning", DateTime.Now.AddDays(-2), "cardio", TimeSpan.FromMinutes(30), 300, "Morgonlöpning", 5));
+            admin.Workouts.Add(new StrenghtWorkout("Benpress", DateTime.Now.AddDays(-1), "strength", TimeSpan.FromMinutes(45), 350, "Bra för benen", 12));
+            admin.Workouts.Add(new CardioWorkout("Cykling", DateTime.Now.AddDays(-4), "cardio", TimeSpan.FromMinutes(40), 400, "Cykeltur i parken", 10));
+            admin.Workouts.Add(new StrenghtWorkout("Bänkpress", DateTime.Now.AddDays(-5), "strength", TimeSpan.FromMinutes(35), 300, "Bra övning för bröst", 8));
         }
     }
 }

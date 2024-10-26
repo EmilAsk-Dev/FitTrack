@@ -27,5 +27,10 @@ namespace FitTrack
             return null;
         }
 
+        public static List<User> GetAllUsers()
+        {
+            return userList; 
+        }
+
     }
 }

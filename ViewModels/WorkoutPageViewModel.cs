@@ -38,54 +38,58 @@ namespace FitTrack.Windows
             WorkoutList = new ObservableCollection<Workout>();
             LoadWorkouts();
 
-            // Define commands
+           
             NewWorkoutCommand = new RelayCommand(NewWorkout);
             WorkoutClickCommand = new RelayCommand<Workout>(WorkoutClicked);
         }
 
         private void LoadWorkouts()
         {
-            // Check the current user and load their workouts
             if (ManageUser.currentUser is User user)
             {
-                WorkoutList.Clear();  // Clear existing workouts to avoid duplicates
+               
+                WorkoutList.Clear();
                 foreach (var workout in user.Workouts)
                 {
-                    Console.WriteLine($"Workout Type: {workout.WorkoutType}");
-                    WorkoutList.Add(workout);  // Add each workout to the ObservableCollection
+                    Console.WriteLine($"Workout Name: {workout.WorkoutName}");
+                    WorkoutList.Add(workout);
                 }
             }
             else if (ManageUser.currentUser is AdminUser adminUser)
             {
-                WorkoutList.Clear();  // Clear existing workouts to avoid duplicates
-                foreach (var workout in adminUser.Workouts)
+               
+                List<User> allUsers = ManageUser.GetAllUsers(); 
+                var allWorkouts = AdminUser.ManageAllWorkouts(allUsers);
+
+                WorkoutList.Clear();
+                foreach (var workout in allWorkouts)
                 {
-                    WorkoutList.Add(workout);  // Add each workout to the ObservableCollection
+                    WorkoutList.Add(workout);
                 }
             }
             else
             {
-                WorkoutList.Clear();  // Clear if no valid user is found
+                WorkoutList.Clear();
             }
         }
+
 
         private void NewWorkout(object parameter)
         {
             AddWorkoutWindow addWorkoutWindow = new AddWorkoutWindow();
             addWorkoutWindow.ShowDialog();
 
-            LoadWorkouts();  // Reload workouts after adding a new one
+            LoadWorkouts();  
         }
 
         private void WorkoutClicked(Workout workout)
         {
             if (workout != null)
             {
-                // Handle the click, e.g., show details or navigate to a workout detail page
-                MessageBox.Show($"You clicked on workout: {workout.WorkoutType}");
+                
+                MessageBox.Show($"You clicked on workout: {workout.WorkoutName}"); 
                 WorkoutDetailsWindow workoutDetailsWindow = new WorkoutDetailsWindow(workout);
                 workoutDetailsWindow.Show();
-
             }
             else
             {
