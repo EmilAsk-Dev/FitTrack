@@ -1,88 +1,103 @@
 ﻿using FitTrack.Commands;
 using FitTrack.ViewModels;
 using FitTrack.Workouts;
-using System;
+using FitTrack;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Input;
+using System.Windows;
 
-namespace FitTrack.Windows
+public class WorkoutDetailsViewModel : BaseViewModel
 {
-    public class WorkoutDetailsViewModel : BaseViewModel
+    private Window _workoutDetailsWindow;
+
+    public Workout CurrentWorkout { get; private set; }
+
+    private ObservableCollection<string> _workoutTypes;
+    public ObservableCollection<string> WorkoutTypes
     {
-        public Workout CurrentWorkout { get; set; }
-
-        public ObservableCollection<string> WorkoutTypes { get; set; }
-
-        private string _duration;
-        public string Duration
+        get => _workoutTypes;
+        private set
         {
-            get => _duration;
-            set
-            {
-                _duration = value;
-                OnPropertyChanged();  
-            }
+            _workoutTypes = value;
+            OnPropertyChanged(nameof(WorkoutTypes));
+        }
+    }
+
+    private string _selectedWorkoutType;
+    public string SelectedWorkoutType
+    {
+        get => _selectedWorkoutType;
+        set
+        {
+            _selectedWorkoutType = value;
+            OnPropertyChanged(nameof(SelectedWorkoutType));
+        }
+    }
+
+    public string Duration { get; set; }
+    public string CalBurned { get; set; }
+
+    
+    private DateTime _workoutDate;
+    public DateTime WorkoutDate
+    {
+        get => _workoutDate;
+        set
+        {
+            _workoutDate = value;
+            OnPropertyChanged(nameof(WorkoutDate));
+        }
+    }
+
+    public ICommand SaveWorkoutCommand { get; }
+    public ICommand RemoveWorkoutCommand { get; }
+
+    public WorkoutDetailsViewModel(Workout workout, Window window)
+    {
+        CurrentWorkout = workout;
+        _workoutDetailsWindow = window; // Assign the window parameter to the private field
+
+        WorkoutTypes = new ObservableCollection<string> { "Cardio", "Strength" };
+
+        SelectedWorkoutType = CurrentWorkout.WorkoutType;  // Set the selected workout type
+        Duration = CurrentWorkout.Duration.ToString(@"hh\:mm");
+        CalBurned = CurrentWorkout.CaloriesBurned.ToString();
+
+        // Set the workout date from the current workout
+        WorkoutDate = CurrentWorkout.WorkoutDate; // Make sure WorkoutDate is set
+
+        SaveWorkoutCommand = new RelayCommand(SaveWorkout);
+        RemoveWorkoutCommand = new RelayCommand(RemoveWorkout);
+    }
+
+    private void SaveWorkout(object obj)
+    {
+        // Validate that all required fields are filled
+        if (string.IsNullOrWhiteSpace(Duration) ||
+            string.IsNullOrWhiteSpace(CalBurned) ||
+            string.IsNullOrWhiteSpace(SelectedWorkoutType))
+        {
+            MessageBox.Show("Please fill in all required fields.");
+            return;
         }
 
-        private string _calBurned;
-        public string CalBurned
+        CurrentWorkout.Duration = TimeSpan.Parse(Duration);
+        CurrentWorkout.CaloriesBurned = int.Parse(CalBurned);
+        CurrentWorkout.WorkoutType = SelectedWorkoutType;
+        CurrentWorkout.WorkoutDate = WorkoutDate; // Update WorkoutDate
+        CurrentWorkout.Notes = CurrentWorkout.Notes;
+
+        _workoutDetailsWindow?.Close();
+    }
+
+    private void RemoveWorkout(object obj)
+    {
+        var result = MessageBox.Show("Are you sure you want to remove this workout?", "Confirm Removal", MessageBoxButton.YesNo);
+
+        if (result == MessageBoxResult.Yes)
         {
-            get => _calBurned;
-            set
-            {
-                _calBurned = value;
-                OnPropertyChanged();  
-            }
-        }
-
-        private string _selectedWorkoutType;
-        public string SelectedWorkoutType
-        {
-            get => _selectedWorkoutType;
-            set
-            {
-                _selectedWorkoutType = value;
-                OnPropertyChanged(nameof(SelectedWorkoutType));
-            }
-        }
-
-        public ICommand SaveWorkoutCommand { get; set; }
-        public ICommand RemoveWorkoutCommand { get; set; }
-
-        public WorkoutDetailsViewModel(Workout workout)
-        {
-            CurrentWorkout = workout;
-
-            // Initialize WorkoutTypes collection
-            WorkoutTypes = new ObservableCollection<string> { "Cardio", "Strength" };
-
-            // Set the selected workout type
-            SelectedWorkoutType = CurrentWorkout.WorkoutType;  // Ensure this is set to the workout type
-
-            Duration = CurrentWorkout.Duration.ToString(@"hh\:mm");
-            CalBurned = CurrentWorkout.CaloriesBurned.ToString();
-
-            SaveWorkoutCommand = new RelayCommand(SaveWorkout);
-            RemoveWorkoutCommand = new RelayCommand(RemoveWorkout);
-        }
-
-        private void SaveWorkout(object obj)
-        {
-            if (string.IsNullOrWhiteSpace(Duration) || string.IsNullOrWhiteSpace(CalBurned) || CurrentWorkout.WorkoutType == null || CurrentWorkout.WorkoutType == null)
-            {
-                MessageBox.Show("Please fill in all required fields.");
-                return;
-            }
-
-            // Save logic can be implemented here
-
-            Application.Current.Windows[0]?.Close();
-        }
-
-        private void RemoveWorkout(object obj)
-        {
-            // Logic for removing the workout can be implemented here
+            ManageUser.currentUser.Workouts.Remove(CurrentWorkout);
+            _workoutDetailsWindow?.Close();
         }
     }
 }

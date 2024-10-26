@@ -1,9 +1,8 @@
 
-Lägga till, ta bort och överblicka träningspass. Ska ha följande 
-funktionaliteter:
 
-•När denna sida öppnas ska föregående sida stängas.
-•Den inloggade användarens användarnamn ska synas någonstans.
+
+
+
 •"User"-knapp som öppnar UserDetailsWindow.
 •"Add Workout"-knapp som öppnar WPF-fönstret AddWorkoutWindow.
 •En lista där man kan överblicka alla träningspass som är tillagda med endast lite 
