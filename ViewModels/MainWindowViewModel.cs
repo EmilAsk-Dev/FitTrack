@@ -26,7 +26,7 @@ namespace FitTrack.ViewModels
             set => SetProperty(ref password, value);
         }
 
-        bool firstTimeOpen = true;
+        static bool firstTimeOpen = true;
 
         public ICommand LoginCommand { get; }
         public ICommand SignUpCommand { get; }

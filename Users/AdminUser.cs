@@ -9,8 +9,8 @@ namespace FitTrack.Users
         public List<Workout> Workouts { get; set; }
         
 
-        public AdminUser(string username, string password)
-            : base(username, password)
+        public AdminUser(string username, string password, string country, string securityQuestion, string securityAnswer)
+            : base(username, password, country, securityQuestion,securityAnswer)
         {
             IsAdmin = true;
             Workouts = new List<Workout>();
@@ -19,35 +19,7 @@ namespace FitTrack.Users
         public static void ManageAllWorkouts()
         {
             Console.WriteLine("ManageAllWorkouts()");
-        }
-        
-
-        public override void RegisterUser(string username, string password)
-        {
-            var newUser = new AdminUser(username, password);
-            ManageUser.userList.Add(newUser); 
-        }
-
-        public override bool SignIn(string username, string password)
-        {
-            foreach (var user in ManageUser.userList)
-            {
-                if (user.Username == username && user.Password == password)
-                {
-                    
-                    Person.CurrentUser = user;
-                    MessageBox.Show($"User {username} signed in.");
-                    return true;
-                }
-            }
-            MessageBox.Show("Invalid credentials.");
-            return false;
-        }
-
-        public override void AddSecAuth(string Question, string Answer)
-        {
-            throw new NotImplementedException();
-        }
+        }                        
     }
     
 }

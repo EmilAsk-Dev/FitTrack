@@ -11,15 +11,13 @@ namespace FitTrack
         {
            
             User user = new User("User", "12345678!", "Sweden", "hej", "hej");
-            //Person admin = new AdminUser("Admin", "12345678!","Sweden", "Where where you born", "malmo");
+            Person admin = new AdminUser("Admin", "12345678!","Sweden", "hej", "hej");
 
             AddRandomWorkoutsForPerson(user);
             //AddRandomWorkoutsForPerson(admin);
 
             
             //AdminUser.RegisterUser(admin);
-
-
 
             user.Workouts.Add(new StrenghtWorkout(DateTime.Now.AddDays(-3), "strenght", TimeSpan.FromMinutes(30), 2, "hej", 10));
             User.AddUser(user);

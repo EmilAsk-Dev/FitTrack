@@ -136,36 +136,36 @@ namespace FitTrack.Users
         }
 
         
-        public void SaveUserDetails(User user, string newUsername = null, string newPassword = null, string newCountry = null, string newSecurityQuestion = null, string newSecurityAnswer = null)
+        public void SaveUserDetails(string newUsername = null, string newPassword = null, string newCountry = null, string newSecurityQuestion = null, string newSecurityAnswer = null)
         {
             
             if (!string.IsNullOrEmpty(newUsername) && newUsername != Username)
             {
-                user.Username = newUsername;
+                Username = newUsername;
             }
 
             
             if (!string.IsNullOrEmpty(newPassword) && newPassword != Password)
             {
-                user.Password = newPassword; 
+                Password = newPassword; 
             }
 
             
             if (!string.IsNullOrEmpty(newCountry) && newCountry != Country)
             {
-                user.Country = newCountry;
+                Country = newCountry;
             }
 
             
             if (!string.IsNullOrEmpty(newSecurityQuestion) && newSecurityQuestion != SecurityQuestion)
             {
-                user.SecurityQuestion = newSecurityQuestion;
+                SecurityQuestion = newSecurityQuestion;
             }
 
             
             if (!string.IsNullOrEmpty(newSecurityAnswer) && newSecurityAnswer != SecurityAnswer)
             {
-                user.SecurityAnswer = newSecurityAnswer;
+                SecurityAnswer = newSecurityAnswer;
             }            
             MessageBox.Show("User details updated successfully!");
         }

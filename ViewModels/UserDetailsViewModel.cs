@@ -163,7 +163,7 @@ namespace FitTrack.ViewModels
                 string newSecurityQuestion = SecurityQuestion;
                 string newSecurityAnswer = SecurityAnswer;
 
-                user.SaveUserDetails(user,newUsername, newPassword, newCountry, newSecurityQuestion, newSecurityAnswer);
+                user.SaveUserDetails(newUsername, newPassword, newCountry, newSecurityQuestion, newSecurityAnswer);
                 MessageBox.Show("User details updated successfully!");
             }
             catch (Exception ex)
