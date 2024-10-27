@@ -10,10 +10,11 @@ namespace FitTrack.ViewModels
 {
     public class InputDialogViewModel : INotifyPropertyChanged
     {
-        private string userInput;
-        private string expectedAnswer; // Property for expected answer
-        private string questionLabel; // Rename variable for clarity
+        private string userInput; // Variabel för att lagra användarens inmatning
+        private string expectedAnswer; // Variabel för förväntat svar
+        private string questionLabel; // Variabel för att hålla fråga
 
+        // Egenskap för att hålla frågan som ska visas i dialogrutan
         public string QuestionLabel
         {
             get { return questionLabel; }
@@ -24,6 +25,7 @@ namespace FitTrack.ViewModels
             }
         }
 
+        // Egenskap för användarens inmatning
         public string UserInput
         {
             get => userInput;
@@ -34,50 +36,55 @@ namespace FitTrack.ViewModels
             }
         }
 
+        // Kommando för bekräfta-knappen
         public ICommand ConfirmCommand { get; }
+        // Kommando för avbryt-knappen
         public ICommand CancelCommand { get; }
 
-        public InputDialogViewModel(string answer, string question) // Constructor to set the expected answer
+        // Konstruktor för att sätta förväntat svar och fråga
+        public InputDialogViewModel(string answer, string question)
         {
-            expectedAnswer = answer; // Set expected answer
-            QuestionLabel = question; // Set the question             
+            expectedAnswer = answer; // Sätter förväntat svar
+            QuestionLabel = question; // Sätter frågan             
             ConfirmCommand = new RelayCommand(Confirm);
             CancelCommand = new RelayCommand(Cancel);
         }
 
+        // Metod för att hantera bekräftelse när användaren trycker på bekräfta-knappen
         private void Confirm(object parameter)
         {
-            // Check if user input matches the expected answer
+            // Kontrollera om användarens svar matchar det förväntade svaret
             if (UserInput.Equals(expectedAnswer, StringComparison.OrdinalIgnoreCase))
             {
-                // Close the dialog and indicate success
+                // Stänger dialogrutan och indikerar att det var framgångsrikt
                 var dialog = Application.Current.Windows.OfType<InputDialog>().FirstOrDefault();
                 if (dialog != null)
                 {
-                    
-                    dialog.DialogResult = true; // Set DialogResult to true
-                    dialog.Close(); // Close the dialog
+                    dialog.DialogResult = true; // Ställ in DialogResult till true
+                    dialog.Close(); // Stäng dialogrutan
                 }
             }
             else
             {
-                // Show a message box indicating the answer is incorrect
-                MessageBox.Show("The answer is incorrect. Please try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                // Visar ett meddelande om svaret är felaktigt
+                MessageBox.Show("Svaret är felaktigt. Försök igen.", "Fel", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
+        // Metod för att hantera avbryt när användaren trycker på avbryt-knappen
         private void Cancel(object parameter)
         {
             var dialog = Application.Current.Windows.OfType<InputDialog>().FirstOrDefault();
             if (dialog != null)
             {
-                dialog.DialogResult = false; // Set DialogResult to false
-                dialog.Close(); // Close the dialog
+                dialog.DialogResult = false; // Ställ in DialogResult till false
+                dialog.Close(); // Stäng dialogrutan
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        // Metod för att informera UI om att en egenskap har ändrats
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

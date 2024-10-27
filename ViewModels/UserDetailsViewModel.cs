@@ -8,173 +8,176 @@ namespace FitTrack.ViewModels
 {
     public class UserDetailsViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged; // Event för att meddela om ändringar
 
-        private bool isPasswordChangeVisible;
+        private bool isPasswordChangeVisible; // Variabel för att kontrollera synlighet av lösenordsändring
         public bool IsPasswordChangeVisible
         {
             get => isPasswordChangeVisible;
             set
             {
                 isPasswordChangeVisible = value;
-                OnPropertyChanged(nameof(IsPasswordChangeVisible));
+                OnPropertyChanged(nameof(IsPasswordChangeVisible)); // Meddela om ändring
             }
         }
 
-        private string username = "DefaultUsername"; 
+        private string username = "DefaultUsername"; // Standardanvändarnamn
         public string Username
         {
             get => username;
             set
             {
                 username = value;
-                OnPropertyChanged(nameof(Username));
+                OnPropertyChanged(nameof(Username)); // Meddela om ändring
             }
         }
 
-        private string country = "Sweden"; 
+        private string country = "Sweden"; // Standardland
         public string Country
         {
             get => country;
             set
             {
-                country = value; 
-                OnPropertyChanged(nameof(Country));
+                country = value;
+                OnPropertyChanged(nameof(Country)); // Meddela om ändring
             }
         }
 
-        private string newPassword = ""; 
+        private string newPassword = ""; // Variabel för nytt lösenord
         public string NewPassword
         {
             get => newPassword;
             set
             {
                 newPassword = value;
-                OnPropertyChanged(nameof(NewPassword));
+                OnPropertyChanged(nameof(NewPassword)); // Meddela om ändring
             }
         }
 
-        private string confirmPassword = ""; 
+        private string confirmPassword = ""; // Variabel för bekräftelse av nytt lösenord
         public string ConfirmPassword
         {
             get => confirmPassword;
             set
             {
                 confirmPassword = value;
-                OnPropertyChanged(nameof(ConfirmPassword));
+                OnPropertyChanged(nameof(ConfirmPassword)); // Meddela om ändring
             }
         }
 
-        
-        private string securityQuestion = "What is your favorite color?"; 
+        private string securityQuestion = "What is your favorite color?"; // Standard säkerhetsfråga
         public string SecurityQuestion
         {
             get => securityQuestion;
             set
             {
                 securityQuestion = value;
-                OnPropertyChanged(nameof(SecurityQuestion));
-                OnPropertyChanged(nameof(IsSecurityQuestionVisible));
+                OnPropertyChanged(nameof(SecurityQuestion)); // Meddela om ändring
+                OnPropertyChanged(nameof(IsSecurityQuestionVisible)); // Meddela om ändring av synlighet
             }
         }
 
-        private string securityAnswer = ""; 
+        private string securityAnswer = ""; // Variabel för svar på säkerhetsfråga
         public string SecurityAnswer
         {
             get => securityAnswer;
             set
             {
                 securityAnswer = value;
-                OnPropertyChanged(nameof(SecurityAnswer));
-                OnPropertyChanged(nameof(IsSecurityAnswerVisible));
+                OnPropertyChanged(nameof(SecurityAnswer)); // Meddela om ändring
+                OnPropertyChanged(nameof(IsSecurityAnswerVisible)); // Meddela om ändring av synlighet
             }
         }
 
-        
-        public bool IsSecurityQuestionVisible => !string.IsNullOrWhiteSpace(SecurityQuestion);
-        public bool IsSecurityAnswerVisible => !string.IsNullOrWhiteSpace(SecurityAnswer);
+        public bool IsSecurityQuestionVisible => !string.IsNullOrWhiteSpace(SecurityQuestion); // Kontrollera synlighet för säkerhetsfråga
+        public bool IsSecurityAnswerVisible => !string.IsNullOrWhiteSpace(SecurityAnswer); // Kontrollera synlighet för säkerhetssvar
 
-        public ICommand ChangePasswordCommand { get; }
-        public ICommand SubmitPasswordChangeCommand { get; }
-        public ICommand SaveChangesCommand { get; }
+        public ICommand ChangePasswordCommand { get; } // Kommando för att ändra lösenord
+        public ICommand SubmitPasswordChangeCommand { get; } // Kommando för att skicka lösenordsändring
+        public ICommand SaveChangesCommand { get; } // Kommando för att spara ändringar
 
+        // Konstruktor för att initiera kommandon och ladda användardetaljer
         public UserDetailsViewModel()
         {
-            ChangePasswordCommand = new RelayCommand(_ => ChangePassword());
-            SubmitPasswordChangeCommand = new RelayCommand(_ => SubmitPasswordChange());
-            SaveChangesCommand = new RelayCommand(_ => SaveChanges());
-            LoadUserDetails();
-            IsPasswordChangeVisible = false;
+            ChangePasswordCommand = new RelayCommand(_ => ChangePassword()); // Initiera kommando för lösenordsändring
+            SubmitPasswordChangeCommand = new RelayCommand(_ => SubmitPasswordChange()); // Initiera kommando för att skicka lösenordsändring
+            SaveChangesCommand = new RelayCommand(_ => SaveChanges()); // Initiera kommando för att spara ändringar
+            LoadUserDetails(); // Ladda användardetaljer
+            IsPasswordChangeVisible = false; // Dölja lösenordsändringsfält som standard
         }
 
+        // Metod för att ladda användardetaljer
         private void LoadUserDetails()
         {
             if (ManageUser.currentUser != null)
             {
-                User user = ManageUser.currentUser;
-                Username = user.Username;
+                User user = ManageUser.currentUser; // Hämta aktuell användare
+                Username = user.Username; // Ladda användarnamn
+                Country = user.Country; // Ladda land
 
-                Country = user.Country;
+                user.GetSecurityQA(out string SecurityQuestionTemp, out string SecurityAnswerTemp); // Hämta säkerhetsfråga och svar
+                SecurityQuestion = SecurityQuestionTemp; // Sätt säkerhetsfråga
+                SecurityAnswer = SecurityAnswerTemp; // Sätt säkerhetssvar
 
-                user.GetSecurityQA(out string SecurityQuestionTemp, out string SecurityAnswerTemp);
-                SecurityQuestion = SecurityQuestionTemp;
-                SecurityAnswer = SecurityAnswerTemp;
-
-                OnPropertyChanged(nameof(Username));
-                OnPropertyChanged(nameof(Country));
+                OnPropertyChanged(nameof(Username)); // Meddela om ändringar i användarnamn
+                OnPropertyChanged(nameof(Country)); // Meddela om ändringar i land
             }
         }
 
+        // Metod för att visa lösenordsändringsfält
         private void ChangePassword()
         {
-            IsPasswordChangeVisible = true;
+            IsPasswordChangeVisible = true; // Visa fält för lösenordsändring
         }
 
+        // Metod för att skicka lösenordsändring
         private void SubmitPasswordChange()
         {
-            if (NewPassword == ConfirmPassword)
+            if (NewPassword == ConfirmPassword) // Kontrollera att nya lösenordet matchar bekräftelsen
             {
                 try
                 {
-                    User.ResetPassword(ManageUser.currentUser.Username, NewPassword);
-                    IsPasswordChangeVisible = false;
-                    LoadUserDetails();
+                    User.ResetPassword(ManageUser.currentUser.Username, NewPassword); // Återställ lösenord
+                    IsPasswordChangeVisible = false; // Dölja fält för lösenordsändring
+                    LoadUserDetails(); // Ladda användardetaljer på nytt
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message); // Visa felmeddelande
                 }
             }
             else
             {
-                MessageBox.Show("Passwords do not match.");
+                MessageBox.Show("Lösenorden matchar inte."); // Meddela att lösenorden inte matchar
             }
         }
 
+        // Metod för att spara användardetaljer
         private void SaveChanges()
         {
             try
             {
-                User user = ManageUser.currentUser;
+                User user = ManageUser.currentUser; // Hämta aktuell användare
 
-                string newUsername = Username;
-                string newPassword = NewPassword;
-                string newCountry = Country;
-                string newSecurityQuestion = SecurityQuestion;
-                string newSecurityAnswer = SecurityAnswer;
+                string newUsername = Username; // Nytt användarnamn
+                string newPassword = NewPassword; // Nytt lösenord
+                string newCountry = Country; // Nytt land
+                string newSecurityQuestion = SecurityQuestion; // Ny säkerhetsfråga
+                string newSecurityAnswer = SecurityAnswer; // Nytt säkerhetssvar
 
-                user.SaveUserDetails(newUsername, newPassword, newCountry, newSecurityQuestion, newSecurityAnswer);
-                MessageBox.Show("User details updated successfully!");
+                user.SaveUserDetails(newUsername, newPassword, newCountry, newSecurityQuestion, newSecurityAnswer); // Spara användardetaljer
+                MessageBox.Show("Användardetaljer uppdaterades framgångsrikt!"); // Bekräftelsemeddelande
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error updating user details: {ex.Message}");
+                MessageBox.Show($"Fel vid uppdatering av användardetaljer: {ex.Message}"); // Visa felmeddelande
             }
         }
 
+        // Metod för att meddela om ändringar i egenskaper
         protected void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); // Utlös event för ändring
         }
     }
 }

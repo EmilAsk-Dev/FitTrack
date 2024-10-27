@@ -11,11 +11,11 @@ namespace FitTrack.ViewModels
 {
     public class WorkoutWindowViewModel : BaseViewModel
     {
-        private string _welcomeMessage;
-        private ICommand _navigateHomeCommand;
-        private ICommand _navigateWorkoutsCommand;
-        private ICommand _navigateUserDetails; 
-        private ICommand _logoutCommand;
+        private string _welcomeMessage; // Välkomstmeddelande
+        private ICommand _navigateHomeCommand; // Kommandon för navigation
+        private ICommand _navigateWorkoutsCommand; // Kommando för att navigera till träningspass
+        private ICommand _navigateUserDetails; // Kommando för att navigera till användardetaljer
+        private ICommand _logoutCommand; // Kommando för att logga ut
 
         public string WelcomeMessage
         {
@@ -28,48 +28,50 @@ namespace FitTrack.ViewModels
         }
 
         public ICommand NavigateWorkoutsCommand => _navigateWorkoutsCommand ??= new RelayCommand(param => NavigateWorkouts());
-        public ICommand NavigateUserDetails => _navigateUserDetails ??= new RelayCommand(param => NavigateUserDetailsPage()); 
+        public ICommand NavigateUserDetails => _navigateUserDetails ??= new RelayCommand(param => NavigateUserDetailsPage());
         public ICommand LogoutCommand => _logoutCommand ??= new RelayCommand(param => Logout());
 
+        // Konstruktör
         public WorkoutWindowViewModel(Person user)
         {
-            WelcomeMessage = "Välkommen " + user.Username;
+            WelcomeMessage = "Välkommen " + user.Username; // Sätter välkomstmeddelande
         }
 
+        // Metod för att navigera till träningspass
         private void NavigateWorkouts()
         {
             Window window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.IsActive);
             if (window != null)
             {
-                
-                var frame = window.FindName("ContentFrame") as Frame;
+                var frame = window.FindName("ContentFrame") as Frame; // Hitta ContentFrame
                 if (frame != null)
                 {
-                    frame.Content = new WorkoutPage(); 
+                    frame.Content = new WorkoutPage(); // Sätt innehållet till WorkoutPage
                 }
             }
         }
 
-        private void NavigateUserDetailsPage() 
+        // Metod för att navigera till användardetaljer
+        private void NavigateUserDetailsPage()
         {
             Window window = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.IsActive);
             if (window != null)
             {
-                var frame = window.FindName("ContentFrame") as Frame;
+                var frame = window.FindName("ContentFrame") as Frame; // Hitta ContentFrame
                 if (frame != null)
                 {
-                    frame.Content = new UserDetailsPage(); 
+                    frame.Content = new UserDetailsPage(); // Sätt innehållet till UserDetailsPage
                 }
             }
         }
 
+        // Metod för att logga ut
         private void Logout()
         {
-            MainWindow mainWindow = new MainWindow();
-            ManageUser.currentUser = null;
-            mainWindow.Show();
-            Application.Current.Windows[0].Close();
-
+            MainWindow mainWindow = new MainWindow(); // Skapa nytt huvudfönster
+            ManageUser.currentUser = null; // Återställ aktuell användare
+            mainWindow.Show(); // Visa huvudfönstret
+            Application.Current.Windows[0].Close(); // Stäng det aktiva fönstret
         }
     }
 }

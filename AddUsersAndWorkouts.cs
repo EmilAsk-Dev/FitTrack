@@ -6,7 +6,7 @@ namespace FitTrack
 {
     internal class AddUsersAndWorkouts
     {
-        public static void AddUsersAndWorkoutsToDatabase()
+        public static void AddUsersAndWorkoutsToDatabase()  
         {
             
             User user1 = new User("User1", "Password1!", "Sweden", "hej", "hej");

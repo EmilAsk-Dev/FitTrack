@@ -150,6 +150,7 @@ namespace FitTrack.ViewModels
                     {
                         // Försök att återställa lösenordet
                         User.ResetPassword(_user.Username, NewPassword);
+                        OpenLoginWindow();
                     }
                     catch (Exception ex)
                     {
@@ -157,7 +158,7 @@ namespace FitTrack.ViewModels
                     }
 
                     // Öppna inloggningsfönstret efter återställning
-                    OpenLoginWindow();
+                    //OpenLoginWindow();
                     break;
 
                 default:

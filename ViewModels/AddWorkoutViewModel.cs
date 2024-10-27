@@ -9,19 +9,18 @@ using FitTrack;
 
 public class AddWorkoutViewModel : INotifyPropertyChanged
 {
-    private ComboBoxItem _selectedWorkoutType; // Ändra till ComboBoxItem
-    private int _duration; // Varaktighet av träning
-    private int _distance; // Avstånd för träning
-    private string _notes; // Anteckningar för träning
-    private DateTime _workoutDate = DateTime.Now; // Datum för träning
-    private int _repetitions; // Antal repetitioner
+    // Fält för att hålla information om det valda träningsalternativet
+    private ComboBoxItem _selectedWorkoutType;
+    private int _duration; // Lagrar träningens varaktighet i minuter
+    private int _distance; // Lagrar avstånd för konditionsträning i meter eller kilometer
+    private string _notes; // Anteckningar om träningen
+    private DateTime _workoutDate = DateTime.Now; // Datum då träningen genomfördes
+    private int _repetitions; // Antal repetitioner för styrketräning
+    private string _workoutName; // Namn på träningspasset
+    private bool _isDistanceVisible; // Synlighet för avståndsfältet
+    private bool _isRepetitionsVisible; // Synlighet för repetitionsfältet
 
-    // Synlighetsegenskaper
-    private bool _isDistanceVisible; // Visar avståndsfältet
-    private bool _isRepetitionsVisible; // Visar repetitionsfältet
-
-    private string _workoutName; // Workout name property
-
+    // Egenskap för att ange och hämta träningspassets namn
     public string WorkoutName
     {
         get => _workoutName;
@@ -35,6 +34,7 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
         }
     }
 
+    // Egenskap för att ange och hämta vald träningskategori
     public ComboBoxItem SelectedWorkoutType
     {
         get => _selectedWorkoutType;
@@ -44,13 +44,12 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
             {
                 _selectedWorkoutType = value;
                 OnPropertyChanged(nameof(SelectedWorkoutType));
-
-                // Uppdatera synlighet baserat på vald träningstyp
-                UpdateVisibility();
+                UpdateVisibility(); // Uppdaterar synlighet baserat på valt träningsalternativ
             }
         }
     }
 
+    // Egenskap för att hantera träningens varaktighet
     public int Duration
     {
         get => _duration;
@@ -64,6 +63,7 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
         }
     }
 
+    // Egenskap för att hantera avståndet
     public int Distance
     {
         get => _distance;
@@ -77,6 +77,7 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
         }
     }
 
+    // Egenskap för att hantera anteckningar om träningen
     public string Notes
     {
         get => _notes;
@@ -90,6 +91,7 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
         }
     }
 
+    // Egenskap för att ange och hämta datumet för träningen
     public DateTime WorkoutDate
     {
         get => _workoutDate;
@@ -103,6 +105,7 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
         }
     }
 
+    // Egenskap för att hantera antalet repetitioner för styrketräning
     public int Repetitions
     {
         get => _repetitions;
@@ -116,6 +119,7 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
         }
     }
 
+    // Egenskap som styr om avståndsfältet ska visas eller inte
     public bool IsDistanceVisible
     {
         get => _isDistanceVisible;
@@ -129,6 +133,7 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
         }
     }
 
+    // Egenskap som styr om repetitionsfältet ska visas eller inte
     public bool IsRepetitionsVisible
     {
         get => _isRepetitionsVisible;
@@ -142,79 +147,81 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
         }
     }
 
+    // Kommando för att spara träningspass
     public ICommand SaveWorkoutCommand { get; }
 
+    // Konstruktor för att initiera kommandot och uppdatera synligheten
     public AddWorkoutViewModel()
     {
         SaveWorkoutCommand = new RelayCommand(_ => SaveWorkout());
-        UpdateVisibility(); // Initial synlighetsinställning
+        UpdateVisibility(); // Ställer in synlighet vid initiering
     }
 
+    // Metod för att uppdatera synligheten av avstånd och repetitioner beroende på träningskategori
     private void UpdateVisibility()
     {
-        // Kontrollera vald träningstyp
-        if (SelectedWorkoutType?.Content.ToString() == "Cardio")
+        if (SelectedWorkoutType?.Content?.ToString() == "Cardio")
         {
-            IsDistanceVisible = true; // Visa avstånd
-            IsRepetitionsVisible = false; // Dölja repetitioner
+            IsDistanceVisible = true;
+            IsRepetitionsVisible = false;
         }
-        else if (SelectedWorkoutType?.Content.ToString() == "Strength")
+        else if (SelectedWorkoutType?.Content?.ToString() == "Strength")
         {
-            IsDistanceVisible = false; // Dölja avstånd
-            IsRepetitionsVisible = true; // Visa repetitioner
+            IsDistanceVisible = false;
+            IsRepetitionsVisible = true;
         }
         else
         {
-            IsDistanceVisible = false; // Dölja avstånd
-            IsRepetitionsVisible = false; // Dölja repetitioner
+            IsDistanceVisible = false;
+            IsRepetitionsVisible = false;
         }
     }
 
+    // Metod för att spara träningspasset med validering av inmatade värden
     private void SaveWorkout()
     {
         if (SelectedWorkoutType == null || Duration <= 0)
         {
-            MessageBox.Show("Please provide valid workout details."); // Felmeddelande för ogiltiga uppgifter
+            MessageBox.Show("Please provide valid workout details.");
             return;
         }
 
         Workout workout;
+        string workoutType = SelectedWorkoutType.Content.ToString();
 
-        // Kontrollera vald träningstyp
-        if (SelectedWorkoutType.Content.ToString() == "Cardio")
+        // Skapa träningspass beroende på om det är kondition eller styrka
+        if (workoutType == "Cardio" && Distance > 0)
         {
-            workout = new CardioWorkout(WorkoutName, WorkoutDate, SelectedWorkoutType.Content.ToString(), TimeSpan.FromMinutes(Duration), 0, Notes, Distance);
+            workout = new CardioWorkout(WorkoutName, WorkoutDate, workoutType, TimeSpan.FromMinutes(Duration), 0, Notes, Distance);
         }
-        else if (SelectedWorkoutType.Content.ToString() == "Strength")
+        else if (workoutType == "Strength" && Repetitions > 0)
         {
-            workout = new StrenghtWorkout( WorkoutName ,WorkoutDate, SelectedWorkoutType.Content.ToString(), TimeSpan.FromMinutes(Duration), 0, Notes, Repetitions);
+            workout = new StrenghtWorkout(WorkoutName, WorkoutDate, workoutType, TimeSpan.FromMinutes(Duration), 0, Notes, Repetitions);
         }
         else
         {
-            MessageBox.Show("Invalid workout type."); // Felmeddelande för ogiltig träningstyp
+            MessageBox.Show("Please provide valid values for the workout type.");
             return;
         }
 
-        User user = ManageUser.currentUser;
-
-        if (user != null)
+        // Kontrollera om aktuell användare är giltig innan träningspasset sparas
+        if (ManageUser.currentUser != null)
         {
-            user.Workouts.Add(workout); // Lägg till träning för användare
-        }        
+            ManageUser.currentUser.Workouts.Add(workout);
+            MessageBox.Show("Workout saved successfully!");
+        }
         else
         {
-            MessageBox.Show("User not found or invalid."); // Felmeddelande för ogiltig användare
-            return;
+            MessageBox.Show("User not found or invalid.");
         }
-
-        MessageBox.Show("Workout saved successfully!"); // Meddelande för framgång
-        
     }
 
+    // Händelse för att hantera förändringar av egenskaper
     public event PropertyChangedEventHandler PropertyChanged;
 
+    // Metod för att meddela att en egenskap har ändrats
     protected virtual void OnPropertyChanged(string propertyName)
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); // Uträtta egenskapändringar
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

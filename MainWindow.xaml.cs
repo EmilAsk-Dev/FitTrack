@@ -12,6 +12,7 @@ namespace FitTrack.Views
             DataContext = new MainWindowViewModel();
         }
 
+        //Det ändra som bryter mot mvvm modelen ( tar imot passwod från ui och skickar vidare till viewmodel)
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             var passwordBox = sender as PasswordBox;
