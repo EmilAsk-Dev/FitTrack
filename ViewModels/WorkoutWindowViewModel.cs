@@ -16,6 +16,7 @@ namespace FitTrack.ViewModels
         private ICommand _navigateWorkoutsCommand; // Kommando för att navigera till träningspass
         private ICommand _navigateUserDetails; // Kommando för att navigera till användardetaljer
         private ICommand _logoutCommand; // Kommando för att logga ut
+        private ICommand _openAddWorkoutWindowCommand;
 
         public string WelcomeMessage
         {
@@ -30,11 +31,19 @@ namespace FitTrack.ViewModels
         public ICommand NavigateWorkoutsCommand => _navigateWorkoutsCommand ??= new RelayCommand(param => NavigateWorkouts());
         public ICommand NavigateUserDetails => _navigateUserDetails ??= new RelayCommand(param => NavigateUserDetailsPage());
         public ICommand LogoutCommand => _logoutCommand ??= new RelayCommand(param => Logout());
+        public ICommand OpenAddWorkoutWindowCommand => _openAddWorkoutWindowCommand ??= new RelayCommand(param => ExecuteOpenAddWorkoutWindowCommand());
 
         // Konstruktör
         public WorkoutWindowViewModel(Person user)
         {
             WelcomeMessage = "Välkommen " + user.Username; // Sätter välkomstmeddelande
+        }
+
+        private void ExecuteOpenAddWorkoutWindowCommand()
+        {
+            var addWorkoutWindow = new AddWorkoutWindow();
+            addWorkoutWindow.Show();
+            
         }
 
         // Metod för att navigera till träningspass

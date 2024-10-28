@@ -9,7 +9,8 @@
         mc:Ignorable="d"
         Height="450" Width="800"
         Title="Add Workout Window"
-        Background="#2E2E2E">
+        Background="#2E2E2E"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

@@ -165,6 +165,12 @@ namespace FitTrack.ViewModels
                 string newSecurityQuestion = SecurityQuestion; // Ny säkerhetsfråga
                 string newSecurityAnswer = SecurityAnswer; // Nytt säkerhetssvar
 
+                if(newUsername.Length < 4)
+                {
+                    MessageBox.Show("Must be more than three characters long ");
+                    return;
+                }
+
                 user.SaveUserDetails(newUsername, newPassword, newCountry, newSecurityQuestion, newSecurityAnswer); // Spara användardetaljer
                 MessageBox.Show("Användardetaljer uppdaterades framgångsrikt!"); // Bekräftelsemeddelande
             }

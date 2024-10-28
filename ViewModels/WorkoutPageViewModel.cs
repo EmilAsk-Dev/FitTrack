@@ -120,14 +120,62 @@ namespace FitTrack.Windows
                 ApplyFilter(); // Tillämpa filter
             }
         }
+        
+        private ObservableCollection<User> _users;
+        public ObservableCollection<User> Users
+        {
+            get => _users;
+            set
+            {
+                _users = value;
+                OnPropertyChanged(nameof(Users));
+            }
+        }
+
+        private User _selectedUser;
+        public User SelectedUser
+        {
+            get => _selectedUser;
+            set
+            {
+                _selectedUser = value;
+                OnPropertyChanged(nameof(SelectedUser));
+                LoadUserWorkouts(); 
+            }
+        }
+
+        private User _currentUser;
+
+        // Egenskap för att få eller sätta den aktuella användaren
+        public User CurrentUser
+        {
+            get => _currentUser; // Returnera det aktuella User-objektet
+            set
+            {
+                if (_currentUser != value)
+                {
+                    _currentUser = value;
+                    OnPropertyChanged(nameof(CurrentUser));
+                    // Meddela att IsAdmin kan ha ändrats när CurrentUser ändras
+                    OnPropertyChanged(nameof(IsAdmin));
+                }
+            }
+        }
+
+        // Egenskap för att avgöra om den aktuella användaren är en administratör
+        public bool IsAdmin => ManageUser.currentUser?.IsAdmin ?? false; // Säker kontroll av IsAdmin
 
         // Kommandon för att skapa nytt träningspass och klicka på ett träningspass
         public ICommand NewWorkoutCommand { get; }
         public ICommand WorkoutClickCommand { get; }
+        
 
         // Konstruktorn
         public WorkoutPageViewModel()
-        {
+        {            
+
+            Users = new ObservableCollection<User>(ManageUser.GetAllUsers());
+
             WorkoutList = new ObservableCollection<Workout>(); // Initiera WorkoutList
             _allWorkouts = new List<Workout>(); // Initiera _allWorkouts
             LoadWorkouts(); // Ladda alla träningspass
@@ -138,6 +186,7 @@ namespace FitTrack.Windows
             SortBy = null; // Standardvärde för sortering
             WorkoutTypeFilter = null; // Standardvärde för träningstyp
         }
+
 
         // Ladda alla träningspass beroende på användartyp (vanlig användare eller admin)
         private void LoadWorkouts()
@@ -158,6 +207,23 @@ namespace FitTrack.Windows
 
             ApplyFilter(); // Tillämpa filter på de laddade träningspassen
         }
+
+        private void LoadUserWorkouts()
+        {
+            if (_selectedUser != null)
+            {
+                // Load workouts for the selected user
+                _allWorkouts = _selectedUser.Workouts.ToList();
+            }
+            else
+            {
+                // If no user is selected, load all workouts based on user type
+                LoadWorkouts();
+            }
+
+            ApplyFilter(); // Apply filters after loading workouts
+        }
+
 
         // Tillämpa filter och sortering på träningspassen
         private void ApplyFilter()
@@ -248,8 +314,19 @@ namespace FitTrack.Windows
         {
             if (workout != null)
             {
-                WorkoutDetailsWindow detailsWindow = new WorkoutDetailsWindow(workout); // Skapa fönster för att visa detaljer
-                detailsWindow.ShowDialog(); // Visa detaljerna i ett dialogfönster
+                // Hämta målanvändaren som äger träningspasset
+                User targetUser = ManageUser.GetUserByWorkout(workout); // Metod för att hämta användaren som äger träningspasset
+
+                if (targetUser != null)
+                {
+                    // Skapa detaljerfönstret och skicka den aktuella användaren och målanvändaren
+                    WorkoutDetailsWindow detailsWindow = new WorkoutDetailsWindow(workout, ManageUser.currentUser, targetUser);
+                    detailsWindow.ShowDialog(); // Visa detaljerna i ett dialogfönster
+                }
+                else
+                {
+                    MessageBox.Show("User associated with this workout could not be found.");
+                }
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using FitTrack.Commands;
+using FitTrack.Users;
 using FitTrack.ViewModels;
 using FitTrack.Workouts;
 using System;
@@ -11,6 +12,8 @@ namespace FitTrack.ViewModels
     public class WorkoutDetailsViewModel : BaseViewModel
     {
         private Window _workoutDetailsWindow;
+        public User CurrentUser { get; private set; } // The user currently logged in
+        public User TargetUser { get; private set; } // The user whose workout is being managed
 
         // Representerar det aktuella träningspasset som redigeras
         public Workout CurrentWorkout { get; private set; }
@@ -60,10 +63,12 @@ namespace FitTrack.ViewModels
         public ICommand RemoveWorkoutCommand { get; }
 
         // Konstruktör
-        public WorkoutDetailsViewModel(Workout workout, Window window)
+        public WorkoutDetailsViewModel(Workout workout, Window window, User currentUser, User targetUser)
         {
             CurrentWorkout = workout;
             _workoutDetailsWindow = window;
+            CurrentUser = currentUser;
+            TargetUser = targetUser; // Assign targetUser
 
             // Initiera träningspass typer
             WorkoutTypes = new ObservableCollection<string> { "Cardio", "Strength" };
@@ -108,8 +113,36 @@ namespace FitTrack.ViewModels
 
             if (result == MessageBoxResult.Yes)
             {
-                ManageUser.currentUser.Workouts.Remove(CurrentWorkout);
-                _workoutDetailsWindow?.Close();
+                // Om den aktuella användaren är administratör, tillåt borttagning av träningspass från valfri användare
+                if (CurrentUser.IsAdmin)
+                {
+                    // Hämta den målanvändare som äger träningspasset
+                    User targetUser = ManageUser.GetUserByWorkout(CurrentWorkout); // Hämta målanvändaren via träningspasset
+
+                    if (targetUser != null)
+                    {
+                        // Ta bort träningspasset från målanvändaren
+                        ManageUser.RemoveWorkoutFromUser(CurrentWorkout, targetUser);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Target user not found.");
+                    }
+                }
+                else
+                {
+                    // Ta bort endast om det är den aktuella användarens träningspass
+                    if (ManageUser.currentUser.Workouts.Contains(CurrentWorkout))
+                    {
+                        ManageUser.currentUser.Workouts.Remove(CurrentWorkout);
+                    }
+                    else
+                    {
+                        MessageBox.Show("You can only remove your own workouts.");
+                    }
+                }
+
+                _workoutDetailsWindow?.Close(); // Stäng detaljerfönstret efter borttagning
             }
         }
     }

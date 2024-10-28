@@ -1,4 +1,5 @@
 ﻿using FitTrack.Users;
+using FitTrack.Workouts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,27 @@ namespace FitTrack
         public static List<User> GetAllUsers()
         {
             return userList; 
+        }
+
+        public static void RemoveWorkoutFromUser(Workout workout, User targetUser)
+        {
+            if (targetUser.Workouts.Contains(workout))
+            {
+                targetUser.Workouts.Remove(workout); //tar bort träningspasset för en specifik användare
+            }
+        }
+
+        public static User GetUserByWorkout(Workout workout)
+        {
+            
+            foreach (User user in userList) 
+            {
+                if (user.Workouts.Contains(workout))
+                {
+                    return user; //kastar tillbaka workouten som ägs av ägaren
+                }
+            }
+            return null; //om den inte finns
         }
 
     }

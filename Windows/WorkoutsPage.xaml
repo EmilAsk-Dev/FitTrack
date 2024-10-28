@@ -4,10 +4,17 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FitTrack.Windows"
-      mc:Ignorable="d" 
+      xmlns:Converters="clr-namespace:FitTrack.Converters"
+      mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Workouts"
       Background="#1C1C1C">
+
+
+    
+    <Page.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Page.Resources>
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -38,7 +45,7 @@
                     <ComboBoxItem>Strength</ComboBoxItem>
                     <ComboBoxItem>Cardio</ComboBoxItem>
                     <ComboBoxItem Content="" IsSelected="True" />
-                    <!-- Add other workout types as needed -->
+                    
                 </ComboBox>
             </StackPanel>
             <StackPanel Margin="10">
@@ -87,17 +94,32 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                
+                <ColumnDefinition Width="300" />
+
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0" Content="Start New Workout" Width="150" Height="47" Background="#DC143C" Foreground="White" FontWeight="Bold"
-                    BorderBrush="#2E2E2E" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Center"
-                    Command="{Binding NewWorkoutCommand}" />
-            <Button Grid.Column="1" Content="View History" Width="150" Height="45" Background="#DC143C" Foreground="White" FontWeight="Bold"
-                    BorderBrush="#2E2E2E" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-            <Button Grid.Column="2" Content="Track Progress" Width="150" Height="45" Background="#DC143C" Foreground="White" FontWeight="Bold"
-                    BorderBrush="#2E2E2E" Margin="0,0,10,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    BorderBrush="#2E2E2E" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Command="{Binding NewWorkoutCommand}"  />
+
+
+
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="10"
+            Visibility="{Binding IsAdmin, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Label Content="Select a User to manage" Width="150" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" />
+                <ComboBox SelectedItem="{Binding SelectedUser}" IsEnabled="{Binding IsAdmin}" 
+              ItemsSource="{Binding Users}" 
+              Margin="5" Width="133">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Username}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
         </Grid>
     </Grid>
 </Page>

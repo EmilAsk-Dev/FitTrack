@@ -28,8 +28,7 @@
             <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Content="User" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding NavigateUserDetails}" />
                 <Button Content="Workouts" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding NavigateWorkoutsCommand}" />
-                <Button Content="Add Workout" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" />
-                <Button Content="Settings" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Width="88" />
+                <Button Content="Add Workout" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding OpenAddWorkoutWindowCommand}" />
                 <Button Content="Logout" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding LogoutCommand}" />
             </StackPanel>
         </Grid>
