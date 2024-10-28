@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace FitTrack.Users
 {
@@ -17,7 +18,27 @@ namespace FitTrack.Users
             }
             set
             {
-                username = value;  // Sätter användarnamnet
+
+                if(value != null)
+                {
+                    
+                    if (value.Length > 3)
+                    {
+
+                        username = value;  // Sätter användarnamnet
+                    }
+                    else
+                    {
+                        MessageBox.Show("Username must be lager than 3 characters");
+                    }
+                        
+                }
+                else
+                {
+                    MessageBox.Show("Username shall not be empty");
+                }
+                
+               
             }
         }
 
@@ -45,7 +66,7 @@ namespace FitTrack.Users
         }
 
         // Egenskap för att ange om användaren är administratör
-        public bool IsAdmin { get; set; } = false;
+        
 
         // Statisk egenskap för att lagra aktuell inloggad användare
         public static Person CurrentUser { get; set; }
