@@ -60,20 +60,21 @@
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Background="#DC143C" Margin="20" Padding="10" CornerRadius="15" Width="150" Height="100">
-                            <Grid>
-                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                    <TextBlock Text="{Binding WorkoutName}" Foreground="White" FontSize="16" FontWeight="Bold"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" />
-                                </StackPanel>
+                        <Border Background="#DC143C" Margin="20" Padding="10" CornerRadius="15" Width="150" Height="120">
+                            <StackPanel>
+                                <TextBlock Text="{Binding WorkoutName}" Foreground="White" FontSize="16" FontWeight="Bold"
+                                           HorizontalAlignment="Center" TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding WorkoutDate, StringFormat='{}{0:MM/dd/yyyy}'}" Foreground="White" FontSize="14"
+                                           HorizontalAlignment="Center" TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding WorkoutType}" Foreground="White" FontSize="14"
+                                           HorizontalAlignment="Center" TextWrapping="Wrap" />
                                 <Button Command="{Binding DataContext.WorkoutClickCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                         CommandParameter="{Binding}" 
                                         Background="Transparent"  
                                         BorderBrush="Transparent"  
                                         Opacity="0"  
-                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                        />
-                            </Grid>
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                            </StackPanel>
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
