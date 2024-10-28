@@ -65,31 +65,41 @@ namespace FitTrack.Users
             bool numberExist = false;  // Kontroll om lösenordet innehåller en siffra
             string specialCharacters = "!#¤%&/()=?";
 
-            if (value.Length >= 8)
+            if(value != null)
             {
-                isEight = true;
+                if (value.Length >= 8)
+                {
+                    isEight = true;
+                }
             }
+            
 
             // Loop för att kontrollera om lösenordet innehåller specialtecken
             foreach (char item in specialCharacters.ToCharArray())
             {
-                containsSpecial = value.Contains(item);
-                if (containsSpecial == true)
+                if(value != null)
                 {
-                    break;
+                    containsSpecial = value.Contains(item);
+                    if (containsSpecial == true)
+                    {
+                        break;
+                    }
                 }
+                
             };
 
+            if(value != null) { 
             // Loop för att kontrollera om lösenordet innehåller siffror
-            foreach (char item in value.ToCharArray())
-            {
-                int num = 0;
-                numberExist = int.TryParse(item.ToString(), out num);
-                if (numberExist == true)
+                foreach (char item in value.ToCharArray())
                 {
-                    break;
-                }
-            };
+                    int num = 0;
+                    numberExist = int.TryParse(item.ToString(), out num);
+                    if (numberExist == true)
+                    {
+                        break;
+                    }
+                };
+            }
 
             // Returnerar felmeddelanden om lösenordet inte uppfyller kraven
             if (numberExist == false || containsSpecial == false || isEight == false)

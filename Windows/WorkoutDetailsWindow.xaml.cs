@@ -1,4 +1,5 @@
-﻿using FitTrack.Workouts;
+﻿using FitTrack.ViewModels;
+using FitTrack.Workouts;
 using System.Windows;
 
 namespace FitTrack.Windows
@@ -10,7 +11,7 @@ namespace FitTrack.Windows
             InitializeComponent();            
 
             DataContext = new WorkoutDetailsViewModel(workout, this);
-
+            
         }
     }
 }
