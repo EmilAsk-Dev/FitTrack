@@ -26,7 +26,8 @@ namespace FitTrack.Users
             }
 
             return allWorkouts;  // Returnerar lista med alla träningspass
-        }
+        }        
+
     }
 
 }

@@ -11,6 +11,7 @@ namespace FitTrack.Users
         private string SecurityQuestion { get; set; }
         private string SecurityAnswer { get; set; }
         public List<Workout> Workouts { get; set; }
+        public bool IsAdmin { get; set; } = false;
 
         // Konstruktor för användare med fullständiga detaljer
         public User(string username, string password, string country, string securityQuestion, string securityAnswer)
@@ -179,5 +180,7 @@ namespace FitTrack.Users
             }
             MessageBox.Show("User details updated successfully!");
         }
+
+        
     }
 }
