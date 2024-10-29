@@ -29,7 +29,7 @@
                    FontWeight="Bold" 
                    Foreground="#DC143C" 
                    HorizontalAlignment="Left" 
-                   Margin="317,-7,0,27" />
+                   Margin="310,-5,0,25" />
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10" Grid.Row="0">
             <StackPanel Margin="10">
