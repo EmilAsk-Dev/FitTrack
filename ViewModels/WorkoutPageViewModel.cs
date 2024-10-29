@@ -15,7 +15,20 @@ namespace FitTrack.Windows
     public class WorkoutPageViewModel : BaseViewModel
     {
         // Samling av träningspass som visas på sidan
-        public ObservableCollection<Workout> WorkoutList { get; set; }
+        
+
+        public event Action WorkoutUpdated;
+
+        private ObservableCollection<Workout> _workoutList;
+        public ObservableCollection<Workout> WorkoutList
+        {
+            get => _workoutList;
+            set
+            {
+                _workoutList = value;
+                OnPropertyChanged(nameof(WorkoutList));
+            }
+        }
         // Lista för att lagra alla träningspass, så att vi kan filtrera
         private List<Workout> _allWorkouts;
 
@@ -314,14 +327,16 @@ namespace FitTrack.Windows
         {
             if (workout != null)
             {
-                // Hämta målanvändaren som äger träningspasset
-                User targetUser = ManageUser.GetUserByWorkout(workout); // Metod för att hämta användaren som äger träningspasset
+                User targetUser = ManageUser.GetUserByWorkout(workout); // Get the user who owns the workout
 
                 if (targetUser != null)
                 {
-                    // Skapa detaljerfönstret och skicka den aktuella användaren och målanvändaren
-                    WorkoutDetailsWindow detailsWindow = new WorkoutDetailsWindow(workout, ManageUser.currentUser, targetUser);
-                    detailsWindow.ShowDialog(); // Visa detaljerna i ett dialogfönster
+                    var detailsWindow = new WorkoutDetailsWindow(workout, ManageUser.currentUser, targetUser, _workoutList);
+                    if (detailsWindow.ShowDialog() == true) // If the dialog closes successfully
+                    {
+                        LoadWorkouts(); // Reload workouts after the details window is closed
+                                        // Alternatively, update the specific workout in WorkoutList if modified
+                    }
                 }
                 else
                 {

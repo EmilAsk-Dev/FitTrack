@@ -5,6 +5,7 @@ using FitTrack.Workouts;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace FitTrack.ViewModels
@@ -12,11 +13,34 @@ namespace FitTrack.ViewModels
     public class WorkoutDetailsViewModel : BaseViewModel
     {
         private Window _workoutDetailsWindow;
-        public User CurrentUser { get; private set; } // The user currently logged in
-        public User TargetUser { get; private set; } // The user whose workout is being managed
+        public User CurrentUser { get; private set; } //Inloggad användare
+        public User TargetUser { get; private set; } // För admin ska veta från vilken user workouten ska tas bort
+        private readonly ObservableCollection<Workout> _workoutList;
+
+        private bool _isEditable;
+        public bool IsEditable
+        {
+            get => _isEditable;
+            set
+            {
+                _isEditable = value;
+                OnPropertyChanged(nameof(IsEditable));
+            }
+        }
 
         // Representerar det aktuella träningspasset som redigeras
-        public Workout CurrentWorkout { get; private set; }
+        private Workout _currentWorkout;
+        public Workout CurrentWorkout
+        {
+            get => _currentWorkout;
+            private set
+            {
+                _currentWorkout = value;
+                OnPropertyChanged(nameof(CurrentWorkout));
+                UpdateWorkoutDetails(); // Update details when CurrentWorkout is set
+                SelectedWorkoutType = _currentWorkout?.WorkoutType; // Set selected workout type
+            }
+        }
 
         // Observable-kollektion för träningspass typer
         private ObservableCollection<string> _workoutTypes;
@@ -38,13 +62,24 @@ namespace FitTrack.ViewModels
             set
             {
                 _selectedWorkoutType = value;
+                
                 OnPropertyChanged(nameof(SelectedWorkoutType));
             }
         }
 
         // Egenskaper för varaktighet och kalorier förbrända
         public string Duration { get; set; }
-        public string CalBurned { get; set; }
+
+        private int _caloriesBurned;
+        public int CaloriesBurned
+        {
+            get => _caloriesBurned;
+            set
+            {
+                _caloriesBurned = value;
+                OnPropertyChanged(nameof(CaloriesBurned));
+            }
+        }
 
         // Egenskap för träningsdatum
         private DateTime _workoutDate;
@@ -61,27 +96,46 @@ namespace FitTrack.ViewModels
         // Kommandon för att spara och ta bort träningspass
         public ICommand SaveWorkoutCommand { get; }
         public ICommand RemoveWorkoutCommand { get; }
+        public ICommand EditWorkoutCommand { get; }
 
         // Konstruktör
-        public WorkoutDetailsViewModel(Workout workout, Window window, User currentUser, User targetUser)
+        public WorkoutDetailsViewModel(Workout workout, Window window, User currentUser, User targetUser, ObservableCollection<Workout> workoutList)
         {
-            CurrentWorkout = workout;
             _workoutDetailsWindow = window;
             CurrentUser = currentUser;
             TargetUser = targetUser; // Assign targetUser
+            _workoutList = workoutList; // Assign the ObservableCollection
 
             // Initiera träningspass typer
-            WorkoutTypes = new ObservableCollection<string> { "Cardio", "Strength" };
+            WorkoutTypes = new ObservableCollection<string> { "cardio", "strength" };
 
             // Sätt initiala värden från det aktuella träningspasset
-            SelectedWorkoutType = CurrentWorkout.WorkoutType;
-            Duration = CurrentWorkout.Duration.ToString(@"hh\:mm");
-            CalBurned = CurrentWorkout.CaloriesBurned.ToString();
-            WorkoutDate = CurrentWorkout.WorkoutDate;
+            CurrentWorkout = workout;
+            UpdateWorkoutDetails();
+
+            IsEditable = false;
 
             // Initiera kommandon
             SaveWorkoutCommand = new RelayCommand(SaveWorkout);
             RemoveWorkoutCommand = new RelayCommand(RemoveWorkout);
+            EditWorkoutCommand = new RelayCommand(EditWorkout);
+        }
+
+        private void EditWorkout(object obj)
+        {
+            IsEditable = !IsEditable; // Toggle edit mode
+        }
+
+        // Metod för att uppdatera träningspassdetaljer
+        private void UpdateWorkoutDetails()
+        {
+            if (CurrentWorkout != null)
+            {
+                SelectedWorkoutType = CurrentWorkout.WorkoutType;
+                Duration = CurrentWorkout.Duration.ToString(@"hh\:mm");
+                CaloriesBurned = CurrentWorkout.CalcCalBurned(); 
+                WorkoutDate = CurrentWorkout.WorkoutDate;
+            }
         }
 
         // Metod för att spara träningspass detaljer
@@ -89,7 +143,6 @@ namespace FitTrack.ViewModels
         {
             // Validera att alla nödvändiga fält är ifyllda
             if (string.IsNullOrWhiteSpace(Duration) ||
-                string.IsNullOrWhiteSpace(CalBurned) ||
                 string.IsNullOrWhiteSpace(SelectedWorkoutType))
             {
                 MessageBox.Show("Please fill in all required fields.");
@@ -98,9 +151,11 @@ namespace FitTrack.ViewModels
 
             // Uppdatera detaljerna för det aktuella träningspasset
             CurrentWorkout.Duration = TimeSpan.Parse(Duration);
-            CurrentWorkout.CaloriesBurned = int.Parse(CalBurned);
             CurrentWorkout.WorkoutType = SelectedWorkoutType;
             CurrentWorkout.WorkoutDate = WorkoutDate;
+
+            // Recalculate calories burned
+            CaloriesBurned = CurrentWorkout.CalcCalBurned();
 
             // Stäng fönstret efter att ha sparat
             _workoutDetailsWindow?.Close();
@@ -123,6 +178,8 @@ namespace FitTrack.ViewModels
                     {
                         // Ta bort träningspasset från målanvändaren
                         ManageUser.RemoveWorkoutFromUser(CurrentWorkout, targetUser);
+                        // Remove the workout from the ObservableCollection
+                        _workoutList.Remove(CurrentWorkout);
                     }
                     else
                     {
@@ -135,6 +192,8 @@ namespace FitTrack.ViewModels
                     if (ManageUser.currentUser.Workouts.Contains(CurrentWorkout))
                     {
                         ManageUser.currentUser.Workouts.Remove(CurrentWorkout);
+                        // Remove the workout from the ObservableCollection
+                        _workoutList.Remove(CurrentWorkout);
                     }
                     else
                     {

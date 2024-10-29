@@ -192,11 +192,11 @@ public class AddWorkoutViewModel : INotifyPropertyChanged
         // Skapa träningspass beroende på om det är kondition eller styrka
         if (workoutType == "Cardio" && Distance > 0)
         {
-            workout = new CardioWorkout(WorkoutName, WorkoutDate, workoutType, TimeSpan.FromMinutes(Duration), 0, Notes, Distance);
+            workout = new CardioWorkout(WorkoutName, WorkoutDate, workoutType, TimeSpan.FromMinutes(Duration), Notes, Distance);
         }
         else if (workoutType == "Strength" && Repetitions > 0)
         {
-            workout = new StrenghtWorkout(WorkoutName, WorkoutDate, workoutType, TimeSpan.FromMinutes(Duration), 0, Notes, Repetitions);
+            workout = new StrenghtWorkout(WorkoutName, WorkoutDate, workoutType, TimeSpan.FromMinutes(Duration), Notes, Repetitions);
         }
         else
         {

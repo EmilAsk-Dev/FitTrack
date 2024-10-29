@@ -8,19 +8,20 @@ namespace FitTrack.Workouts
 {
     public class StrenghtWorkout : Workout
     {
-        public int Repetitions { get; } // Antal repetitioner i övningen
+        public int Repetitions { get; set; }
+        public int CaloriesBurned { get; private set; }
 
-        // Konstruktör för StrenghtWorkout
-        public StrenghtWorkout(string workoutName, DateTime workoutDate, string workoutType, TimeSpan duration, int caloriesBurned, string notes, int repetitions)
-            : base(workoutName, workoutDate, workoutType, duration, caloriesBurned, notes)
+        public StrenghtWorkout(string workoutName, DateTime workoutDate, string workoutType, TimeSpan duration, string notes, int repetitions)
+            : base(workoutName, workoutDate, workoutType, duration, 0, notes) // noll som placeholder
         {
-            Repetitions = repetitions; // Sätter antalet repetitioner
+            Repetitions = repetitions; 
+            CaloriesBurned = CalcCalBurned();
         }
 
-        // Överskriven metod för att beräkna förbrända kalorier
+        // Överskriven metod för att beräkna förbrända kalorier        
         public override int CalcCalBurned()
         {
-            return (int)(Duration.TotalMinutes * 5); // Beräknar förbrända kalorier baserat på varaktighet
+            return Repetitions * (int)Duration.TotalMinutes; // Beräknar förbrända kalorier baserat på repitition och varaktighet
         }
     }
 }
