@@ -98,6 +98,7 @@ namespace FitTrack.ViewModels
         public ICommand SaveWorkoutCommand { get; }
         public ICommand RemoveWorkoutCommand { get; }
         public ICommand EditWorkoutCommand { get; }
+        public ICommand CopyWorkoutCommand { get; }
 
         // Konstruktör
         public WorkoutDetailsViewModel(Workout workout, Window window, User currentUser, User targetUser, ObservableCollection<Workout> workoutList)
@@ -120,6 +121,7 @@ namespace FitTrack.ViewModels
             SaveWorkoutCommand = new RelayCommand(SaveWorkout);
             RemoveWorkoutCommand = new RelayCommand(RemoveWorkout);
             EditWorkoutCommand = new RelayCommand(EditWorkout);
+            CopyWorkoutCommand = new RelayCommand(CopyWorkout);
         }
 
         private void EditWorkout(object obj)
@@ -236,7 +238,6 @@ namespace FitTrack.ViewModels
                     cardioWorkout.WorkoutDate,
                     cardioWorkout.WorkoutType,
                     cardioWorkout.Duration,
-                    cardioWorkout.CaloriesBurned,
                     cardioWorkout.Notes,
                     cardioWorkout.Distance
                 );
@@ -247,8 +248,7 @@ namespace FitTrack.ViewModels
                     strengthWorkout.WorkoutName,
                     strengthWorkout.WorkoutDate,
                     strengthWorkout.WorkoutType,
-                    strengthWorkout.Duration,
-                    strengthWorkout.CaloriesBurned,
+                    strengthWorkout.Duration,                    
                     strengthWorkout.Notes,
                     strengthWorkout.Repetitions
                 );
@@ -261,7 +261,8 @@ namespace FitTrack.ViewModels
 
             //nytt fönster med copierad data
             var newWindow = new WorkoutDetailsWindow(copiedWorkout, CurrentUser, TargetUser, _workoutList);
-
+            _workoutList.Add(copiedWorkout);
+            CurrentUser.Workouts.Add(copiedWorkout);
             //öppnar fönstret
             newWindow.Show();
         }
