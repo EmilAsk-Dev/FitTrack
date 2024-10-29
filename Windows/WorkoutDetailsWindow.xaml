@@ -46,9 +46,11 @@
 
         <StackPanel Grid.Row="8" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,20">
             <Button x:Name="SaveWorkoutButton" Content="Save Workout" Width="150" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" Cursor="Hand" 
-                    Command="{Binding SaveWorkoutCommand}" Margin="10,0" />
+            Command="{Binding SaveWorkoutCommand}" Margin="10,0" />
             <Button x:Name="RemoveWorkoutButton" Content="Remove Workout" Width="150" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" Cursor="Hand" 
-                    Command="{Binding RemoveWorkoutCommand}" Margin="10,0" />
+            Command="{Binding RemoveWorkoutCommand}" Margin="10,0" />
+            <Button x:Name="CopyWorkoutButton" Content="Copy Workout" Width="150" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" Cursor="Hand" 
+            Command="{Binding CopyWorkoutCommand}" Margin="10,0" />
         </StackPanel>
     </Grid>
 </Window>
