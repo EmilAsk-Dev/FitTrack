@@ -10,8 +10,8 @@ namespace FitTrack
         {
             
             User user1 = new User("User1", "Password1!", "Sweden", "Where do u live", "malmo");
-            User user2 = new User("User2", "Password1!", "Sweden", "hej", "hej");
-            User admin = new AdminUser("Admin", "Password1!", "Sweden", "hej", "hej");
+            User user2 = new User("User2", "Password1!", "Sweden", "Where do u live", "malmo");
+            User admin = new AdminUser("Admin", "Password1!", "Sweden", "Where do u live", "malmo");
 
             
             AddWorkoutsToUser1(user1);
@@ -25,7 +25,11 @@ namespace FitTrack
             
             User.AddUser(user1);
             User.AddUser(user2);
-            User.AddUser(admin); 
+            User.AddUser(admin);
+            Console.WriteLine("vällkommen till applikationen, välj någon användare att logga in som");
+            Console.WriteLine("Login = Användarnamn: User1 , Password: Password1! , secQuestion malmo");
+            Console.WriteLine("Login = Användarnamn: User2 , Password: Password1! , secQuestion malmo");
+            Console.WriteLine("Login = Användarnamn: Admin , Password: Password1! , secQuestion malmo");
         }
 
         private static void AddWorkoutsToUser1(User user)
