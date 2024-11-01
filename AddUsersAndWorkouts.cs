@@ -9,12 +9,16 @@ namespace FitTrack
         public static void AddUsersAndWorkoutsToDatabase()  
         {
             
-            User user1 = new User("User1", "Password1!", "Sweden", "Where do u live", "malmo");
-            User user2 = new User("User2", "Password1!", "Sweden", "hej", "hej");
-            User admin = new AdminUser("Admin", "Password1!", "Sweden", "hej", "hej");
+            User user1 = new User("user1", "Password1!", "Sweden", "Where do you live", "malmo");
+            User user2 = new User("user2", "Password1!", "Sweden", "Where do you live", "hej");
+            User admin = new AdminUser("admin", "Password1!", "Sweden", "Where do you live", "hej");
 
-            
+            Console.WriteLine($"Username: User1 - Password: Password1! ");
+            Console.WriteLine($"Username: User2 - Password: Password1! ");
+            Console.WriteLine($"Username: Admin - Password: Password1! ");
+
             AddWorkoutsToUser1(user1);
+            
 
             
             AddWorkoutsToUser2(user2);

@@ -5,12 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FitTrack.Windows"
         xmlns:viewModels="clr-namespace:FitTrack.ViewModels"  
-         mc:Ignorable="d"
+        mc:Ignorable="d"
         Background="#2E2E2E"
         Title="WorkoutWindow" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
-
-    
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -29,6 +27,7 @@
                 <Button Content="User" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding NavigateUserDetails}" />
                 <Button Content="Workouts" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding NavigateWorkoutsCommand}" />
                 <Button Content="Add Workout" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding OpenAddWorkoutWindowCommand}" />
+                <Button Content="Info" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding ShowInfoCommand}" />
                 <Button Content="Logout" Background="#2E2E2E" Foreground="White" BorderBrush="Transparent" Height="40" Margin="5" Command="{Binding LogoutCommand}" />
             </StackPanel>
         </Grid>
