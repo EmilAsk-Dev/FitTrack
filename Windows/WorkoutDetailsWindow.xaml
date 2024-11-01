@@ -11,47 +11,62 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            
             <RowDefinition Height="Auto" />
+            
             <RowDefinition Height="Auto" />
+            
             <RowDefinition Height="Auto" />
+           
             <RowDefinition Height="Auto" />
+            
             <RowDefinition Height="Auto" />
+            
             <RowDefinition Height="Auto" />
+            
             <RowDefinition Height="Auto" />
+           
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+           
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.ColumnSpan="2" Text="Edit Workout" Foreground="#DC143C" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20" />
+        <TextBlock Text="Edit Workout" Foreground="#DC143C" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left"  Grid.Column="1" />
 
-        <Label Content="Workout Type" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Foreground="white" />
-        <ComboBox x:Name="WorkoutTypeComboBox" Grid.Row="1" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="Black" BorderBrush="Transparent" 
+        <Label Content="Workout Name" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <TextBox x:Name="WorkoutNameTextBox" Grid.Row="1" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent"
+         Text="{Binding CurrentWorkout.WorkoutName, Mode=TwoWay}" IsEnabled="{Binding IsEditable}" />
+
+        <Label Content="Workout Type" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Foreground="white" />
+        <ComboBox x:Name="WorkoutTypeComboBox" Grid.Row="2" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="Black" BorderBrush="Transparent" 
                   ItemsSource="{Binding WorkoutTypes}" SelectedItem="{Binding SelectedWorkoutType, Mode=TwoWay}" IsEnabled="{Binding IsEditable}" />
 
-        <Label Content="Date" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
-        <DatePicker x:Name="DatePicker" Grid.Row="2" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="Black" BorderBrush="Black"
+        <Label Content="Date" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <DatePicker x:Name="DatePicker" Grid.Row="3" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="Black" BorderBrush="Black"
                      SelectedDate="{Binding WorkoutDate}" IsEnabled="{Binding IsEditable}" />
 
-        <Label Content="Duration (hh:mm)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
-        <TextBox x:Name="DurationTextBox" Grid.Row="3" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent"
+        <Label Content="Duration (hh:mm)" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <TextBox x:Name="DurationTextBox" Grid.Row="4" Grid.Column="1" Height="40" Margin="10,0" Background="#444" Foreground="White" BorderBrush="Transparent"
                  Text="{Binding Duration}" IsEnabled="{Binding IsEditable}" />
 
-        <StackPanel Orientation="Horizontal" Grid.Row="4">
+        <StackPanel Orientation="Horizontal" Grid.Row="5">
             <Label Content="Calories Burned:" VerticalAlignment="Center" Foreground="White" />
             <Label Content="{Binding CaloriesBurned}" VerticalAlignment="Center" Foreground="White" Grid.Column="1" />
         </StackPanel>
 
-        <Label Content="Notes" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
-        <TextBox x:Name="NotesTextBox" Grid.Row="5" Grid.Column="1" Height="60" Margin="10,0,10,40" Background="#444" Foreground="White" BorderBrush="Transparent"
-                 Text="{Binding CurrentWorkout.Notes}" AcceptsReturn="True" TextWrapping="Wrap" Grid.RowSpan="2" IsEnabled="{Binding IsEditable}" />
+        <Label Content="Notes" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Foreground="White" />
+        <TextBox x:Name="NotesTextBox" Grid.Row="7" Grid.Column="1" Height="60" Margin="10,0,10,10" Background="#444" Foreground="White" BorderBrush="Transparent"
+                 Text="{Binding CurrentWorkout.Notes}" AcceptsReturn="True" TextWrapping="Wrap" IsEnabled="{Binding IsEditable}" />
 
-        <StackPanel Grid.Row="8" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,20">
+        <StackPanel Grid.Row="8" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,10">
             <Button x:Name="EditWorkoutButton" Content="Edit" Width="150" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" 
-                    Command="{Binding EditWorkoutCommand}" Margin="10,0" />
+            Command="{Binding EditWorkoutCommand}" Margin="10,0" />
             <Button x:Name="SaveWorkoutButton" Content="Save Workout" Width="150" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" 
-                    Command="{Binding SaveWorkoutCommand}" Margin="10,0" />
+            Command="{Binding SaveWorkoutCommand}" Margin="10,0" />
             <Button x:Name="RemoveWorkoutButton" Content="Remove Workout" Width="150" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" 
-                    Command="{Binding RemoveWorkoutCommand}" Margin="10,0" />
+            Command="{Binding RemoveWorkoutCommand}" Margin="10,0" />
+            <Button x:Name="CopyWorkoutButton" Content="Copy Workout" Width="150" Height="40" Background="#DC143C" Foreground="White" FontWeight="Bold" BorderBrush="Transparent" 
+            Command="{Binding CopyWorkoutCommand}" Margin="10,0" />
         </StackPanel>
 
     </Grid>

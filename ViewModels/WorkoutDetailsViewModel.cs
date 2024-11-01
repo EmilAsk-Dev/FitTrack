@@ -1,6 +1,7 @@
 ﻿using FitTrack.Commands;
 using FitTrack.Users;
 using FitTrack.ViewModels;
+using FitTrack.Windows;
 using FitTrack.Workouts;
 using System;
 using System.Collections.ObjectModel;
@@ -97,6 +98,7 @@ namespace FitTrack.ViewModels
         public ICommand SaveWorkoutCommand { get; }
         public ICommand RemoveWorkoutCommand { get; }
         public ICommand EditWorkoutCommand { get; }
+        public ICommand CopyWorkoutCommand { get; }
 
         // Konstruktör
         public WorkoutDetailsViewModel(Workout workout, Window window, User currentUser, User targetUser, ObservableCollection<Workout> workoutList)
@@ -119,6 +121,7 @@ namespace FitTrack.ViewModels
             SaveWorkoutCommand = new RelayCommand(SaveWorkout);
             RemoveWorkoutCommand = new RelayCommand(RemoveWorkout);
             EditWorkoutCommand = new RelayCommand(EditWorkout);
+            CopyWorkoutCommand = new RelayCommand(CopyWorkout);
         }
 
         private void EditWorkout(object obj)
@@ -203,6 +206,66 @@ namespace FitTrack.ViewModels
 
                 _workoutDetailsWindow?.Close(); // Stäng detaljerfönstret efter borttagning
             }
+
         }
+
+        private void CopyWorkout(object obj)
+        {
+            //konformation knapp
+            var result = MessageBox.Show(
+                "Are you sure you want to copy this workout?",
+                "Confirm Copy",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question
+            );
+
+            //om användaren tycker nej return
+            if (result != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            // Stäng detta fönstret
+            _workoutDetailsWindow?.Close();
+
+            //ta reda på vilken typ workouten är
+            Workout copiedWorkout;
+
+            if (CurrentWorkout is CardioWorkout cardioWorkout)
+            {
+                copiedWorkout = new CardioWorkout(
+                    cardioWorkout.WorkoutName,
+                    cardioWorkout.WorkoutDate,
+                    cardioWorkout.WorkoutType,
+                    cardioWorkout.Duration,
+                    cardioWorkout.Notes,
+                    cardioWorkout.Distance
+                );
+            }
+            else if (CurrentWorkout is StrenghtWorkout strengthWorkout)
+            {
+                copiedWorkout = new StrenghtWorkout(
+                    strengthWorkout.WorkoutName,
+                    strengthWorkout.WorkoutDate,
+                    strengthWorkout.WorkoutType,
+                    strengthWorkout.Duration,                    
+                    strengthWorkout.Notes,
+                    strengthWorkout.Repetitions
+                );
+            }
+            else
+            {
+                MessageBox.Show("Unknown workout type.");
+                return;
+            }
+
+            //nytt fönster med copierad data
+            var newWindow = new WorkoutDetailsWindow(copiedWorkout, CurrentUser, TargetUser, _workoutList);
+            _workoutList.Add(copiedWorkout);
+            CurrentUser.Workouts.Add(copiedWorkout);
+            //öppnar fönstret
+            newWindow.Show();
+        }
+
     }
 }
